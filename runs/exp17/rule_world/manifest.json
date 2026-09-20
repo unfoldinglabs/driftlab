@@ -1,0 +1,216 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__changing__seed1",
+      "path": "runs/exp17/rule_world/g56luna_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 34081,
+          "cached_tokens": 0,
+          "output_tokens": 6769,
+          "reasoning_tokens": 4093,
+          "cost_usd": 0.014939,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 366.8618428707123
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed0",
+      "path": "runs/exp17/rule_world/g56luna_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 34185,
+          "cached_tokens": 0,
+          "output_tokens": 7145,
+          "reasoning_tokens": 4495,
+          "cost_usd": 0.015410999999999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 401.302809715271
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed2",
+      "path": "runs/exp17/rule_world/g56luna_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 31033,
+          "cached_tokens": 0,
+          "output_tokens": 9837,
+          "reasoning_tokens": 7159,
+          "cost_usd": 0.018011,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 516.5080335140228
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed1",
+      "path": "runs/exp17/rule_world/qwen38_27b_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 47749,
+          "cached_tokens": 7616,
+          "output_tokens": 35465,
+          "reasoning_tokens": 22518,
+          "cost_usd": 0.10016661200000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 682.2739441394806
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed2",
+      "path": "runs/exp17/rule_world/dsv41flash_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 38538,
+          "cached_tokens": 5696,
+          "output_tokens": 54834,
+          "reasoning_tokens": 51534,
+          "cost_usd": 0.037843787999999996,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 688.9183592796326
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed0",
+      "path": "runs/exp17/rule_world/qwen38_27b_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 50852,
+          "cached_tokens": 5520,
+          "output_tokens": 45504,
+          "reasoning_tokens": 30471,
+          "cost_usd": 0.126564248,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 780.8308780193329
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed2",
+      "path": "runs/exp17/rule_world/qwen38_27b_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 44402,
+          "cached_tokens": 6656,
+          "output_tokens": 21569,
+          "reasoning_tokens": 13190,
+          "cost_usd": 0.06407699399999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 444.49252939224243
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed1",
+      "path": "runs/exp17/rule_world/dsv41flash_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 35852,
+          "cached_tokens": 3460,
+          "output_tokens": 106036,
+          "reasoning_tokens": 103683,
+          "cost_usd": 0.06849078000000003,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2102.6623928546906
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed0",
+      "path": "runs/exp17/rule_world/dsv41flash_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 41439,
+          "cached_tokens": 3314,
+          "output_tokens": 152777,
+          "reasoning_tokens": 151539,
+          "cost_usd": 0.09739489199999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2604.304720878601
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "rule_world",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "What survives when the context dies?",
+      "hypothesis": "Raw transcripts and consolidated notes tie while the context persists, and come apart the moment it is severed. Consolidation's value is not day-to-day performance but survival across context boundaries.",
+      "design": "Halfway through the episode, some agents lose their raw history: a transcript agent loses everything it was carrying, a notes agent loses only what it had not yet consolidated, because the written notes survive. Wiped and unwiped versions of both memories play the same seeded worlds with six real rule changes.",
+      "parameters": {
+        "episode length": "120 steps",
+        "changes": "6 real rule changes, evenly spaced after a 20-step warmup",
+        "the wipe": "at step 60: a transcript agent loses its whole history; a notes agent loses only unconsolidated experiences",
+        "arms": "transcript and notes, each with and without the wipe, on shared seeds"
+      },
+      "independent": [
+        "whether the raw history is wiped mid-run",
+        "how the agent remembers"
+      ],
+      "dependent": [
+        "final accuracy",
+        "accuracy in the 10 steps right after the wipe",
+        "recovery latency"
+      ],
+      "drift": [
+        "sudden real changes"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H007",
+        "H001"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "final_accuracy",
+          "vary": "agent",
+          "a": "llm_transcript_wiped",
+          "b": "llm_transcript",
+          "direction": ">",
+          "claim": "wiping the raw history mid-run costs a transcript agent final accuracy"
+        },
+        {
+          "kind": "effect",
+          "field": "final_accuracy",
+          "vary": "agent",
+          "a": "llm_transcript_wiped",
+          "b": "llm_notes_wiped",
+          "direction": ">",
+          "claim": "after a mid-run context wipe, consolidated notes retain more performance than a raw transcript"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

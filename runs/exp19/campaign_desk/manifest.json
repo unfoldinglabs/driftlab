@@ -1,0 +1,514 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__report_5__seed2",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_5__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 33155,
+          "cached_tokens": 0,
+          "output_tokens": 8405,
+          "reasoning_tokens": 3582,
+          "cost_usd": 0.016716999999999996,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 434.42863750457764
+    },
+    {
+      "run": "g56luna_api_low_notes__report_5__seed1",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_5__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 31173,
+          "cached_tokens": 0,
+          "output_tokens": 6203,
+          "reasoning_tokens": 2309,
+          "cost_usd": 0.013678200000000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 453.001029253006
+    },
+    {
+      "run": "g56luna_api_low_notes__report_5__seed0",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_5__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 34077,
+          "cached_tokens": 0,
+          "output_tokens": 10033,
+          "reasoning_tokens": 4669,
+          "cost_usd": 0.018854999999999997,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 485.2836470603943
+    },
+    {
+      "run": "g56luna_api_low_notes__report_10__seed0",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_10__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 30629,
+          "cached_tokens": 0,
+          "output_tokens": 6345,
+          "reasoning_tokens": 2383,
+          "cost_usd": 0.013739800000000005,
+          "cache_saved_usd": 0.001255
+        }
+      },
+      "wall_s": 180.90163159370422
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_5__seed0",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_5__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 36157,
+          "cached_tokens": 4372,
+          "output_tokens": 38688,
+          "reasoning_tokens": 32899,
+          "cost_usd": 0.027993665999999997,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1001.1745359897614
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_5__seed0",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_5__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 46151,
+          "cached_tokens": 7872,
+          "output_tokens": 53759,
+          "reasoning_tokens": 32613,
+          "cost_usd": 0.14645795599999997,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1238.972333431244
+    },
+    {
+      "run": "g56luna_api_low_notes__report_10__seed1",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_10__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 32305,
+          "cached_tokens": 0,
+          "output_tokens": 9769,
+          "reasoning_tokens": 4907,
+          "cost_usd": 0.018183800000000007,
+          "cache_saved_usd": 0.0012376
+        }
+      },
+      "wall_s": 238.49742555618286
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_10__seed0",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_10__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 37422,
+          "cached_tokens": 8832,
+          "output_tokens": 42387,
+          "reasoning_tokens": 36780,
+          "cost_usd": 0.029747196,
+          "cache_saved_usd": 0.0110061
+        }
+      },
+      "wall_s": 912.6096887588501
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_5__seed1",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_5__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 34037,
+          "cached_tokens": 2460,
+          "output_tokens": 66475,
+          "reasoning_tokens": 61110,
+          "cost_usd": 0.04462893,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1440.069308757782
+    },
+    {
+      "run": "g56luna_api_low_notes__report_10__seed2",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_10__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 29843,
+          "cached_tokens": 0,
+          "output_tokens": 6525,
+          "reasoning_tokens": 2503,
+          "cost_usd": 0.013798599999999998,
+          "cache_saved_usd": 0.0012189999999999998
+        }
+      },
+      "wall_s": 170.16717314720154
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_10__seed0",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_10__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 46769,
+          "cached_tokens": 10688,
+          "output_tokens": 44367,
+          "reasoning_tokens": 26290,
+          "cost_usd": 0.12246038399999998,
+          "cache_saved_usd": 0.020573798
+        }
+      },
+      "wall_s": 945.2149558067322
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_5__seed2",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_5__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 35322,
+          "cached_tokens": 6912,
+          "output_tokens": 68047,
+          "reasoning_tokens": 62923,
+          "cost_usd": 0.04511043600000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1586.7391993999481
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_5__seed1",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_5__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 50367,
+          "cached_tokens": 10816,
+          "output_tokens": 64365,
+          "reasoning_tokens": 40958,
+          "cost_usd": 0.17421706399999995,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1633.1940562725067
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_5__seed2",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_5__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 63,
+          "cache_hits": 3,
+          "input_tokens": 50699,
+          "cached_tokens": 6592,
+          "output_tokens": 51394,
+          "reasoning_tokens": 30450,
+          "cost_usd": 0.14148239800000006,
+          "cache_saved_usd": 0.006533855999999999
+        }
+      },
+      "wall_s": 1286.6957757472992
+    },
+    {
+      "run": "g56luna_api_low_notes__report_20__seed0",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_20__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 29520,
+          "cached_tokens": 0,
+          "output_tokens": 7835,
+          "reasoning_tokens": 3531,
+          "cost_usd": 0.015306000000000002,
+          "cache_saved_usd": 0.001255
+        }
+      },
+      "wall_s": 181.2306501865387
+    },
+    {
+      "run": "g56luna_api_low_notes__report_20__seed1",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_20__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 29479,
+          "cached_tokens": 0,
+          "output_tokens": 7802,
+          "reasoning_tokens": 3182,
+          "cost_usd": 0.0152582,
+          "cache_saved_usd": 0.0012376
+        }
+      },
+      "wall_s": 165.92057728767395
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_10__seed1",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_10__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 42884,
+          "cached_tokens": 6080,
+          "output_tokens": 46022,
+          "reasoning_tokens": 28425,
+          "cost_usd": 0.126144156,
+          "cache_saved_usd": 0.019789468
+        }
+      },
+      "wall_s": 792.4733185768127
+    },
+    {
+      "run": "g56luna_api_low_notes__report_20__seed2",
+      "path": "runs/exp19/campaign_desk/g56luna_api_low_notes__report_20__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 29084,
+          "cached_tokens": 0,
+          "output_tokens": 5454,
+          "reasoning_tokens": 2075,
+          "cost_usd": 0.0123616,
+          "cache_saved_usd": 0.0012189999999999998
+        }
+      },
+      "wall_s": 151.90067768096924
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_10__seed1",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_10__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 26686,
+          "cached_tokens": 2954,
+          "output_tokens": 36336,
+          "reasoning_tokens": 32226,
+          "cost_usd": 0.025370262000000005,
+          "cache_saved_usd": 0.014840399999999998
+        }
+      },
+      "wall_s": 945.539882183075
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_10__seed2",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_10__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 31884,
+          "cached_tokens": 5802,
+          "output_tokens": 38331,
+          "reasoning_tokens": 33909,
+          "cost_usd": 0.026928306,
+          "cache_saved_usd": 0.010862549999999999
+        }
+      },
+      "wall_s": 794.8440010547638
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_20__seed0",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_20__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 50583,
+          "cached_tokens": 7552,
+          "output_tokens": 40735,
+          "reasoning_tokens": 23864,
+          "cost_usd": 0.11421568399999998,
+          "cache_saved_usd": 0.020573798
+        }
+      },
+      "wall_s": 728.797655582428
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_10__seed2",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_10__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 47992,
+          "cached_tokens": 6528,
+          "output_tokens": 39007,
+          "reasoning_tokens": 21072,
+          "cost_usd": 0.10932034600000001,
+          "cache_saved_usd": 0.022153745999999995
+        }
+      },
+      "wall_s": 909.3435089588165
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_20__seed1",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_20__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 33762,
+          "cached_tokens": 5114,
+          "output_tokens": 32709,
+          "reasoning_tokens": 27951,
+          "cost_usd": 0.023937942000000004,
+          "cache_saved_usd": 0.014840399999999998
+        }
+      },
+      "wall_s": 719.0428214073181
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_20__seed0",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_20__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 32486,
+          "cached_tokens": 4348,
+          "output_tokens": 42303,
+          "reasoning_tokens": 37184,
+          "cost_usd": 0.029615544,
+          "cache_saved_usd": 0.0110061
+        }
+      },
+      "wall_s": 1309.3017165660858
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_20__seed1",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_20__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 46317,
+          "cached_tokens": 9472,
+          "output_tokens": 30749,
+          "reasoning_tokens": 14151,
+          "cost_usd": 0.08771557999999999,
+          "cache_saved_usd": 0.019789468
+        }
+      },
+      "wall_s": 1043.9894869327545
+    },
+    {
+      "run": "dsv41flash_api_low_notes__report_20__seed2",
+      "path": "runs/exp19/campaign_desk/dsv41flash_api_low_notes__report_20__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 35027,
+          "cached_tokens": 8896,
+          "output_tokens": 50070,
+          "reasoning_tokens": 43608,
+          "cost_usd": 0.03398833800000001,
+          "cache_saved_usd": 0.010862549999999999
+        }
+      },
+      "wall_s": 1453.5722999572754
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__report_20__seed2",
+      "path": "runs/exp19/campaign_desk/qwen38_27b_api_low_notes__report_20__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 56,
+          "cache_hits": 10,
+          "input_tokens": 47382,
+          "cached_tokens": 2880,
+          "output_tokens": 56303,
+          "reasoning_tokens": 35721,
+          "cost_usd": 0.153528078,
+          "cache_saved_usd": 0.022153745999999995
+        }
+      },
+      "wall_s": 1515.031020641327
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "campaign_desk",
+    "survey": true,
+    "registry": {
+      "version": 2,
+      "title": "Can an agent learn from a weekly report?",
+      "hypothesis": "With only pooled reports, memory is not an optimization but the precondition for learning at all: a memoryless agent has nothing to connect a report to and stays at chance, while an agent with notes can correlate its own recorded choices with the totals. The gap widens as reports get sparser.",
+      "design": "The campaign desk never scores a single push; results arrive only as a periodic total. The regimes vary how often that report lands (every 5, 10 or 20 pushes) and the agents vary only in memory (none, transcript, notes). Two audience shifts land mid-run, so the agent must re-learn under pooling. The privileged log keeps per-push truth, so analysis scores what the agent never saw.",
+      "parameters": {
+        "episode length": "120 steps",
+        "report cadence": "every 5, 10 or 20 pushes, totals only, no breakdown",
+        "audience shifts": "2, evenly spaced after a 15-step warmup",
+        "agents": "the same LLM with no memory, a 40-step transcript, or notes"
+      },
+      "independent": [
+        "how often the pooled report arrives",
+        "how the agent remembers"
+      ],
+      "dependent": [
+        "true engagement (from the privileged per-push log)",
+        "how often the best angle is picked",
+        "final mean reward"
+      ],
+      "drift": [
+        "sudden real changes",
+        "self-caused fatigue (off in this experiment)"
+      ],
+      "worlds": [
+        "the campaign desk (campaign_desk)"
+      ],
+      "hypotheses": [
+        "H001",
+        "H004"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "final_accuracy",
+          "vary": "agent",
+          "a": "llm_none",
+          "b": "llm_notes",
+          "direction": ">",
+          "claim": "under pooled feedback, notes beat no memory at picking the best angle: without a record of your own choices there is nothing to connect a report to"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

@@ -1,0 +1,805 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__random__seed1",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__random__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 154,
+          "cache_hits": 0,
+          "input_tokens": 82183,
+          "cached_tokens": 0,
+          "output_tokens": 20942,
+          "reasoning_tokens": 15898,
+          "cost_usd": 0.04156700000000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 528.9176967144012
+    },
+    {
+      "run": "g56luna_api_low_notes__random__seed0",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__random__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 154,
+          "cache_hits": 0,
+          "input_tokens": 84388,
+          "cached_tokens": 0,
+          "output_tokens": 25818,
+          "reasoning_tokens": 18284,
+          "cost_usd": 0.04785920000000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 561.1507155895233
+    },
+    {
+      "run": "g56luna_api_low_notes__random__seed2",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__random__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 154,
+          "cache_hits": 0,
+          "input_tokens": 84143,
+          "cached_tokens": 0,
+          "output_tokens": 16828,
+          "reasoning_tokens": 12389,
+          "cost_usd": 0.03702219999999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 481.83596634864807
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__random__seed0",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__random__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 154,
+          "cache_hits": 0,
+          "input_tokens": 120885,
+          "cached_tokens": 55968,
+          "output_tokens": 55405,
+          "reasoning_tokens": 32684,
+          "cost_usd": 0.16357018800000006,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1044.7641792297363
+    },
+    {
+      "run": "g56luna_api_low_notes__monotonic__seed0",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__monotonic__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 148,
+          "cache_hits": 6,
+          "input_tokens": 82328,
+          "cached_tokens": 0,
+          "output_tokens": 14674,
+          "reasoning_tokens": 10393,
+          "cost_usd": 0.03407440000000001,
+          "cache_saved_usd": 0.0005574000000000001
+        }
+      },
+      "wall_s": 388.89968037605286
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__random__seed1",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__random__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 154,
+          "cache_hits": 0,
+          "input_tokens": 132922,
+          "cached_tokens": 54688,
+          "output_tokens": 102136,
+          "reasoning_tokens": 63801,
+          "cost_usd": 0.285392076,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1731.2172865867615
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__random__seed2",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__random__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 44,
+          "cache_hits": 110,
+          "input_tokens": 20565,
+          "cached_tokens": 3072,
+          "output_tokens": 26434,
+          "reasoning_tokens": 19006,
+          "cost_usd": 0.07161100200000005,
+          "cache_saved_usd": 0.12797383000000004
+        }
+      },
+      "wall_s": 547.9023554325104
+    },
+    {
+      "run": "dsv41flash_api_low_notes__random__seed2",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__random__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 70,
+          "cache_hits": 84,
+          "input_tokens": 44938,
+          "cached_tokens": 19172,
+          "output_tokens": 69774,
+          "reasoning_tokens": 67037,
+          "cost_usd": 0.045786816,
+          "cache_saved_usd": 0.036181098
+        }
+      },
+      "wall_s": 2150.283123254776
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__monotonic__seed0",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__monotonic__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 121,
+          "cache_hits": 33,
+          "input_tokens": 88059,
+          "cached_tokens": 23616,
+          "output_tokens": 42488,
+          "reasoning_tokens": 24263,
+          "cost_usd": 0.12567760200000003,
+          "cache_saved_usd": 0.031186947999999992
+        }
+      },
+      "wall_s": 811.4805600643158
+    },
+    {
+      "run": "dsv41flash_api_low_notes__monotonic__seed0",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__monotonic__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 53,
+          "cache_hits": 101,
+          "input_tokens": 30681,
+          "cached_tokens": 11066,
+          "output_tokens": 50773,
+          "reasoning_tokens": 49376,
+          "cost_usd": 0.03343924800000002,
+          "cache_saved_usd": 0.06008785800000001
+        }
+      },
+      "wall_s": 3113.1405851840973
+    },
+    {
+      "run": "g56luna_api_low_notes__monotonic__seed1",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__monotonic__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 150,
+          "cache_hits": 4,
+          "input_tokens": 69562,
+          "cached_tokens": 0,
+          "output_tokens": 13832,
+          "reasoning_tokens": 9996,
+          "cost_usd": 0.030510799999999994,
+          "cache_saved_usd": 0.00034520000000000004
+        }
+      },
+      "wall_s": 405.9876549243927
+    },
+    {
+      "run": "dsv41flash_api_low_notes__monotonic__seed1",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__monotonic__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 150,
+          "cache_hits": 4,
+          "input_tokens": 88145,
+          "cached_tokens": 18120,
+          "output_tokens": 122385,
+          "reasoning_tokens": 116881,
+          "cost_usd": 0.08398910999999999,
+          "cache_saved_usd": 0.00215145
+        }
+      },
+      "wall_s": 1720.069142818451
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__monotonic__seed1",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__monotonic__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 150,
+          "cache_hits": 4,
+          "input_tokens": 124556,
+          "cached_tokens": 35136,
+          "output_tokens": 79809,
+          "reasoning_tokens": 49348,
+          "cost_usd": 0.22791923000000003,
+          "cache_saved_usd": 0.005556676
+        }
+      },
+      "wall_s": 1528.5563971996307
+    },
+    {
+      "run": "dsv41flash_api_low_notes__random__seed0",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__random__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 89,
+          "cache_hits": 65,
+          "input_tokens": 56728,
+          "cached_tokens": 19852,
+          "output_tokens": 192256,
+          "reasoning_tokens": 188422,
+          "cost_usd": 0.120944556,
+          "cache_saved_usd": 0.06666183600000002
+        }
+      },
+      "wall_s": 4988.2467386722565
+    },
+    {
+      "run": "g56luna_api_low_notes__monotonic__seed2",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__monotonic__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 150,
+          "cache_hits": 4,
+          "input_tokens": 75474,
+          "cached_tokens": 0,
+          "output_tokens": 14564,
+          "reasoning_tokens": 9794,
+          "cost_usd": 0.03257160000000001,
+          "cache_saved_usd": 0.0003348
+        }
+      },
+      "wall_s": 433.0932071208954
+    },
+    {
+      "run": "dsv41flash_api_low_notes__random__seed1",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__random__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 80,
+          "cache_hits": 74,
+          "input_tokens": 42898,
+          "cached_tokens": 9488,
+          "output_tokens": 107425,
+          "reasoning_tokens": 105111,
+          "cost_usd": 0.06949496399999998,
+          "cache_saved_usd": 0.061132512
+        }
+      },
+      "wall_s": 5289.762979984283
+    },
+    {
+      "run": "g56luna_api_low_notes__frontier__seed0",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__frontier__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 151,
+          "cache_hits": 3,
+          "input_tokens": 73345,
+          "cached_tokens": 0,
+          "output_tokens": 9908,
+          "reasoning_tokens": 6112,
+          "cost_usd": 0.02655860000000002,
+          "cache_saved_usd": 0.0002904
+        }
+      },
+      "wall_s": 335.2134988307953
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__monotonic__seed2",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__monotonic__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 16,
+          "cache_hits": 138,
+          "input_tokens": 14648,
+          "cached_tokens": 10976,
+          "output_tokens": 8825,
+          "reasoning_tokens": 6705,
+          "cost_usd": 0.024935958,
+          "cache_saved_usd": 0.2038802620000001
+        }
+      },
+      "wall_s": 193.7230188846588
+    },
+    {
+      "run": "g56luna_api_low_notes__frontier__seed1",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__frontier__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 144,
+          "cache_hits": 10,
+          "input_tokens": 65017,
+          "cached_tokens": 0,
+          "output_tokens": 12219,
+          "reasoning_tokens": 7636,
+          "cost_usd": 0.027666200000000005,
+          "cache_saved_usd": 0.0008194
+        }
+      },
+      "wall_s": 377.7896683216095
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__frontier__seed0",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__frontier__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 52,
+          "cache_hits": 102,
+          "input_tokens": 32947,
+          "cached_tokens": 1152,
+          "output_tokens": 23573,
+          "reasoning_tokens": 18473,
+          "cost_usd": 0.06708808,
+          "cache_saved_usd": 0.09041209800000001
+        }
+      },
+      "wall_s": 397.5597503185272
+    },
+    {
+      "run": "g56luna_api_low_notes__frontier__seed2",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__frontier__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 149,
+          "cache_hits": 5,
+          "input_tokens": 77835,
+          "cached_tokens": 0,
+          "output_tokens": 18484,
+          "reasoning_tokens": 13531,
+          "cost_usd": 0.03774780000000001,
+          "cache_saved_usd": 0.000392
+        }
+      },
+      "wall_s": 441.1886842250824
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__frontier__seed1",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__frontier__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 144,
+          "cache_hits": 10,
+          "input_tokens": 87059,
+          "cached_tokens": 24064,
+          "output_tokens": 30731,
+          "reasoning_tokens": 17931,
+          "cost_usd": 0.09545458,
+          "cache_saved_usd": 0.014689117999999998
+        }
+      },
+      "wall_s": 649.5744042396545
+    },
+    {
+      "run": "dsv41flash_api_low_notes__frontier__seed1",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__frontier__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 144,
+          "cache_hits": 10,
+          "input_tokens": 79109,
+          "cached_tokens": 20556,
+          "output_tokens": 19898,
+          "reasoning_tokens": 13605,
+          "cost_usd": 0.020783417999999988,
+          "cache_saved_usd": 0.0047301
+        }
+      },
+      "wall_s": 757.2984075546265
+    },
+    {
+      "run": "g56luna_api_low_notes__failure_replay__seed0",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__failure_replay__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 149,
+          "cache_hits": 5,
+          "input_tokens": 77188,
+          "cached_tokens": 0,
+          "output_tokens": 18162,
+          "reasoning_tokens": 13435,
+          "cost_usd": 0.03723199999999997,
+          "cache_saved_usd": 0.00042099999999999993
+        }
+      },
+      "wall_s": 463.3312740325928
+    },
+    {
+      "run": "dsv41flash_api_low_notes__frontier__seed0",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__frontier__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 85,
+          "cache_hits": 69,
+          "input_tokens": 57015,
+          "cached_tokens": 18118,
+          "output_tokens": 86951,
+          "reasoning_tokens": 87397,
+          "cost_usd": 0.058059504,
+          "cache_saved_usd": 0.051319325999999985
+        }
+      },
+      "wall_s": 982.5776727199554
+    },
+    {
+      "run": "g56luna_api_low_notes__failure_replay__seed1",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__failure_replay__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 145,
+          "cache_hits": 9,
+          "input_tokens": 79274,
+          "cached_tokens": 0,
+          "output_tokens": 18250,
+          "reasoning_tokens": 13651,
+          "cost_usd": 0.03775480000000001,
+          "cache_saved_usd": 0.0007052
+        }
+      },
+      "wall_s": 464.16876912117004
+    },
+    {
+      "run": "g56luna_api_low_notes__failure_replay__seed2",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__failure_replay__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 149,
+          "cache_hits": 5,
+          "input_tokens": 71925,
+          "cached_tokens": 0,
+          "output_tokens": 19800,
+          "reasoning_tokens": 14786,
+          "cost_usd": 0.03814500000000001,
+          "cache_saved_usd": 0.00048019999999999996
+        }
+      },
+      "wall_s": 418.32989263534546
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__frontier__seed2",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__frontier__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 149,
+          "cache_hits": 5,
+          "input_tokens": 122644,
+          "cached_tokens": 48912,
+          "output_tokens": 60477,
+          "reasoning_tokens": 35954,
+          "cost_usd": 0.17733179799999998,
+          "cache_saved_usd": 0.006455883999999999
+        }
+      },
+      "wall_s": 1314.015873670578
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__failure_replay__seed0",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__failure_replay__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 150,
+          "cache_hits": 4,
+          "input_tokens": 110170,
+          "cached_tokens": 38272,
+          "output_tokens": 53678,
+          "reasoning_tokens": 27003,
+          "cost_usd": 0.15800587199999994,
+          "cache_saved_usd": 0.004063518
+        }
+      },
+      "wall_s": 1263.0519030094147
+    },
+    {
+      "run": "g56luna_api_low_notes__frontier_novelty__seed0",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__frontier_novelty__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 147,
+          "cache_hits": 7,
+          "input_tokens": 70616,
+          "cached_tokens": 0,
+          "output_tokens": 9458,
+          "reasoning_tokens": 5485,
+          "cost_usd": 0.025472799999999986,
+          "cache_saved_usd": 0.0006240000000000001
+        }
+      },
+      "wall_s": 266.3321237564087
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__failure_replay__seed1",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__failure_replay__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 146,
+          "cache_hits": 8,
+          "input_tokens": 117162,
+          "cached_tokens": 50864,
+          "output_tokens": 45648,
+          "reasoning_tokens": 24319,
+          "cost_usd": 0.13821977200000005,
+          "cache_saved_usd": 0.010163289999999998
+        }
+      },
+      "wall_s": 1249.408814907074
+    },
+    {
+      "run": "dsv41flash_api_low_notes__monotonic__seed2",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__monotonic__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 52,
+          "cache_hits": 102,
+          "input_tokens": 37546,
+          "cached_tokens": 13320,
+          "output_tokens": 115351,
+          "reasoning_tokens": 113600,
+          "cost_usd": 0.07288445999999997,
+          "cache_saved_usd": 0.08491992600000002
+        }
+      },
+      "wall_s": 2271.369234085083
+    },
+    {
+      "run": "g56luna_api_low_notes__frontier_novelty__seed1",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__frontier_novelty__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 145,
+          "cache_hits": 9,
+          "input_tokens": 71341,
+          "cached_tokens": 0,
+          "output_tokens": 19126,
+          "reasoning_tokens": 13207,
+          "cost_usd": 0.03721940000000002,
+          "cache_saved_usd": 0.0006979999999999999
+        }
+      },
+      "wall_s": 427.27211809158325
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__failure_replay__seed2",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__failure_replay__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 149,
+          "cache_hits": 5,
+          "input_tokens": 101720,
+          "cached_tokens": 24432,
+          "output_tokens": 68795,
+          "reasoning_tokens": 40844,
+          "cost_usd": 0.19563168200000003,
+          "cache_saved_usd": 0.0068003479999999995
+        }
+      },
+      "wall_s": 1433.947331905365
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__frontier_novelty__seed0",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__frontier_novelty__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 25,
+          "cache_hits": 129,
+          "input_tokens": 19402,
+          "cached_tokens": 0,
+          "output_tokens": 8806,
+          "reasoning_tokens": 5796,
+          "cost_usd": 0.026607328000000003,
+          "cache_saved_usd": 0.139938624
+        }
+      },
+      "wall_s": 293.3054542541504
+    },
+    {
+      "run": "g56luna_api_low_notes__frontier_novelty__seed2",
+      "path": "runs/exp01/rule_world/g56luna_api_low_notes__frontier_novelty__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 146,
+          "cache_hits": 8,
+          "input_tokens": 73506,
+          "cached_tokens": 0,
+          "output_tokens": 20946,
+          "reasoning_tokens": 15675,
+          "cost_usd": 0.0398364,
+          "cache_saved_usd": 0.0006058
+        }
+      },
+      "wall_s": 351.1241421699524
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__frontier_novelty__seed1",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__frontier_novelty__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 118,
+          "cache_hits": 36,
+          "input_tokens": 85331,
+          "cached_tokens": 31872,
+          "output_tokens": 26826,
+          "reasoning_tokens": 15452,
+          "cost_usd": 0.08462732600000003,
+          "cache_saved_usd": 0.035141109999999996
+        }
+      },
+      "wall_s": 748.6401860713959
+    },
+    {
+      "run": "dsv41flash_api_low_notes__frontier_novelty__seed1",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__frontier_novelty__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 97,
+          "cache_hits": 57,
+          "input_tokens": 59968,
+          "cached_tokens": 26656,
+          "output_tokens": 33033,
+          "reasoning_tokens": 29076,
+          "cost_usd": 0.024896568,
+          "cache_saved_usd": 0.061268051999999996
+        }
+      },
+      "wall_s": 960.4305355548859
+    },
+    {
+      "run": "dsv41flash_api_low_notes__failure_replay__seed0",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__failure_replay__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 53,
+          "cache_hits": 101,
+          "input_tokens": 36929,
+          "cached_tokens": 16256,
+          "output_tokens": 117888,
+          "reasoning_tokens": 118003,
+          "cost_usd": 0.07388251799999998,
+          "cache_saved_usd": 0.11671245599999998
+        }
+      },
+      "wall_s": 1136.5722298622131
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__frontier_novelty__seed2",
+      "path": "runs/exp01/rule_world/qwen38_27b_api_low_notes__frontier_novelty__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 146,
+          "cache_hits": 8,
+          "input_tokens": 122121,
+          "cached_tokens": 67200,
+          "output_tokens": 41832,
+          "reasoning_tokens": 17959,
+          "cost_usd": 0.12850469399999992,
+          "cache_saved_usd": 0.01779701
+        }
+      },
+      "wall_s": 770.059412240982
+    },
+    {
+      "run": "dsv41flash_api_low_notes__failure_replay__seed1",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__failure_replay__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 44,
+          "cache_hits": 110,
+          "input_tokens": 27291,
+          "cached_tokens": 7552,
+          "output_tokens": 117776,
+          "reasoning_tokens": 119722,
+          "cost_usd": 0.073649106,
+          "cache_saved_usd": 0.12353256599999998
+        }
+      },
+      "wall_s": 1827.8814504146576
+    },
+    {
+      "run": "dsv41flash_api_low_notes__frontier_novelty__seed0",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__frontier_novelty__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 80,
+          "cache_hits": 74,
+          "input_tokens": 52102,
+          "cached_tokens": 20864,
+          "output_tokens": 69495,
+          "reasoning_tokens": 65863,
+          "cost_usd": 0.046445292000000006,
+          "cache_saved_usd": 0.06875421599999998
+        }
+      },
+      "wall_s": 2870.9314589500427
+    },
+    {
+      "run": "dsv41flash_api_low_notes__frontier__seed2",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__frontier__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 83,
+          "cache_hits": 71,
+          "input_tokens": 46349,
+          "cached_tokens": 12928,
+          "output_tokens": 164746,
+          "reasoning_tokens": 161777,
+          "cost_usd": 0.10389953399999999,
+          "cache_saved_usd": 0.10676131799999995
+        }
+      },
+      "wall_s": 2887.3084151744843
+    },
+    {
+      "run": "dsv41flash_api_low_notes__failure_replay__seed2",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__failure_replay__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 107,
+          "cache_hits": 47,
+          "input_tokens": 73724,
+          "cached_tokens": 30048,
+          "output_tokens": 242176,
+          "reasoning_tokens": 237525,
+          "cost_usd": 0.15194714399999998,
+          "cache_saved_usd": 0.03819981
+        }
+      },
+      "wall_s": 4423.868237018585
+    },
+    {
+      "run": "dsv41flash_api_low_notes__frontier_novelty__seed2",
+      "path": "runs/exp01/rule_world/dsv41flash_api_low_notes__frontier_novelty__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 146,
+          "cache_hits": 8,
+          "input_tokens": 97636,
+          "cached_tokens": 33792,
+          "output_tokens": 363658,
+          "reasoning_tokens": 359789,
+          "cost_usd": 0.22787277599999994,
+          "cache_saved_usd": 0.0028464
+        }
+      },
+      "wall_s": 4997.364485502243
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "rule_world",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "Which task should the teacher pick next?",
+      "hypothesis": "Training goes fastest when each task sits at the edge of what the agent can already do, and mixing in unfamiliar tasks keeps the teacher from drilling one narrow slice.",
+      "design": "A scripted teacher decides how hard each training task should be, using one of five strategies, from picking at random to aiming for the edge of what the agent can currently do. Progress is measured on a separate, fixed set of test tasks the teacher never gets to pick.",
+      "parameters": {
+        "episode length": "150 steps",
+        "task difficulty": "rule depth 1 to 3",
+        "teacher strategies": "random; easiest first; aim where the agent succeeds about half the time; replay past failures; the same aim plus a bonus for unfamiliar tasks",
+        "test probe": "every 25 steps, 4 tasks per depth, answered without feedback"
+      },
+      "independent": [
+        "the teacher's strategy for picking tasks"
+      ],
+      "dependent": [
+        "accuracy on the separate test tasks over time",
+        "steps until competent"
+      ],
+      "drift": [
+        "none (this is a teaching experiment)"
+      ],
+      "worlds": [
+        "the intake desk (rule_world)"
+      ],
+      "hypotheses": [
+        "H004"
+      ]
+    }
+  },
+  "unpriced_models": []
+}

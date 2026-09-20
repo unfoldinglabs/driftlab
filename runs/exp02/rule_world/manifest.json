@@ -1,0 +1,280 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__changing__seed0",
+      "path": "runs/exp02/rule_world/g56luna_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 30206,
+          "cached_tokens": 0,
+          "output_tokens": 8187,
+          "reasoning_tokens": 5816,
+          "cost_usd": 0.015865599999999997,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 235.9390561580658
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed2",
+      "path": "runs/exp02/rule_world/g56luna_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 29819,
+          "cached_tokens": 0,
+          "output_tokens": 8532,
+          "reasoning_tokens": 6299,
+          "cost_usd": 0.016202199999999996,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 243.80043959617615
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed1",
+      "path": "runs/exp02/rule_world/g56luna_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 33630,
+          "cached_tokens": 0,
+          "output_tokens": 6763,
+          "reasoning_tokens": 3883,
+          "cost_usd": 0.014841600000000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 273.38861179351807
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed1",
+      "path": "runs/exp02/rule_world/qwen38_27b_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 48044,
+          "cached_tokens": 17344,
+          "output_tokens": 23316,
+          "reasoning_tokens": 12934,
+          "cost_usd": 0.06862720000000003,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 671.3858017921448
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed1",
+      "path": "runs/exp02/rule_world/dsv41flash_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 39533,
+          "cached_tokens": 10496,
+          "output_tokens": 53264,
+          "reasoning_tokens": 49963,
+          "cost_usd": 0.036345438,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 867.0216112136841
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed2",
+      "path": "runs/exp02/rule_world/dsv41flash_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 37655,
+          "cached_tokens": 2784,
+          "output_tokens": 76087,
+          "reasoning_tokens": 73001,
+          "cost_usd": 0.05089120200000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 986.2765183448792
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed2",
+      "path": "runs/exp02/rule_world/qwen38_27b_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 47006,
+          "cached_tokens": 14784,
+          "output_tokens": 35536,
+          "reasoning_tokens": 23586,
+          "cost_usd": 0.09972990800000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 847.4065549373627
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed0",
+      "path": "runs/exp02/rule_world/qwen38_27b_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 42414,
+          "cached_tokens": 11072,
+          "output_tokens": 45752,
+          "reasoning_tokens": 33093,
+          "cost_usd": 0.12503558799999995,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1435.419545173645
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed0",
+      "path": "runs/exp02/rule_world/dsv41flash_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 41225,
+          "cached_tokens": 8576,
+          "output_tokens": 78687,
+          "reasoning_tokens": 76374,
+          "cost_usd": 0.05213527800000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1610.6773965358734
+    },
+    {
+      "run": "tabular__changing__seed0",
+      "path": "runs/exp02/rule_world/tabular__changing__seed0.jsonl",
+      "cost": {},
+      "wall_s": 0.012921571731567383
+    },
+    {
+      "run": "llm_none__changing__seed0",
+      "path": "runs/exp02/rule_world/llm_none__changing__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 12,
+          "cache_hits": 0,
+          "input_tokens": 2175,
+          "cached_tokens": 0,
+          "output_tokens": 12,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.009077787399291992
+    },
+    {
+      "run": "llm_transcript__changing__seed0",
+      "path": "runs/exp02/rule_world/llm_transcript__changing__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 12,
+          "cache_hits": 0,
+          "input_tokens": 5638,
+          "cached_tokens": 0,
+          "output_tokens": 12,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.00619959831237793
+    },
+    {
+      "run": "llm_notes__changing__seed0",
+      "path": "runs/exp02/rule_world/llm_notes__changing__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 13,
+          "cache_hits": 0,
+          "input_tokens": 3218,
+          "cached_tokens": 0,
+          "output_tokens": 13,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.005982160568237305
+    },
+    {
+      "run": "llm_skills__changing__seed0",
+      "path": "runs/exp02/rule_world/llm_skills__changing__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 13,
+          "cache_hits": 0,
+          "input_tokens": 3232,
+          "cached_tokens": 0,
+          "output_tokens": 13,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.007469892501831055
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "T": 12,
+    "mode": "smoke",
+    "quick": true,
+    "world": "rule_world",
+    "registry": {
+      "version": 1,
+      "title": "Does noticing a change mean adjusting to it?",
+      "hypothesis": "Noticing that something changed and getting back to correct behavior are different skills, and how the agent remembers decides which one it is good at.",
+      "design": "The world's rules genuinely change six times on a fixed schedule. After each change, three clocks start: how long until the agent stops giving the now-wrong answer, until it first gives the new right answer, and until it gets it right twice in a row. The agents differ only in how they remember.",
+      "parameters": {
+        "episode length": "120 steps",
+        "changes": "6 real rule changes, evenly spaced after a 20-step warmup",
+        "agents compared": "a lookup-table baseline, plus the same LLM with no memory, a 40-step transcript, self-written notes (rewritten every 10 steps), or extracted procedures",
+        "latency units": "tries on the affected tasks, not raw steps"
+      },
+      "independent": [
+        "how the agent remembers"
+      ],
+      "dependent": [
+        "detection latency",
+        "recovery latency",
+        "stability latency",
+        "the gap between detection and recovery"
+      ],
+      "drift": [
+        "sudden real changes"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H001"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "recovery_lag",
+          "vary": "agent",
+          "direction": "differs",
+          "claim": "recovery lag differs between memory architectures on the same seeds"
+        }
+      ]
+    }
+  },
+  "unpriced_models": [
+    "mock"
+  ]
+}

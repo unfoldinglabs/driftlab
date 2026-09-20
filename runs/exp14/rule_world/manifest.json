@@ -1,0 +1,194 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__shift_suite__seed0",
+      "path": "runs/exp14/rule_world/g56luna_api_low_notes__shift_suite__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 211,
+          "cache_hits": 0,
+          "input_tokens": 103008,
+          "cached_tokens": 0,
+          "output_tokens": 24428,
+          "reasoning_tokens": 18784,
+          "cost_usd": 0.04991520000000004,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 757.0508215427399
+    },
+    {
+      "run": "g56luna_api_low_notes__shift_suite__seed1",
+      "path": "runs/exp14/rule_world/g56luna_api_low_notes__shift_suite__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 211,
+          "cache_hits": 0,
+          "input_tokens": 100853,
+          "cached_tokens": 0,
+          "output_tokens": 34157,
+          "reasoning_tokens": 27920,
+          "cost_usd": 0.06115900000000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 807.4308512210846
+    },
+    {
+      "run": "g56luna_api_low_notes__shift_suite__seed2",
+      "path": "runs/exp14/rule_world/g56luna_api_low_notes__shift_suite__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 209,
+          "cache_hits": 2,
+          "input_tokens": 94943,
+          "cached_tokens": 0,
+          "output_tokens": 26604,
+          "reasoning_tokens": 19171,
+          "cost_usd": 0.05091340000000001,
+          "cache_saved_usd": 0.00013460000000000002
+        }
+      },
+      "wall_s": 1027.6808879375458
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__shift_suite__seed0",
+      "path": "runs/exp14/rule_world/qwen38_27b_api_low_notes__shift_suite__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 211,
+          "cache_hits": 0,
+          "input_tokens": 134648,
+          "cached_tokens": 34240,
+          "output_tokens": 99444,
+          "reasoning_tokens": 60057,
+          "cost_usd": 0.28020551199999993,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2592.5217864513397
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__shift_suite__seed1",
+      "path": "runs/exp14/rule_world/qwen38_27b_api_low_notes__shift_suite__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 211,
+          "cache_hits": 0,
+          "input_tokens": 174850,
+          "cached_tokens": 48912,
+          "output_tokens": 115816,
+          "reasoning_tokens": 70165,
+          "cost_usd": 0.32961833199999996,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2710.0753593444824
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__shift_suite__seed2",
+      "path": "runs/exp14/rule_world/qwen38_27b_api_low_notes__shift_suite__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 209,
+          "cache_hits": 2,
+          "input_tokens": 163143,
+          "cached_tokens": 56000,
+          "output_tokens": 94257,
+          "reasoning_tokens": 53503,
+          "cost_usd": 0.27168395199999973,
+          "cache_saved_usd": 0.002440356
+        }
+      },
+      "wall_s": 2287.285204410553
+    },
+    {
+      "run": "dsv41flash_api_low_notes__shift_suite__seed0",
+      "path": "runs/exp14/rule_world/dsv41flash_api_low_notes__shift_suite__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 211,
+          "cache_hits": 0,
+          "input_tokens": 126283,
+          "cached_tokens": 43034,
+          "output_tokens": 361412,
+          "reasoning_tokens": 352695,
+          "cost_usd": 0.22946365200000013,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 4681.063667297363
+    },
+    {
+      "run": "dsv41flash_api_low_notes__shift_suite__seed1",
+      "path": "runs/exp14/rule_world/dsv41flash_api_low_notes__shift_suite__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 211,
+          "cache_hits": 0,
+          "input_tokens": 129082,
+          "cached_tokens": 42260,
+          "output_tokens": 668983,
+          "reasoning_tokens": 667973,
+          "cost_usd": 0.4145398800000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 11132.87159538269
+    },
+    {
+      "run": "dsv41flash_api_low_notes__shift_suite__seed2",
+      "path": "runs/exp14/rule_world/dsv41flash_api_low_notes__shift_suite__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 209,
+          "cache_hits": 2,
+          "input_tokens": 134601,
+          "cached_tokens": 52864,
+          "output_tokens": 718484,
+          "reasoning_tokens": 708253,
+          "cost_usd": 0.4435095419999999,
+          "cache_saved_usd": 0.00068445
+        }
+      },
+      "wall_s": 20078.48999261856
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "rule_world",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "What did the agent actually learn?",
+      "hypothesis": "Swap the rules or the task types and a trained agent's first-day accuracy collapses, but it re-learns faster than an untrained one. Something it acquired carries over.",
+      "design": "One agent trains for 100 steps, then faces three evaluation phases: the familiar tasks, freshly drawn rules, and never-seen task types. Each phase starts with a probe of every task without feedback, followed by a short period with feedback. An untrained agent runs the same phases as the control.",
+      "parameters": {
+        "training": "100 steps",
+        "evaluation": "3 phases of 20 steps each: familiar tasks, new rules, new task types",
+        "probes": "every task once, without feedback, at the start of each phase",
+        "control": "a fresh agent on the same evaluation phases (in-process agents only)"
+      },
+      "independent": [
+        "what the evaluation swaps out: nothing, the rules, or the task types",
+        "a trained agent vs a fresh one"
+      ],
+      "dependent": [
+        "first-day accuracy on the probes",
+        "how fast it re-learns"
+      ],
+      "drift": [
+        "the evaluation itself shifts"
+      ],
+      "worlds": [
+        "the intake desk (rule_world)"
+      ],
+      "hypotheses": [
+        "H001"
+      ]
+    }
+  },
+  "unpriced_models": []
+}

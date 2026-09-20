@@ -1,0 +1,691 @@
+{
+  "schema": 2,
+  "suite": [
+    "exp02",
+    "exp04",
+    "exp06",
+    "exp15",
+    "exp18"
+  ],
+  "worlds": {
+    "exp02": "rule_world",
+    "exp04": "form_filler",
+    "exp06": "rule_world",
+    "exp15": "inventory",
+    "exp18": "claims_desk"
+  },
+  "world": "mixed",
+  "generated": 1789657556.2772903,
+  "versions": {
+    "exp02": 1,
+    "exp04": 2,
+    "exp06": 1,
+    "exp15": 1,
+    "exp18": 1
+  },
+  "agents": {
+    "dsv41flash_api_low_notes": {
+      "experiments": {
+        "exp02": {
+          "n_runs": 3,
+          "spec": {
+            "type": "reference",
+            "model": "deepseek/deepseek-v4.1-flash",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 7.0,
+            "final_accuracy": 0.6388888888888888,
+            "retention": 0.4,
+            "stale_rate": 0.19333333333333336,
+            "overupdate_rate": NaN,
+            "interference": 0.22671764963431632,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.011111111111111112,
+            "cost_per_success": 0.0016687846190476191,
+            "final_reward": 0.6388888888888888,
+            "n_changes": 6.0,
+            "n_changes_scored": 0.3333333333333333,
+            "cost_usd": 0.139371918
+          },
+          "dimensions": {
+            "adaptation": 0.7083333333333334,
+            "knowledge": 0.6796296296296296,
+            "epistemics": 0.8066666666666666,
+            "efficiency": 0.9229380848050881
+          },
+          "driftlab_score": 0.7315432098765432
+        },
+        "exp06": {
+          "n_runs": 3,
+          "spec": {
+            "type": "reference",
+            "model": "deepseek/deepseek-v4.1-flash",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.5,
+            "recovery_lag": 1.0,
+            "final_accuracy": 0.47222222222222215,
+            "retention": 0.0,
+            "stale_rate": 0.16666666666666666,
+            "overupdate_rate": NaN,
+            "interference": 0.14772519147519148,
+            "calibration_error": 0.32164359749949584,
+            "overconfidence": 0.30683686227061907,
+            "confidence_lag": 1.388888888888889,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.02777777777777778,
+            "cost_per_success": 0.0029332906543039507,
+            "final_reward": 0.47222222222222215,
+            "n_changes": 6.0,
+            "n_changes_scored": 1.0,
+            "cost_usd": 0.20552923200000003
+          },
+          "dimensions": {
+            "adaptation": 0.8712121212121212,
+            "knowledge": 0.4907407407407407,
+            "epistemics": 0.7558448679169187,
+            "efficiency": 0.8727103250038335
+          },
+          "driftlab_score": 0.7059325766232604
+        },
+        "exp15": {
+          "n_runs": 9,
+          "spec": {
+            "type": "reference",
+            "model": "deepseek/deepseek-v4.1-flash",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": NaN,
+            "recovery_lag": 4.833333333333333,
+            "final_accuracy": NaN,
+            "retention": NaN,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": NaN,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0725925925925926,
+            "cost_per_success": NaN,
+            "final_reward": -2.0244444444444443,
+            "n_changes": 1.3333333333333333,
+            "n_changes_scored": 1.3333333333333333,
+            "cost_usd": 1.1631591659999998
+          },
+          "dimensions": {
+            "adaptation": 0.2542372881355932,
+            "knowledge": NaN,
+            "epistemics": NaN,
+            "efficiency": 0.9274074074074075
+          },
+          "driftlab_score": 0.2542372881355932
+        },
+        "exp18": {
+          "n_runs": 9,
+          "spec": {
+            "type": "reference",
+            "model": "deepseek/deepseek-v4.1-flash",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 3.194444444444444,
+            "final_accuracy": 0.7703703703703704,
+            "retention": 0.7,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": 0.10839438339438338,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.0008061987715797573,
+            "final_reward": 0.7703703703703704,
+            "n_changes": 2.0,
+            "n_changes_scored": 1.6666666666666667,
+            "cost_usd": 0.36899091
+          },
+          "dimensions": {
+            "adaptation": 0.8050847457627119,
+            "knowledge": 0.8234567901234567,
+            "epistemics": NaN,
+            "efficiency": 0.9626973930139034
+          },
+          "driftlab_score": 0.8142707679430843
+        }
+      },
+      "mean_score": 0.6264959606446203,
+      "mean_dimensions": {
+        "adaptation": 0.6597168721109399,
+        "knowledge": 0.6646090534979424,
+        "epistemics": 0.7812557672917927,
+        "efficiency": 0.9214383025575581
+      }
+    },
+    "g56luna_api_low_notes": {
+      "experiments": {
+        "exp02": {
+          "n_runs": 3,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 8.0,
+            "final_accuracy": 0.5277777777777778,
+            "retention": 0.4,
+            "stale_rate": 0.15277777777777776,
+            "overupdate_rate": NaN,
+            "interference": 0.14700083866750535,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.0008178252557319224,
+            "final_reward": 0.5277777777777778,
+            "n_changes": 6.0,
+            "n_changes_scored": 0.3333333333333333,
+            "cost_usd": 0.0469094
+          },
+          "dimensions": {
+            "adaptation": 0.6923076923076923,
+            "knowledge": 0.6425925925925926,
+            "epistemics": 0.8472222222222222,
+            "efficiency": 0.9622001078590823
+          },
+          "driftlab_score": 0.7273741690408357
+        },
+        "exp06": {
+          "n_runs": 3,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.6666666666666666,
+            "recovery_lag": 1.0,
+            "final_accuracy": 0.6111111111111112,
+            "retention": 0.0,
+            "stale_rate": 0.19785714285714287,
+            "overupdate_rate": NaN,
+            "interference": 0.15649103982437318,
+            "calibration_error": 0.33692944444444445,
+            "overconfidence": 0.23661111111111113,
+            "confidence_lag": 0.48888888888888893,
+            "confidence_lead": 1.0,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.0007065120963327861,
+            "final_reward": 0.6111111111111112,
+            "n_changes": 6.0,
+            "n_changes_scored": 1.0,
+            "cost_usd": 0.0493076
+          },
+          "dimensions": {
+            "adaptation": 0.857843137254902,
+            "knowledge": 0.5370370370370371,
+            "epistemics": 0.7326067063492063,
+            "efficiency": 0.9670054967492736
+          },
+          "driftlab_score": 0.7091622935470485
+        },
+        "exp15": {
+          "n_runs": 9,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": NaN,
+            "recovery_lag": 5.5,
+            "final_accuracy": NaN,
+            "retention": NaN,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": NaN,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": NaN,
+            "final_reward": -2.106666666666667,
+            "n_changes": 1.3333333333333333,
+            "n_changes_scored": 1.3333333333333333,
+            "cost_usd": 0.229713
+          },
+          "dimensions": {
+            "adaptation": 0.23809523809523808,
+            "knowledge": NaN,
+            "epistemics": NaN,
+            "efficiency": 1.0
+          },
+          "driftlab_score": 0.23809523809523808
+        },
+        "exp18": {
+          "n_runs": 9,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 0.9583333333333334,
+            "final_accuracy": 0.5185185185185186,
+            "retention": 0.9097222222222222,
+            "stale_rate": NaN,
+            "overupdate_rate": 0.0,
+            "interference": -0.07303144386477721,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.0008092732521974039,
+            "final_reward": 0.5185185185185186,
+            "n_changes": 2.2222222222222223,
+            "n_changes_scored": 2.0,
+            "cost_usd": 0.2566914
+          },
+          "dimensions": {
+            "adaptation": 0.9195804195804196,
+            "knowledge": 0.7607259510037289,
+            "epistemics": 1.0,
+            "efficiency": 0.9625657880360787
+          },
+          "driftlab_score": 0.8934354568613828
+        }
+      },
+      "mean_score": 0.6420167893861263,
+      "mean_dimensions": {
+        "adaptation": 0.6769566218095631,
+        "knowledge": 0.6467851935444529,
+        "epistemics": 0.8599429761904762,
+        "efficiency": 0.9729428481611087
+      }
+    },
+    "llm_notes": {
+      "experiments": {
+        "exp04": {
+          "n_runs": 10,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": NaN,
+            "recovery_lag": NaN,
+            "final_accuracy": 0.4645454545454545,
+            "retention": NaN,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": NaN,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.029113114817799112,
+            "final_reward": 0.3574545454545454,
+            "n_changes": 0.0,
+            "n_changes_scored": 0.0,
+            "cost_usd": 4.387704200000001
+          },
+          "dimensions": {
+            "adaptation": NaN,
+            "knowledge": 0.4645454545454545,
+            "epistemics": NaN,
+            "efficiency": 0.6278343599913107
+          },
+          "driftlab_score": 0.4645454545454545
+        },
+        "exp18": {
+          "n_runs": 10,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 0.6483333333333333,
+            "final_accuracy": 0.45,
+            "retention": 0.8127056277056278,
+            "stale_rate": NaN,
+            "overupdate_rate": 0.0,
+            "interference": 0.038948713323713316,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.008298572158314501,
+            "final_reward": 0.4600000000000001,
+            "n_changes": 5.4,
+            "n_changes_scored": 4.8,
+            "cost_usd": 5.60698779999999
+          },
+          "dimensions": {
+            "adaptation": 0.9426084390675715,
+            "knowledge": 0.7542352092352093,
+            "epistemics": 1.0,
+            "efficiency": 0.7732453634491968
+          },
+          "driftlab_score": 0.8989478827675935
+        }
+      },
+      "mean_score": 0.681746668656524,
+      "mean_dimensions": {
+        "adaptation": 0.9426084390675715,
+        "knowledge": 0.6093903318903319,
+        "epistemics": 1.0,
+        "efficiency": 0.7005398617202537
+      }
+    },
+    "llm_transcript": {
+      "experiments": {
+        "exp04": {
+          "n_runs": 10,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "transcript",
+              "window": 40
+            }
+          },
+          "metrics": {
+            "detection_lag": NaN,
+            "recovery_lag": NaN,
+            "final_accuracy": 0.5809090909090909,
+            "retention": NaN,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": NaN,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.013706700792252124,
+            "final_reward": 0.4970909090909091,
+            "n_changes": 0.0,
+            "n_changes_scored": 0.0,
+            "cost_usd": 4.409691799999999
+          },
+          "dimensions": {
+            "adaptation": NaN,
+            "knowledge": 0.5809090909090909,
+            "epistemics": NaN,
+            "efficiency": 0.7109108325032774
+          },
+          "driftlab_score": 0.5809090909090909
+        },
+        "exp18": {
+          "n_runs": 10,
+          "spec": {
+            "type": "reference",
+            "model": "openai/gpt-5.6-luna",
+            "substrate": {
+              "kind": "transcript",
+              "window": 40
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 1.7533333333333332,
+            "final_accuracy": 0.5033333333333333,
+            "retention": 0.6452222222222221,
+            "stale_rate": NaN,
+            "overupdate_rate": 1.0,
+            "interference": 0.05859740259740259,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.006264072725634255,
+            "final_reward": 0.5066666666666666,
+            "n_changes": 4.2,
+            "n_changes_scored": 3.8,
+            "cost_usd": 4.1979417999999935
+          },
+          "dimensions": {
+            "adaptation": 0.8701875616979269,
+            "knowledge": 0.7161851851851851,
+            "epistemics": 0.0,
+            "efficiency": 0.8074260724449025
+          },
+          "driftlab_score": 0.5287909156277041
+        }
+      },
+      "mean_score": 0.5548500032683975,
+      "mean_dimensions": {
+        "adaptation": 0.8701875616979269,
+        "knowledge": 0.648547138047138,
+        "epistemics": 0.0,
+        "efficiency": 0.7591684524740899
+      }
+    },
+    "qwen38_27b_api_low_notes": {
+      "experiments": {
+        "exp02": {
+          "n_runs": 3,
+          "spec": {
+            "type": "reference",
+            "model": "qwen/qwen3.8-27b",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 2.0,
+            "recovery_lag": 3.5,
+            "final_accuracy": 0.4444444444444445,
+            "retention": 1.0,
+            "stale_rate": 0.20793650793650795,
+            "overupdate_rate": NaN,
+            "interference": 0.13747702914369578,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.005555555555555556,
+            "cost_per_success": 0.004477834875123524,
+            "final_reward": 0.4444444444444445,
+            "n_changes": 6.0,
+            "n_changes_scored": 0.6666666666666666,
+            "cost_usd": 0.293392696
+          },
+          "dimensions": {
+            "adaptation": 0.6512605042016807,
+            "knowledge": 0.8148148148148149,
+            "epistemics": 0.792063492063492,
+            "efficiency": 0.84257772897629
+          },
+          "driftlab_score": 0.7527129370266624
+        },
+        "exp06": {
+          "n_runs": 3,
+          "spec": {
+            "type": "reference",
+            "model": "qwen/qwen3.8-27b",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 1.0,
+            "recovery_lag": 0.0,
+            "final_accuracy": 0.3888888888888889,
+            "retention": 0.0,
+            "stale_rate": 0.25297619047619047,
+            "overupdate_rate": NaN,
+            "interference": 0.10768452226785559,
+            "calibration_error": 0.29521055555555553,
+            "overconfidence": 0.2957222222222222,
+            "confidence_lag": 1.5666666666666667,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.005555555555555556,
+            "cost_per_success": 0.005455691132149078,
+            "final_reward": 0.3888888888888889,
+            "n_changes": 6.0,
+            "n_changes_scored": 1.3333333333333333,
+            "cost_usd": 0.32279181400000007
+          },
+          "dimensions": {
+            "adaptation": 0.9166666666666667,
+            "knowledge": 0.46296296296296297,
+            "epistemics": 0.725906626984127,
+            "efficiency": 0.8207276518564622
+          },
+          "driftlab_score": 0.7018454188712523
+        },
+        "exp15": {
+          "n_runs": 9,
+          "spec": {
+            "type": "reference",
+            "model": "qwen/qwen3.8-27b",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": NaN,
+            "recovery_lag": 5.583333333333333,
+            "final_accuracy": NaN,
+            "retention": NaN,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": NaN,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.07703703703703704,
+            "cost_per_success": NaN,
+            "final_reward": -2.219259259259259,
+            "n_changes": 1.3333333333333333,
+            "n_changes_scored": 1.3333333333333333,
+            "cost_usd": 2.790202746
+          },
+          "dimensions": {
+            "adaptation": 0.23622047244094488,
+            "knowledge": NaN,
+            "epistemics": NaN,
+            "efficiency": 0.922962962962963
+          },
+          "driftlab_score": 0.23622047244094488
+        },
+        "exp18": {
+          "n_runs": 9,
+          "spec": {
+            "type": "reference",
+            "model": "qwen/qwen3.8-27b",
+            "substrate": {
+              "kind": "notes",
+              "every": 10
+            }
+          },
+          "metrics": {
+            "detection_lag": 0.0,
+            "recovery_lag": 4.194444444444445,
+            "final_accuracy": 0.8148148148148149,
+            "retention": 0.828125,
+            "stale_rate": NaN,
+            "overupdate_rate": NaN,
+            "interference": 0.0897149147149147,
+            "calibration_error": NaN,
+            "overconfidence": NaN,
+            "confidence_lag": NaN,
+            "confidence_lead": NaN,
+            "prediction_wrong_rate": NaN,
+            "parse_failure_rate": 0.0,
+            "cost_per_success": 0.0019270712429161922,
+            "final_reward": 0.8148148148148149,
+            "n_changes": 2.0,
+            "n_changes_scored": 1.4444444444444444,
+            "cost_usd": 0.903204602
+          },
+          "dimensions": {
+            "adaptation": 0.7719033232628398,
+            "knowledge": 0.8809799382716049,
+            "epistemics": NaN,
+            "efficiency": 0.9192143987543995
+          },
+          "driftlab_score": 0.8264416307672224
+        }
+      },
+      "mean_score": 0.6293051147765205,
+      "mean_dimensions": {
+        "adaptation": 0.644012741643033,
+        "knowledge": 0.7195859053497943,
+        "epistemics": 0.7589850595238095,
+        "efficiency": 0.8763706856375286
+      }
+    }
+  }
+}

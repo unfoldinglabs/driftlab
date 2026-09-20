@@ -1,0 +1,194 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__changing__seed1",
+      "path": "runs/exp12/rule_world/g56luna_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 30193,
+          "cached_tokens": 0,
+          "output_tokens": 5838,
+          "reasoning_tokens": 3473,
+          "cost_usd": 0.0130442,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 196.87016820907593
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed2",
+      "path": "runs/exp12/rule_world/g56luna_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 32135,
+          "cached_tokens": 0,
+          "output_tokens": 5691,
+          "reasoning_tokens": 3155,
+          "cost_usd": 0.0132562,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 199.8081865310669
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed0",
+      "path": "runs/exp12/rule_world/g56luna_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 34081,
+          "cached_tokens": 0,
+          "output_tokens": 8623,
+          "reasoning_tokens": 5795,
+          "cost_usd": 0.0171638,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 211.4805474281311
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed1",
+      "path": "runs/exp12/rule_world/qwen38_27b_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 53736,
+          "cached_tokens": 7408,
+          "output_tokens": 29995,
+          "reasoning_tokens": 17845,
+          "cost_usd": 0.08751264199999997,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 650.6358876228333
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed0",
+      "path": "runs/exp12/rule_world/qwen38_27b_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 44473,
+          "cached_tokens": 6912,
+          "output_tokens": 30829,
+          "reasoning_tokens": 18418,
+          "cost_usd": 0.08768880399999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 723.5971572399139
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed2",
+      "path": "runs/exp12/rule_world/qwen38_27b_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 47289,
+          "cached_tokens": 1856,
+          "output_tokens": 32198,
+          "reasoning_tokens": 21850,
+          "cost_usd": 0.09210596200000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 835.0629680156708
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed1",
+      "path": "runs/exp12/rule_world/dsv41flash_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 35762,
+          "cached_tokens": 5118,
+          "output_tokens": 92355,
+          "reasoning_tokens": 88917,
+          "cost_usd": 0.060024954,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2185.8756425380707
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed2",
+      "path": "runs/exp12/rule_world/dsv41flash_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 38108,
+          "cached_tokens": 2176,
+          "output_tokens": 168658,
+          "reasoning_tokens": 166382,
+          "cost_usd": 0.106591128,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2224.677307844162
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed0",
+      "path": "runs/exp12/rule_world/dsv41flash_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 41270,
+          "cached_tokens": 5056,
+          "output_tokens": 179173,
+          "reasoning_tokens": 175246,
+          "cost_usd": 0.11295106800000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2483.6347613334656
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "rule_world",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "When should an agent rewrite its notes?",
+      "hypothesis": "Rewriting notes right after failures beats rewriting them on a timer at the same cost, because failures cluster right after changes.",
+      "design": "The agents differ only in when they rewrite their working notes. The world's rules change six times. Since each rewrite costs tokens, the score is accuracy per dollar, not accuracy alone.",
+      "parameters": {
+        "episode length": "120 steps",
+        "changes": "6, evenly spaced after a 20-step warmup",
+        "note-taking schedules": "every 5, 10 or 20 steps; right after any failure; both; never",
+        "scoring": "accuracy per dollar spent"
+      },
+      "independent": [
+        "when the agent rewrites its notes"
+      ],
+      "dependent": [
+        "accuracy",
+        "cost",
+        "accuracy per dollar"
+      ],
+      "drift": [
+        "sudden real changes"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H001"
+      ]
+    }
+  },
+  "unpriced_models": []
+}

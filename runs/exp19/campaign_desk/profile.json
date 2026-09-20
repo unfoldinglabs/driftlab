@@ -1,0 +1,1164 @@
+{
+  "schema": 2,
+  "run_dir": "runs/exp19/campaign_desk",
+  "generated": 1789649409.5794628,
+  "world": "campaign_desk",
+  "agents": {
+    "dsv41flash_api_low_notes": {
+      "n_runs": 9,
+      "spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "metrics": {
+        "detection_lag": NaN,
+        "recovery_lag": 5.777777777777778,
+        "final_accuracy": 0.027777777777777776,
+        "retention": 0.14907407407407408,
+        "stale_rate": NaN,
+        "overupdate_rate": NaN,
+        "interference": NaN,
+        "calibration_error": NaN,
+        "overconfidence": NaN,
+        "confidence_lag": NaN,
+        "confidence_lead": NaN,
+        "prediction_wrong_rate": NaN,
+        "parse_failure_rate": 0.0,
+        "cost_per_success": 0.008909898311386858,
+        "final_reward": 0.1425925925925926,
+        "n_changes": 2.0,
+        "n_changes_scored": 2.0,
+        "cost_usd": 0.28732062
+      },
+      "dimensions": {
+        "adaptation": 0.23195876288659795,
+        "knowledge": 0.08842592592592594,
+        "epistemics": NaN,
+        "efficiency": 0.7644117867619193
+      },
+      "driftlab_score": 0.16019234440626196
+    },
+    "g56luna_api_low_notes": {
+      "n_runs": 9,
+      "spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "metrics": {
+        "detection_lag": NaN,
+        "recovery_lag": 6.666666666666667,
+        "final_accuracy": 0.20370370370370372,
+        "retention": 0.2,
+        "stale_rate": NaN,
+        "overupdate_rate": NaN,
+        "interference": NaN,
+        "calibration_error": NaN,
+        "overconfidence": NaN,
+        "confidence_lag": NaN,
+        "confidence_lead": NaN,
+        "prediction_wrong_rate": NaN,
+        "parse_failure_rate": 0.0,
+        "cost_per_success": 0.002537372682132682,
+        "final_reward": 0.16203703703703706,
+        "n_changes": 2.0,
+        "n_changes_scored": 2.0,
+        "cost_usd": 0.1378982
+      },
+      "dimensions": {
+        "adaptation": 0.21428571428571427,
+        "knowledge": 0.20185185185185187,
+        "epistemics": NaN,
+        "efficiency": 0.8988076391097174
+      },
+      "driftlab_score": 0.20806878306878307
+    },
+    "qwen38_27b_api_low_notes": {
+      "n_runs": 9,
+      "spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "metrics": {
+        "detection_lag": NaN,
+        "recovery_lag": 6.5,
+        "final_accuracy": 0.16666666666666666,
+        "retention": 0.1953703703703704,
+        "stale_rate": NaN,
+        "overupdate_rate": NaN,
+        "interference": NaN,
+        "calibration_error": NaN,
+        "overconfidence": NaN,
+        "confidence_lag": NaN,
+        "confidence_lead": NaN,
+        "prediction_wrong_rate": NaN,
+        "parse_failure_rate": 0.001851851851851852,
+        "cost_per_success": 0.014894416708234973,
+        "final_reward": 0.1675925925925926,
+        "n_changes": 2.0,
+        "n_changes_scored": 2.0,
+        "cost_usd": 1.1755416459999999
+      },
+      "dimensions": {
+        "adaptation": 0.2173913043478261,
+        "knowledge": 0.18101851851851852,
+        "epistemics": NaN,
+        "efficiency": 0.6999223228440892
+      },
+      "driftlab_score": 0.19920491143317232
+    }
+  },
+  "excluded_quick": 0,
+  "effects": {
+    "field": "final_accuracy",
+    "agent": [
+      {
+        "vary": "agent",
+        "a": "dsv41flash_api_low_notes",
+        "b": "g56luna_api_low_notes",
+        "delta": 0.17592592592592593,
+        "ci": [
+          0.018518518518518517,
+          0.36111111111111116
+        ],
+        "n": 9
+      },
+      {
+        "vary": "agent",
+        "a": "dsv41flash_api_low_notes",
+        "b": "qwen38_27b_api_low_notes",
+        "delta": 0.1388888888888889,
+        "ci": [
+          0.00925925925925926,
+          0.32407407407407407
+        ],
+        "n": 9
+      },
+      {
+        "vary": "agent",
+        "a": "g56luna_api_low_notes",
+        "b": "qwen38_27b_api_low_notes",
+        "delta": -0.03703703703703704,
+        "ci": [
+          -0.28703703703703703,
+          0.2222222222222222
+        ],
+        "n": 9
+      }
+    ],
+    "regime": [
+      {
+        "agent": "dsv41flash_api_low_notes",
+        "vary": "regime",
+        "a": "report_10",
+        "b": "report_20",
+        "delta": 0.0,
+        "ci": [
+          0.0,
+          0.0
+        ],
+        "n": 3
+      },
+      {
+        "agent": "dsv41flash_api_low_notes",
+        "vary": "regime",
+        "a": "report_10",
+        "b": "report_5",
+        "delta": 0.08333333333333333,
+        "ci": [
+          0.0,
+          0.16666666666666666
+        ],
+        "n": 3
+      },
+      {
+        "agent": "dsv41flash_api_low_notes",
+        "vary": "regime",
+        "a": "report_20",
+        "b": "report_5",
+        "delta": 0.08333333333333333,
+        "ci": [
+          0.0,
+          0.16666666666666666
+        ],
+        "n": 3
+      },
+      {
+        "agent": "g56luna_api_low_notes",
+        "vary": "regime",
+        "a": "report_10",
+        "b": "report_20",
+        "delta": 0.11111111111111112,
+        "ci": [
+          -0.16666666666666666,
+          0.5833333333333334
+        ],
+        "n": 3
+      },
+      {
+        "agent": "g56luna_api_low_notes",
+        "vary": "regime",
+        "a": "report_10",
+        "b": "report_5",
+        "delta": 0.25,
+        "ci": [
+          0.0,
+          0.75
+        ],
+        "n": 3
+      },
+      {
+        "agent": "g56luna_api_low_notes",
+        "vary": "regime",
+        "a": "report_20",
+        "b": "report_5",
+        "delta": 0.13888888888888887,
+        "ci": [
+          0.08333333333333333,
+          0.16666666666666666
+        ],
+        "n": 3
+      },
+      {
+        "agent": "qwen38_27b_api_low_notes",
+        "vary": "regime",
+        "a": "report_10",
+        "b": "report_20",
+        "delta": -0.3055555555555556,
+        "ci": [
+          -0.5833333333333334,
+          0.0
+        ],
+        "n": 3
+      },
+      {
+        "agent": "qwen38_27b_api_low_notes",
+        "vary": "regime",
+        "a": "report_10",
+        "b": "report_5",
+        "delta": -0.27777777777777773,
+        "ci": [
+          -0.75,
+          0.25
+        ],
+        "n": 3
+      },
+      {
+        "agent": "qwen38_27b_api_low_notes",
+        "vary": "regime",
+        "a": "report_20",
+        "b": "report_5",
+        "delta": 0.02777777777777778,
+        "ci": [
+          -0.16666666666666666,
+          0.25
+        ],
+        "n": 3
+      }
+    ]
+  },
+  "runs": [
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_10",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.15,
+      "retention": 0.0,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.029747196,
+      "cost_per_success": 0.004249599428571429
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_10",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.06666666666666667,
+      "retention": 0.3,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.025370262000000005,
+      "cost_per_success": 0.0012081077142857145
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_10",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.08333333333333333,
+      "retention": 0.0,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.026928306,
+      "cost_per_success": 0.026928306
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_20",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 6.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.075,
+      "retention": 0.016666666666666666,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.029615544,
+      "cost_per_success": 0.003701943
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_20",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 6.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.041666666666666664,
+      "retention": 0.05,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.023937942000000004,
+      "cost_per_success": 0.002176176545454546
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_20",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 11.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.075,
+      "retention": 0.0,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.03398833800000001,
+      "cost_per_success": 0.03398833800000001
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_5",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 6.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.375,
+      "retention": 0.23333333333333334,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.027993665999999997,
+      "cost_per_success": 0.0010766794615384614
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_5",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.16666666666666666,
+      "final_reward": 0.125,
+      "retention": 0.4,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.04462893,
+      "cost_per_success": 0.002348891052631579
+    },
+    {
+      "agent": "dsv41flash_api_low_notes",
+      "regime": "report_5",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "deepseek/deepseek-v4.1-flash",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 7.0,
+      "final_accuracy": 0.08333333333333333,
+      "final_reward": 0.2916666666666667,
+      "retention": 0.3416666666666667,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.04511043600000001,
+      "cost_per_success": 0.004511043600000001
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_10",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 7.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.13333333333333333,
+      "retention": 0.2833333333333333,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.013739800000000005,
+      "cost_per_success": 0.0006869900000000003
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_10",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.08333333333333333,
+      "final_reward": 0.11666666666666665,
+      "retention": 0.09166666666666667,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.018183800000000007,
+      "cost_per_success": 0.0012988428571428577
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_10",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 8.5,
+      "final_accuracy": 0.16666666666666666,
+      "final_reward": 0.13333333333333333,
+      "retention": 0.4916666666666667,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.013798599999999998,
+      "cost_per_success": 0.0006899299999999998
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_20",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 6.0,
+      "final_accuracy": 0.5833333333333334,
+      "final_reward": 0.10833333333333334,
+      "retention": 0.19166666666666665,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.015306000000000002,
+      "cost_per_success": 0.0011773846153846155
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_20",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 6.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.03333333333333333,
+      "retention": 0.05,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.0152582,
+      "cost_per_success": 0.0012715166666666666
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_20",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 11.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.05833333333333333,
+      "retention": 0.0,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.0123616,
+      "cost_per_success": 0.0123616
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_5",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.75,
+      "final_reward": 0.4583333333333333,
+      "retention": 0.325,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.018854999999999997,
+      "cost_per_success": 0.0009427499999999998
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_5",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 9.5,
+      "final_accuracy": 0.08333333333333333,
+      "final_reward": 0.16666666666666666,
+      "retention": 0.04166666666666667,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.013678200000000001,
+      "cost_per_success": 0.00273564
+    },
+    {
+      "agent": "g56luna_api_low_notes",
+      "regime": "report_5",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "openai/gpt-5.6-luna",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.16666666666666666,
+      "final_reward": 0.25,
+      "retention": 0.325,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.016716999999999996,
+      "cost_per_success": 0.0016716999999999995
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_10",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.75,
+      "final_reward": 0.2333333333333333,
+      "retention": 0.5,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.12246038399999998,
+      "cost_per_success": 0.006803354666666666
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_10",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 5.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.05000000000000001,
+      "retention": 0.03333333333333333,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.016666666666666666,
+      "cost_usd": 0.126144156,
+      "cost_per_success": 0.018020593714285715
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_10",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.3333333333333333,
+      "final_reward": 0.08333333333333333,
+      "retention": 0.11666666666666667,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.10932034600000001,
+      "cost_per_success": 0.012146705111111112
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_20",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 11.0,
+      "final_accuracy": 0.16666666666666666,
+      "final_reward": 0.09999999999999999,
+      "retention": 0.4,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.11421568399999998,
+      "cost_per_success": 0.006345315777777777
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_20",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 6.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.06666666666666667,
+      "retention": 0.016666666666666666,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.08771557999999999,
+      "cost_per_success": 0.029238526666666664
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_20",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 11.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.05833333333333333,
+      "retention": 0.1,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.153528078,
+      "cost_per_success": 0.025588013000000003
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_5",
+      "seed": 0,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 4.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.375,
+      "retention": 0.13333333333333333,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.14645795599999997,
+      "cost_per_success": 0.014645795599999997
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_5",
+      "seed": 1,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 5.5,
+      "final_accuracy": 0.25,
+      "final_reward": 0.2916666666666667,
+      "retention": 0.275,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.17421706399999995,
+      "cost_per_success": 0.013401312615384612
+    },
+    {
+      "agent": "qwen38_27b_api_low_notes",
+      "regime": "report_5",
+      "seed": 2,
+      "agent_spec": {
+        "type": "reference",
+        "model": "qwen/qwen3.8-27b",
+        "substrate": {
+          "kind": "notes",
+          "every": 10
+        }
+      },
+      "world": "campaign_desk",
+      "n_steps": 60,
+      "n_changes": 2,
+      "n_changes_scored": 2,
+      "detection_lag": NaN,
+      "recovery_lag": 8.0,
+      "final_accuracy": 0.0,
+      "final_reward": 0.25,
+      "retention": 0.18333333333333332,
+      "stale_rate": NaN,
+      "overupdate_rate": NaN,
+      "interference": NaN,
+      "calibration_error": NaN,
+      "overconfidence": NaN,
+      "confidence_lag": NaN,
+      "confidence_lead": NaN,
+      "prediction_wrong_rate": NaN,
+      "parse_failure_rate": 0.0,
+      "cost_usd": 0.14148239800000006,
+      "cost_per_success": 0.007860133222222225
+    }
+  ]
+}

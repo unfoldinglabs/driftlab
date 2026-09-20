@@ -1,0 +1,17 @@
+[project]
+name = "driftlab"
+version = "0.1.0"
+description = "A testbed for studying how agents learn from experience when the world keeps changing"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+]
+
+[project.optional-dependencies]
+llm = ["openai>=1.50"]      # reference LLM agents (not needed for --mock, tabular, or harness runs)
+harness = ["mcp>=1.10"]     # the MCP server (path A); harness CLIs themselves install separately
+all = ["openai>=1.50", "mcp>=1.10"]
+
+[tool.uv]
+package = false             # run from the checkout (python -m experiments...); nothing to build

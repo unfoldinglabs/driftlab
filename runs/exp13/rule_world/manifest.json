@@ -1,0 +1,512 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__fixed__seed2",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__fixed__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 40288,
+          "cached_tokens": 0,
+          "output_tokens": 8371,
+          "reasoning_tokens": 5462,
+          "cost_usd": 0.0181028,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 221.43154978752136
+    },
+    {
+      "run": "g56luna_api_low_notes__fixed__seed1",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__fixed__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 41841,
+          "cached_tokens": 0,
+          "output_tokens": 7728,
+          "reasoning_tokens": 4623,
+          "cost_usd": 0.017641799999999996,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 222.13570857048035
+    },
+    {
+      "run": "g56luna_api_low_notes__adaptive__seed0",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__adaptive__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 12,
+          "cache_hits": 70,
+          "input_tokens": 7142,
+          "cached_tokens": 0,
+          "output_tokens": 1564,
+          "reasoning_tokens": 946,
+          "cost_usd": 0.0033052,
+          "cache_saved_usd": 0.017999
+        }
+      },
+      "wall_s": 40.21049761772156
+    },
+    {
+      "run": "g56luna_api_low_notes__fixed__seed0",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__fixed__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 41855,
+          "cached_tokens": 1332,
+          "output_tokens": 10865,
+          "reasoning_tokens": 7128,
+          "cost_usd": 0.021169240000000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 276.37341594696045
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__fixed__seed1",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__fixed__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 68716,
+          "cached_tokens": 12896,
+          "output_tokens": 31565,
+          "reasoning_tokens": 16868,
+          "cost_usd": 0.09437063,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 993.0433814525604
+    },
+    {
+      "run": "dsv41flash_api_low_notes__fixed__seed1",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__fixed__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 48880,
+          "cached_tokens": 10870,
+          "output_tokens": 84578,
+          "reasoning_tokens": 80104,
+          "cost_usd": 0.05648090999999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1114.7355861663818
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__fixed__seed0",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__fixed__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 62850,
+          "cached_tokens": 16176,
+          "output_tokens": 46062,
+          "reasoning_tokens": 26599,
+          "cost_usd": 0.129872736,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1119.1569106578827
+    },
+    {
+      "run": "g56luna_api_low_notes__adaptive__seed1",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__adaptive__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 50,
+          "cache_hits": 32,
+          "input_tokens": 29222,
+          "cached_tokens": 0,
+          "output_tokens": 4370,
+          "reasoning_tokens": 2212,
+          "cost_usd": 0.011088400000000005,
+          "cache_saved_usd": 0.0046932
+        }
+      },
+      "wall_s": 193.667631149292
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adaptive__seed0",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__adaptive__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 64,
+          "cache_hits": 18,
+          "input_tokens": 54447,
+          "cached_tokens": 6592,
+          "output_tokens": 31224,
+          "reasoning_tokens": 18798,
+          "cost_usd": 0.09085096999999999,
+          "cache_saved_usd": 0.027523208
+        }
+      },
+      "wall_s": 926.8373641967773
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__fixed__seed2",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__fixed__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 79681,
+          "cached_tokens": 2496,
+          "output_tokens": 39023,
+          "reasoning_tokens": 21494,
+          "cost_usd": 0.11640063999999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1077.3233926296234
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adaptive__seed2",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__adaptive__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.11640063999999999
+        }
+      },
+      "wall_s": 0.4180722236633301
+    },
+    {
+      "run": "g56luna_api_low_notes__adaptive__seed2",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__adaptive__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 35402,
+          "cached_tokens": 0,
+          "output_tokens": 7352,
+          "reasoning_tokens": 4739,
+          "cost_usd": 0.015902799999999995,
+          "cache_saved_usd": 0.0026841999999999994
+        }
+      },
+      "wall_s": 205.54441261291504
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adaptive__seed1",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__adaptive__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 6,
+          "cache_hits": 76,
+          "input_tokens": 4356,
+          "cached_tokens": 480,
+          "output_tokens": 10967,
+          "reasoning_tokens": 10493,
+          "cost_usd": 0.00716304,
+          "cache_saved_usd": 0.04584680999999998
+        }
+      },
+      "wall_s": 433.4515907764435
+    },
+    {
+      "run": "g56luna_api_low_notes__adversarial__seed0",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 36801,
+          "cached_tokens": 0,
+          "output_tokens": 8720,
+          "reasoning_tokens": 6044,
+          "cost_usd": 0.0178242,
+          "cache_saved_usd": 0.0030396
+        }
+      },
+      "wall_s": 460.89729499816895
+    },
+    {
+      "run": "dsv41flash_api_low_notes__fixed__seed2",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__fixed__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 47796,
+          "cached_tokens": 9350,
+          "output_tokens": 80184,
+          "reasoning_tokens": 75783,
+          "cost_usd": 0.05390535000000003,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2151.3450014591217
+    },
+    {
+      "run": "g56luna_api_low_notes__adversarial__seed1",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 33478,
+          "cached_tokens": 1318,
+          "output_tokens": 6349,
+          "reasoning_tokens": 3138,
+          "cost_usd": 0.01407716,
+          "cache_saved_usd": 0.0023477999999999997
+        }
+      },
+      "wall_s": 743.7013914585114
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adaptive__seed1",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__adaptive__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 50,
+          "cache_hits": 32,
+          "input_tokens": 48152,
+          "cached_tokens": 4224,
+          "output_tokens": 22269,
+          "reasoning_tokens": 13201,
+          "cost_usd": 0.06682014199999999,
+          "cache_saved_usd": 0.036319922
+        }
+      },
+      "wall_s": 1930.9661483764648
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adaptive__seed2",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__adaptive__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 41391,
+          "cached_tokens": 6222,
+          "output_tokens": 83921,
+          "reasoning_tokens": 80637,
+          "cost_usd": 0.055646616,
+          "cache_saved_usd": 0.017637432000000005
+        }
+      },
+      "wall_s": 2022.6727204322815
+    },
+    {
+      "run": "g56luna_api_low_notes__adversarial__seed2",
+      "path": "runs/exp13/rule_world/g56luna_api_low_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 50,
+          "cache_hits": 32,
+          "input_tokens": 28674,
+          "cached_tokens": 0,
+          "output_tokens": 6948,
+          "reasoning_tokens": 4804,
+          "cost_usd": 0.014072400000000002,
+          "cache_saved_usd": 0.005528999999999999
+        }
+      },
+      "wall_s": 186.09157156944275
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adversarial__seed0",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 50958,
+          "cached_tokens": 2560,
+          "output_tokens": 25543,
+          "reasoning_tokens": 14088,
+          "cost_usd": 0.075875822,
+          "cache_saved_usd": 0.030852602
+        }
+      },
+      "wall_s": 1830.2281332015991
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adversarial__seed1",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 51449,
+          "cached_tokens": 8720,
+          "output_tokens": 30068,
+          "reasoning_tokens": 18049,
+          "cost_usd": 0.08712540599999997,
+          "cache_saved_usd": 0.019828208
+        }
+      },
+      "wall_s": 979.7719323635101
+    },
+    {
+      "run": "dsv41flash_api_low_notes__fixed__seed0",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__fixed__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 51714,
+          "cached_tokens": 11914,
+          "output_tokens": 120086,
+          "reasoning_tokens": 116924,
+          "cost_usd": 0.07805734199999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 3563.2323763370514
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adversarial__seed0",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 41564,
+          "cached_tokens": 11614,
+          "output_tokens": 90889,
+          "reasoning_tokens": 89349,
+          "cost_usd": 0.059060742,
+          "cache_saved_usd": 0.013867500000000001
+        }
+      },
+      "wall_s": 2415.9019112586975
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adversarial__seed2",
+      "path": "runs/exp13/rule_world/qwen38_27b_api_low_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 60954,
+          "cached_tokens": 12096,
+          "output_tokens": 24277,
+          "reasoning_tokens": 12396,
+          "cost_usd": 0.07417636200000002,
+          "cache_saved_usd": 0.028903521999999997
+        }
+      },
+      "wall_s": 588.1289465427399
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adversarial__seed2",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 39,
+          "cache_hits": 43,
+          "input_tokens": 25558,
+          "cached_tokens": 2560,
+          "output_tokens": 47371,
+          "reasoning_tokens": 45800,
+          "cost_usd": 0.03187998,
+          "cache_saved_usd": 0.04394787600000001
+        }
+      },
+      "wall_s": 786.7821607589722
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adaptive__seed0",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__adaptive__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 62,
+          "cache_hits": 20,
+          "input_tokens": 45297,
+          "cached_tokens": 10144,
+          "output_tokens": 159600,
+          "reasoning_tokens": 157756,
+          "cost_usd": 0.10106338199999998,
+          "cache_saved_usd": 0.01369875
+        }
+      },
+      "wall_s": 4148.85706448555
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adversarial__seed1",
+      "path": "runs/exp13/rule_world/dsv41flash_api_low_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 61,
+          "cache_hits": 21,
+          "input_tokens": 39979,
+          "cached_tokens": 6278,
+          "output_tokens": 109469,
+          "reasoning_tokens": 106452,
+          "cost_usd": 0.07075538399999999,
+          "cache_saved_usd": 0.009782777999999997
+        }
+      },
+      "wall_s": 2527.319815158844
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "rule_world",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "Should changes wait for the learner?",
+      "hypothesis": "A learner ends up better when each change waits until it has recovered from the last one, even with the same total number of changes.",
+      "design": "Six changes, three timings: evenly spaced regardless of the learner; adaptive, where the next change waits for the learner's performance to recover; and adversarial, where the next change lands the moment it recovers.",
+      "parameters": {
+        "episode length": "150 steps",
+        "changes": "6 per run",
+        "adaptive rule": "the next change waits until rolling reward is back to 70% of its best, and at least 10 steps have passed",
+        "adversarial rule": "the same recovery test, but with a minimum gap of only 3 steps",
+        "agent": "an LLM with notes"
+      },
+      "independent": [
+        "when changes are allowed to land: on a timer, after recovery, or right at recovery"
+      ],
+      "dependent": [
+        "final accuracy",
+        "dip and recovery per change"
+      ],
+      "drift": [
+        "sudden real changes, timed to the learner"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H004"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "final_accuracy",
+          "vary": "regime",
+          "a": "fixed",
+          "b": "adaptive",
+          "direction": ">",
+          "within": "agent",
+          "claim": "adaptive pacing ends with higher accuracy than fixed pacing, same number of changes"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

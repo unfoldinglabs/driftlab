@@ -1,0 +1,1468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>driftlab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    color-scheme: light;
+    --surface-0: #f4f3f0; --surface-1: #fcfcfb; --surface-2: #eeede9; --border: #dcdad4;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #8a8884;
+    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
+    --good: #0ca30c; --critical: #d03b3b; --warning: #fab219; --neutral: #d7d5cf;
+    --grid: #e7e5df; --mark-event: #52514e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-0: #111110; --surface-1: #1a1a19; --surface-2: #242422; --border: #33332f;
+      --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #85847c;
+      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+      --good: #0ca30c; --critical: #d03b3b; --warning: #fab219; --neutral: #383835;
+      --grid: #2b2b28; --mark-event: #c3c2b7;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-0: #111110; --surface-1: #1a1a19; --surface-2: #242422; --border: #33332f;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #85847c;
+    --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --good: #0ca30c; --critical: #d03b3b; --warning: #fab219; --neutral: #383835;
+    --grid: #2b2b28; --mark-event: #c3c2b7;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--surface-0); color: var(--text-primary); overflow: hidden;
+         font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; display: flex; flex-direction: column; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--critical); margin-left: 6px; vertical-align: 1px; }
+  .dot.on { background: var(--good); }
+
+  .topnav { display: flex; gap: 4px; padding: 8px 12px 0; background: var(--surface-1); border-bottom: 1px solid var(--border); }
+  .topnav button { font: 600 14px system-ui, sans-serif; letter-spacing: .2px; padding: 8px 18px 9px; cursor: pointer;
+    background: none; border: 1px solid transparent; border-bottom: none; color: var(--text-secondary);
+    border-radius: 8px 8px 0 0; margin-bottom: -1px; }
+  .topnav button:hover { color: var(--text-primary); }
+  .topnav button.on { background: var(--surface-0); border-color: var(--border); border-bottom: 1px solid var(--surface-0); color: var(--text-primary); }
+  main[hidden] { display: none !important; }
+  #viewRuns { flex: 1; min-height: 0; display: grid; gap: 8px; padding: 8px 10px;
+         grid-template-columns: minmax(190px, 1fr) minmax(0, 4fr); }
+  #viewResults { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  #viewResults > .tabbar { margin: 8px 10px 0; flex: none; }
+  #resBench { flex: 1; min-height: 0; overflow: auto; padding: 10px 14px; }
+  #resBench .panel { margin-bottom: 10px; }
+  #resBench[hidden], #viewRuns[hidden] { display: none !important; }
+  main.page { flex: 1; min-height: 0; overflow: auto; padding: 10px 14px; }
+  main.page .panel { margin-bottom: 10px; }
+  .benchhead { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 2px 0 10px; }
+  .benchhead h2 { font-size: 15px; margin: 0; font-weight: 600; }
+  .benchhead select, .benchhead button { font: inherit; font-size: 12px; padding: 4px 8px; border: 1px solid var(--border);
+    background: var(--surface-2); color: var(--text-primary); border-radius: 6px; }
+  .benchhead button { cursor: pointer; }
+  td.cell-drill { cursor: pointer; } td.cell-drill:hover { outline: 1px solid var(--series-1); }
+  table.lefty td { text-align: left; }
+  .chip { display: inline-block; font-size: 10.5px; letter-spacing: .04em; border: 1px solid var(--border);
+    border-radius: 999px; padding: 2px 8px 1px; color: var(--text-secondary); }
+  .chip.good { border-color: var(--good); color: var(--good); }
+  .chip.bad { border-color: var(--critical); color: var(--critical); }
+  .chip.mixed { border-color: var(--warning); color: var(--warning); }
+  ul.fx li .v-supported { color: var(--good); } ul.fx li .v-contradicted { color: var(--critical); }
+  details.hyp { border-bottom: 1px solid var(--grid); padding: 6px 0; }
+  details.hyp summary { cursor: pointer; font-size: 13px; }
+  details.hyp > :not(summary) { margin-left: 24px; }
+  details.hyp ul.fx { max-width: 900px; }
+  .evhead { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--text-secondary); margin: 12px 0 4px; }
+  .subtile { background: var(--surface-0); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin: 8px 0 10px; }
+  .subtile > .evhead:first-child { margin-top: 0; }
+  .subtile .kv { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; font-size: 12.5px; margin-top: 6px; }
+  .subtile .kv .k { color: var(--text-secondary); }
+  .mdbody { font-size: 13px; max-width: 90ch; padding: 2px 0 6px; }
+  .mdbody h3 { font-size: 13.5px; margin: 10px 0 4px; }
+  .mdbody h4 { font-size: 12px; margin: 10px 0 4px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .4px; }
+  .mdbody p { margin: 6px 0; }
+  .mdbody ul { margin: 4px 0; padding-left: 18px; }
+  .mdbody li { margin: 3px 0; }
+  .analysisFmt { overflow: auto; min-height: 0; }
+  .analysisFmt .aline { margin: 6px 0 2px; font-size: 12px; color: var(--text-secondary); }
+  .analysisFmt table.cohort { margin-bottom: 6px; }
+  /* benchmarks: room between the sections of each experiment panel */
+  #benchExps .panel { padding: 12px 14px 16px; }
+  #benchExps .panel h2 { margin-bottom: 10px; }
+  #benchExps h3 { margin: 20px 0 8px; }
+  #benchExps .tablewrap { margin: 6px 0 10px; }
+  #benchExps ul.fx { margin-bottom: 14px; }
+  #benchExps .aline { margin-bottom: 12px; }
+  .benchhint { color: var(--text-muted); font-size: 11px; line-height: 1.35; margin: -2px 0 6px; }
+  .mhelp { text-decoration: underline dotted; text-decoration-color: var(--text-muted); text-underline-offset: 3px; cursor: help; }
+  /* home */
+  .hometext { font-size: 13.5px; max-width: 84ch; margin: 4px 0 10px; }
+  .hometabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .hometabs > div { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px 6px; }
+  .hometabs h3 { font-size: 13px; color: var(--text-primary); margin: 2px 0 6px; }
+  .linkbtn { font: inherit; font-size: 11px; padding: 2px 9px; margin-left: 6px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); border-radius: 999px; }
+  .linkbtn:hover { border-color: var(--series-1); }
+  .side { min-height: 0; display: flex; flex-direction: column; }
+  .side .panel { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .content { min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  @media (max-width: 1000px) { body { overflow: auto; } #viewRuns { grid-template-columns: 1fr; }
+    .side { max-height: 200px; } }
+
+  .panel { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
+  .panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: var(--text-secondary); margin: 0 0 6px; font-weight: 600; }
+  .panel h3 { font-size: 11px; color: var(--text-muted); margin: 8px 0 4px; font-weight: 500; }
+
+  /* tab bar with the selected run's progress under it */
+  .statusbar { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+  .progress { height: 5px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .progress > div { height: 100%; background: var(--series-1); width: 0; transition: width .2s; }
+
+  /* tabs */
+  .tabbar { display: flex; gap: 4px; }
+  .tabbar button { font: inherit; font-size: 13px; font-weight: 600; padding: 6px 16px; cursor: pointer;
+    border: 1px solid transparent; border-radius: 8px; background: none; color: var(--text-secondary); }
+  .tabbar button:hover { color: var(--text-primary); }
+  .tabbar button.on { background: var(--surface-1); border-color: var(--border); color: var(--text-primary); }
+  section[hidden] { display: none !important; }
+  section.tab { flex: 1; min-height: 0; display: grid; gap: 8px; }
+
+  /* activity tab */
+  #secActivity { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, 3fr) minmax(0, 2fr);
+                 grid-template-areas: "work world" "memory memory"; }
+  #secActivity .work { grid-area: work; } #secActivity .memory { grid-area: memory; } #secActivity .worldp { grid-area: world; }
+  #secActivity .panel { min-height: 0; overflow: auto; display: flex; flex-direction: column; }
+
+  /* performance tab: tiles on top, the chart filling the rest */
+  #secPerformance { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  #secPerformance .panel { min-height: 0; overflow: auto; display: flex; flex-direction: column; }
+  table.cohort { border-collapse: collapse; font-size: 12.5px; width: 100%; }
+  table.cohort th { font: 600 10.5px "IBM Plex Mono", monospace; letter-spacing: .04em; color: var(--text-secondary);
+    text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--border); }
+  table.cohort th:first-child { text-align: left; }
+  table.cohort td { padding: 4px 8px; text-align: right; font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--grid); }
+  table.cohort td:first-child { text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; }
+  table.cohort td.score { font-weight: 600; }
+  table.cohort tr.mgroup td { text-align: left; font-weight: 600; background: var(--surface-2); max-width: none; }
+  table.cohort th.sortable { cursor: pointer; user-select: none; }
+  table.cohort th.sortable:hover { color: var(--text); }
+  table.cohort th.sortable[data-dir="asc"]::after { content: " ▲"; font-size: 8px; }
+  table.cohort th.sortable[data-dir="desc"]::after { content: " ▼"; font-size: 8px; }
+  ul.fx { list-style: none; margin: 4px 0 0; padding: 0; font-size: 12px; }
+  ul.fx li { padding: 3px 0; border-bottom: 1px solid var(--grid); display: flex; justify-content: space-between; gap: 10px; }
+  ul.fx li .d { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--text-secondary); }
+  .tiles { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tile { background: var(--surface-2); border-radius: 8px; padding: 6px 10px; min-width: 120px; flex: 1; }
+  .tile .k { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .5px; }
+  .tile .v { font-size: clamp(15px, 1.6vw, 22px); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+  .tile .s { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .chartwrap { flex: 1; min-height: 90px; display: flex; }
+
+  /* configuration tab */
+  #secConfig { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(0, auto) minmax(0, 1fr);
+               grid-template-areas: "agent worldcfg" "exp exp"; align-content: start; }
+  #secConfig .agentcfg { grid-area: agent; } #secConfig .worldcfg { grid-area: worldcfg; } #secConfig .expcfg { grid-area: exp; }
+  #secConfig .panel { min-height: 0; overflow: auto; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; font-size: 12.5px; margin: 4px 0; }
+  .kv .k { color: var(--text-secondary); }
+  .kv .v { font-variant-numeric: tabular-nums; word-break: break-word; }
+  .blurb { color: var(--text-secondary); font-size: 12.5px; line-height: 1.45; margin: 2px 0 6px; }
+
+  pre { white-space: pre-wrap; word-break: break-word; margin: 0; font: 11.5px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+        background: var(--surface-2); padding: 6px 8px; border-radius: 6px; max-height: 120px; overflow: auto; }
+  pre.tall { max-height: none; flex: 1; }
+  .fill { display: flex; flex-direction: column; min-height: 0; }
+  .fill pre.tall { min-height: 60px; }
+  .obswrap { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .obswrap pre { flex: 1; min-height: 40px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .versions { display: flex; gap: 4px; flex-wrap: wrap; margin: 0 0 6px; }
+  .versions button { font: inherit; font-size: 11px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--border);
+                     background: var(--surface-2); color: var(--text-secondary); cursor: pointer; }
+  .versions button.on { border-color: var(--series-3); color: var(--text-primary); }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600;
+           background: var(--surface-2); color: var(--text-primary); }
+  .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--neutral); }
+  .badge.good::before { background: var(--good); } .badge.bad::before { background: var(--critical); }
+  .badge.warn::before { background: var(--warning); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+  .muted { color: var(--text-muted); font-size: 12px; }
+  .runctl { display: flex; gap: 6px; margin: 0 0 6px; }
+  .runctl input, .runctl button, #filterPanel select { font: inherit; font-size: 12px; padding: 4px 8px;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary); border-radius: 6px; }
+  .runctl input { flex: 1; min-width: 0; }
+  .runctl button { cursor: pointer; } .runctl button.on { border-color: var(--series-1); }
+  #filterPanel { display: flex; flex-direction: column; gap: 4px; margin: 0 0 6px; }
+  #filterPanel[hidden] { display: none; }
+  #filterPanel label { display: flex; justify-content: space-between; gap: 8px; align-items: center;
+    font-size: 12px; color: var(--text-secondary); }
+  #filterPanel select { max-width: 62%; }
+  .runs { list-style: none; margin: 0; padding: 0; overflow: auto; flex: 1; }
+  .runs li { padding: 6px 8px; border-radius: 6px; cursor: pointer; display: block; font-size: 13px; }
+  .runs li .rmain { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+  .runs li .rsub { color: var(--text-muted); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+  .runs li:hover { background: var(--surface-2); } .runs li.active { background: var(--surface-2); outline: 1px solid var(--series-1); }
+  .runs li .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .runs li .m { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .runs li button.play { font: inherit; font-size: 11px; line-height: 1; padding: 3px 8px; border-radius: 5px;
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary); cursor: pointer; flex: none; }
+  .runs li button.play:hover { border-color: var(--series-1); }
+  .log { list-style: none; margin: 0; padding: 0; overflow: auto; font-size: 11.5px; }
+  .log li { padding: 4px 0; border-bottom: 1px solid var(--grid); display: grid; grid-template-columns: 34px 1fr; gap: 8px; }
+  .log li .t { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .log li.world_change .t { color: var(--series-2); font-weight: 600; }
+  .log li.notice .t { color: var(--warning); font-weight: 600; }
+  .log li.memory .t { color: var(--series-3); font-weight: 600; }
+  svg text { fill: var(--text-secondary); font-size: 11px; }
+  .chart { width: 100%; height: 100%; min-height: 90px; display: block; }
+  .strip { display: flex; flex-wrap: wrap; gap: 2px; }
+  .strip i { width: 9px; height: 9px; border-radius: 2px; background: var(--neutral); display: block; }
+  .strip i.good { background: var(--good); } .strip i.bad { background: var(--critical); } .strip i.cur { outline: 2px solid var(--series-1); }
+  .grid table { border-collapse: separate; border-spacing: 3px; font-size: 11px; }
+  .grid td, .grid th { padding: 0; }
+  .grid th { color: var(--text-secondary); font-weight: 500; text-align: left; padding-right: 6px; }
+  .grid th.c { text-align: center; padding: 0 0 2px; font-size: 10px; }
+  .grid .cell { width: 26px; height: 22px; border-radius: 4px; background: var(--neutral); display: flex; align-items: center; justify-content: center;
+                font-size: 11px; color: var(--text-primary); font-weight: 600; position: relative; }
+  .grid .cell.good { background: var(--good); color: #fff; } .grid .cell.bad { background: var(--critical); color: #fff; }
+  .grid .cell.cur { outline: 2px solid var(--series-1); outline-offset: 1px; }
+  .grid .cell.changed::after { content: ""; position: absolute; top: 2px; right: 2px; width: 6px; height: 6px; border-radius: 50%; background: var(--series-2); border: 1px solid var(--surface-1); }
+  .tooltip { position: fixed; pointer-events: none; background: var(--surface-1); border: 1px solid var(--border); border-radius: 6px;
+             padding: 6px 8px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.15); display: none; z-index: 10; max-width: 320px; }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-secondary); margin: 4px 0 0; }
+  .legend i { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; }
+  .empty { color: var(--text-muted); padding: 30px 0; text-align: center; }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <button id="topHome" class="on">Home</button>
+  <button id="topResearch">Research</button>
+  <button id="topResults">Results</button>
+</nav>
+
+<!-- HOME: getting started -->
+<main id="viewHome" class="page">
+  <div class="panel">
+    <h2>Welcome to the driftlab dashboard</h2>
+    <p class="hometext" style="max-width:none">driftlab puts agents in jobs whose rules keep changing and measures how they cope, against ground truth the
+    agents never see. Everything here is read from the run logs. You can watch agents work live, replay finished runs, compare
+    agents across experiments, and browse the research. Every panel explains itself under its heading.</p>
+  </div>
+  <div class="panel"><h2>The tabs</h2>
+    <div class="hometabs">
+      <div><h3>Research · Hypotheses <button class="linkbtn" data-top="research" data-rtab="hyp">open</button></h3>
+        <p class="hometext">The lab's claims, each with its verdict and the numbers behind it.</p></div>
+      <div><h3>Research · Experiments <button class="linkbtn" data-top="research" data-rtab="exp">open</button></h3>
+        <p class="hometext">What each experiment does, and all of its settings.</p></div>
+      <div><h3>Research · Worlds <button class="linkbtn" data-top="research" data-rtab="worlds">open</button></h3>
+        <p class="hometext">The jobs agents work, and what can change in each one.</p></div>
+      <div><h3>Research · Agents <button class="linkbtn" data-top="research" data-rtab="agents">open</button></h3>
+        <p class="hometext">Every agent configured or run, and how each one remembers.</p></div>
+      <div><h3>Results · Benchmarks <button class="linkbtn" data-top="results" data-restab="bench">open</button></h3>
+        <p class="hometext">How the agents compare, overall and per experiment.</p></div>
+      <div><h3>Results · Runs <button class="linkbtn" data-top="results" data-restab="runs">open</button></h3>
+        <p class="hometext">Watch or replay any run: what the agent sees, answers and writes down, its numbers, and its settings.</p></div>
+    </div>
+  </div>
+  <div class="panel"><h2>Where things stand</h2>
+    <div class="tiles">
+      <div class="tile"><div class="k">finished runs</div><div class="v" id="homeRuns">—</div><div class="s">complete episodes on disk, across every experiment and world.</div></div>
+      <div class="tile"><div class="k">experiments with data</div><div class="v" id="homeExps">—</div><div class="s">registered experiments that have at least one run.</div></div>
+      <div class="tile"><div class="k">conclusive verdicts</div><div class="v" id="homeVerdicts">—</div><div class="s">predictions where the data reached a clear answer either way.</div></div>
+      <div class="tile"><div class="k">total LLM spend</div><div class="v" id="homeSpend">—</div><div class="s">summed over every recorded run.</div></div>
+    </div></div>
+  <div class="panel"><h2>Findings so far</h2>
+    <div class="benchhint">Conclusive verdicts from the run data, in plain words. Each one speaks only for the agents and worlds tested.
+      <button class="linkbtn" data-top="research" data-rtab="hyp">see the evidence</button></div>
+    <ul class="fx" id="homeFindings"><li style="display:block" class="muted">loading…</li></ul></div>
+  <div class="panel"><details><summary style="cursor:pointer;font-size:13px;font-weight:600">New here? Start with the core concepts</summary>
+    <div class="hometabs" style="margin-top:10px">
+      <div><h3>World</h3>
+        <p class="hometext">A job at a made-up company: an intake desk, order-form data entry, an inventory buyer, a developer.
+        Hidden, seeded rules decide what counts as correct. The agent is never told it is in an experiment. It just works the job.</p></div>
+      <div><h3>Agent</h3>
+        <p class="hometext">Anything that answers text with text. It gets an observation, replies with an action, and hears the
+        outcome. An LLM with a memory strategy, a simple lookup baseline, and an external coding agent such as Claude Code all play
+        under the same contract and the same measurements.</p></div>
+      <div><h3>Drift</h3>
+        <p class="hometext">How the world changes. A real change moves what is correct: a rule flips, demand jumps. A cosmetic change
+        moves only the wording, so reacting to it is a mistake. A self-caused change happens because of the agent's own behavior,
+        and nothing announces it.</p></div>
+      <div><h3>Experiment</h3>
+        <p class="hometext">A protocol laid over a world: when and how the world changes, what warnings or probes appear, and what
+        gets measured. There are fifteen, each registered with its design, settings and a version (see Research). The same
+        experiment can run on any world that supports what it needs.</p></div>
+      <div><h3>Regime</h3>
+        <p class="hometext">One condition inside an experiment, such as cosmetic vs real change, or a change rate of 0, 4 or 12.
+        Each condition runs several times with different seeds (the world's random draw), and every agent gets the same seeds, so
+        everyone faces the exact same worlds. That is what makes the comparisons fair.</p></div>
+      <div><h3>Run</h3>
+        <p class="hometext">One agent playing one condition for a fixed number of steps. Each run is one entry in the Runs list and
+        one log file. The log records every step next to the hidden ground truth the agent never saw, and everything on this
+        dashboard is computed from those logs.</p></div>
+      <div><h3>Profile &amp; score</h3>
+        <p class="hometext">After runs finish, their logs are measured into a standard profile: how fast the agent noticed and
+        recovered from each change, how much stuck, whether its confidence was honest, and what it cost. These normalize into four
+        dimensions from 0 to 1; the three capability dimensions average into the driftlab score, with efficiency (cost, discipline)
+        reported beside it rather than blended in. The profile is the result; the score just ranks.</p></div>
+      <div><h3>Hypothesis</h3>
+        <p class="hometext">A claim that spans experiments (H001 to H005), kept in the research log with a status and an evidence
+        table that grows with every run, contradictions included. Experiments produce numbers; hypotheses are where the numbers
+        become knowledge.</p></div>
+    </div>
+  </details></div>
+</main>
+<main id="viewResults" hidden>
+  <nav class="tabbar">
+    <button id="restabBench" class="on">Benchmarks</button>
+    <button id="restabRuns">Runs</button>
+  </nav>
+  <div id="resBench">
+    <div class="benchhead">
+      <label class="muted">world <select id="benchWorld"></select></label>
+      <span class="muted" id="benchStamp"></span>
+    </div>
+    <div class="panel"><h2 id="hMatrix">Driftlab score per agent and experiment</h2>
+      <div class="tablewrap" id="benchMatrix"><p class="muted">no matrix yet</p></div></div>
+    <div class="panel"><h2 id="hDims">Mean score dimensions per agent</h2>
+      <div class="tablewrap" id="benchDims"></div></div>
+    <div id="benchExps"></div>
+  </div>
+  <div id="viewRuns" hidden>
+  <!-- SIDEBAR: every run seen, live or replayed; click to inspect -->
+  <div class="side">
+    <div class="panel"><h2 id="hRuns">Runs <span id="dot" class="dot" title="connecting…"></span></h2>
+      <div class="runctl">
+        <input id="runSearch" type="search" placeholder="search runs…">
+        <button id="filterBtn" title="filter by experiment, regime, agent or model">Filter</button>
+        <button id="clearFilters" title="clear the search and every filter">clear</button>
+      </div>
+      <div id="filterPanel" hidden>
+        <label>experiment <select id="fExp"><option value="">all</option></select></label>
+        <label>regime <select id="fRegime"><option value="">all</option></select></label>
+        <label>agent <select id="fAgent"><option value="">all</option></select></label>
+        <label>model <select id="fModel"><option value="">all</option></select></label>
+      </div>
+      <ul class="runs" id="runs"></ul></div>
+  </div>
+
+  <div class="content">
+    <!-- tabs + progress of the selected run -->
+    <div class="panel statusbar">
+      <nav class="tabbar">
+        <button id="tabActivity" class="on">Activity</button>
+        <button id="tabPerformance">Performance</button>
+        <button id="tabConfig">Configuration</button>
+      </nav>
+      <div class="progress" id="progWrap"><div id="prog"></div></div>
+    </div>
+
+    <!-- ACTIVITY: the agent working, its memory, and the world changing -->
+    <section class="tab" id="secActivity">
+      <div class="panel work">
+        <h2 id="hAgent">Agent at work</h2>
+        <div class="row" style="margin:0 0 6px"><span class="badge" id="outcome">no step yet</span><span class="muted" id="nowT"></span></div>
+        <div id="noticeBox" class="row" style="display:none;margin:0 0 6px"><span class="badge warn">notice</span><span id="noticeText" class="muted"></span></div>
+        <div class="two obswrap">
+          <div class="obswrap"><h3>what the agent sees</h3><pre id="obs">—</pre></div>
+          <div class="obswrap"><h3>what the agent replied</h3><pre id="reply">—</pre></div>
+        </div>
+        <h3>what it was told in return</h3><pre id="fb" style="max-height:70px;flex:none">—</pre>
+      </div>
+      <div class="panel memory fill">
+        <h2 id="hMemory">Agent memory <span class="muted" id="memMeta"></span></h2>
+        <div class="versions" id="versions"></div>
+        <pre id="memory" class="empty tall">nothing yet. Agents that keep visible notes show every rewrite here. An agent playing through its own command-line tool keeps its memory in its own session, out of driftlab's sight — unless its spec turns on workspace (scratch files snapshotted as they change) or capture_session (its own session transcript, read after the episode).</pre>
+      </div>
+      <div class="panel worldp">
+        <h2 id="hWorld">The world</h2>
+        <div id="gridPanel" style="display:none"><h3>the whole task space: one cell per kind of task. The letter is the currently correct answer</h3><div class="grid" id="grid"></div>
+        <div class="legend" style="margin:6px 0 2px;display:block;font-size:11px">green = last attempt accepted · red = rejected · grey = not tried yet · orange dot = this cell's rule has changed · blue outline = the task in front of the agent now. Hover a column header for what it pairs.</div></div>
+        <div id="extraPanel" style="display:none;flex:1;min-height:0"><h3 id="extraTitle">state</h3><div class="chartwrap" style="min-height:70px"><svg class="chart" id="extraChart"></svg></div><div class="legend" id="extraLegend"></div></div>
+        <h3>what changed and when, newest first</h3><ul class="log" id="log"></ul>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE: headline numbers, reward over time, experiment metrics -->
+    <section class="tab" id="secPerformance" hidden>
+      <div class="tiles">
+        <div class="tile" title="mean reward over the last 10 steps"><div class="k">rolling accuracy</div><div class="v" id="roll">—</div></div>
+        <div class="tile" title="mean reward over the whole run so far"><div class="k">cumulative reward</div><div class="v" id="cum">—</div></div>
+        <div class="tile" title="replies the world could not turn into a valid action"><div class="k">parse failures</div><div class="v" id="pf">—</div></div>
+        <div class="tile" title="rule flips, relabels, notices, new versions"><div class="k">world changes</div><div class="v" id="nch">—</div></div>
+        <div class="tile" title="LLM spend attributed to this run"><div class="k">spend</div><div class="v" id="spend">—</div></div>
+        <div class="tile" title="mean wall-clock seconds per agent reply"><div class="k">step time</div><div class="v" id="steptime">—</div></div>
+      </div>
+      <div class="panel chartp">
+        <h2 id="hPerf">Reward over time</h2>
+        <div class="chartwrap"><svg class="chart" id="chart"></svg></div>
+        <div class="legend"><span><i style="background:var(--series-1)"></i>rolling accuracy (last 10)</span><span><i style="background:var(--series-2)"></i>cumulative</span><span><i style="background:var(--mark-event);height:1px;border-top:1px dashed var(--mark-event)"></i>world change / notice</span><span id="legConf" hidden><i style="background:var(--series-3)"></i>stated confidence</span><span id="legRecov" hidden><i style="background:var(--series-2);opacity:.25;height:8px"></i>recovery window</span></div>
+        <div class="strip" id="strip" style="margin-top:8px"></div>
+      </div>
+    </section>
+
+    <!-- CONFIGURATION: the agent's profile, the world, and the experiment -->
+    <section class="tab" id="secConfig" hidden>
+      <div class="panel agentcfg">
+        <h2 id="hAgentCfg">Agent profile</h2>
+        <div class="kv" id="agentProf"><span class="muted">no run selected</span></div>
+        <div class="blurb" id="agentNote"></div>
+      </div>
+      <div class="panel worldcfg">
+        <h2 id="hWorldCfg">World</h2>
+        <div class="blurb" id="worldBlurb"></div>
+        <div class="kv" id="worldProf"></div>
+      </div>
+      <div class="panel expcfg fill">
+        <h2 id="hExp">Experiment</h2>
+        <div class="kv" id="expProf"></div>
+        <h3>task given to the agent (verbatim)</h3><pre id="instr" class="tall">—</pre>
+      </div>
+    </section>
+  </div>
+  </div>
+</main>
+
+<!-- RESEARCH: hypotheses, the registry, worlds and agents -->
+<main id="viewResearch" class="page" hidden>
+  <nav class="tabbar" style="margin:0 0 10px">
+    <button id="rtabHyp" class="on">Hypotheses</button>
+    <button id="rtabExp">Experiments</button>
+    <button id="rtabWorlds">Worlds</button>
+    <button id="rtabAgents">Agents</button>
+  </nav>
+  <section id="rsecHyp">
+    <div class="panel"><h2 id="hHyp">Hypotheses</h2>
+      <div class="benchhint" id="valStamp"></div>
+      <div id="hypList"><p class="muted">loading…</p></div></div>
+  </section>
+  <section id="rsecExp" hidden>
+    <div class="panel"><h2 id="hRegistry">Experiment registry</h2>
+      <div id="expList"><p class="muted">loading…</p></div></div>
+  </section>
+  <section id="rsecWorlds" hidden>
+    <div class="panel"><h2 id="hWorlds">Worlds</h2>
+      <div id="worldList"><p class="muted">loading…</p></div></div>
+  </section>
+  <section id="rsecAgents" hidden>
+    <div class="panel"><h2 id="hAgents">Agents</h2>
+      <div id="agentList"><p class="muted">loading…</p></div></div>
+  </section>
+</main>
+<div class="tooltip" id="tip"></div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const runs = new Map();          // label -> state
+  let active = null, pinned = false, replaying = false, tab = "Activity";
+  const analysisByExp = {};   // latest analysis text per experiment, so replays get it too
+  let REGISTRY = {};               // experiment definitions, served by /registry
+
+  // ---- humanizing ---------------------------------------------------------------
+  const human = x => String(x).replace(/_/g, " ");
+  const humanRun = l => human(String(l).replace(/^replay:/, "replay · ").replace(/__/g, " · ")).replace(/seed(\d+)/, "seed $1");
+  // What to call an agent, from the run header's spec: the memory architecture and model for
+  // reference agents (the ablation arms are the same model with different memory), the harness
+  // and pinned model for external agents. Falls back to the raw name for old records.
+  function memLabel(s) {
+    if (!s || !s.kind) return "";
+    return s.kind === "none" ? "no memory"
+      : s.kind === "transcript" ? `transcript${s.window ? ` (last ${s.window} steps)` : ""}${s.wipe_at != null ? `, wiped at step ${s.wipe_at}` : ""}`
+      : s.kind === "notes" ? `notes${s.budget_chars ? ` (max ${s.budget_chars} chars)` : ""}${s.wipe_at != null ? `, wiped at step ${s.wipe_at}` : ""}`
+      : s.kind === "skills" ? "skills"
+      : s.kind === "beliefs" ? "beliefs"
+      : s.kind === "worldmodel" ? "world model"
+      : s.kind === "fastslow" ? "fast+slow memory" : human(s.kind);
+  }
+  // The identity splits in two: the base model, and the configuration branching under it
+  // (route, reasoning mode, memory). Grouped views group by the model; flat views join both.
+  // Some harnesses bake the reasoning effort into the model id (gemini-3.6-flash-medium);
+  // splitModel peels it off so the same model groups together whatever the route.
+  function splitModel(model) {
+    const m = String(model || "").split("/").pop();
+    for (const e of ["minimal", "low", "medium", "high"])
+      if (m.endsWith("-" + e)) return { base: m.slice(0, -(e.length + 1)), effort: e };
+    return { base: m, effort: null };
+  }
+  function baseModel(a) {
+    if (!a || !a.name) return "";
+    if (a.type === "tabular" || a.name === "tabular") return "tabular baseline";
+    return a.model ? splitModel(a.model).base : human(a.name);
+  }
+  function configLabel(a) {
+    if (!a || a.type === "tabular" || a.name === "tabular") return "";
+    if (a.type === "harness_cli" || a.type === "harness") {
+      const effort = a.reasoning_effort || splitModel(a.model).effort;
+      return a.harness ? `via ${a.harness}${effort ? ` (${effort})` : ""}` : (a.model ? "harness" : "");
+    }
+    if (a.type === "reference")
+      return [`api${a.reasoning_effort ? ` (${a.reasoning_effort})` : ""}`, memLabel(a.substrate)].filter(Boolean).join(" · ");
+    return "";
+  }
+  function agentLabel(a) {
+    if (!a || !a.name) return "";
+    const cfg = configLabel(a);
+    return cfg ? `${baseModel(a)} · ${cfg}` : baseModel(a);
+  }
+  function groupByModel(items) {  // items: [{spec, ...}] -> Map(base model -> items), sorted
+    items.sort((x, y) => (baseModel(x.spec) + configLabel(x.spec)).localeCompare(baseModel(y.spec) + configLabel(y.spec)));
+    const g = new Map();
+    items.forEach(it => { const k = baseModel(it.spec); if (!g.has(k)) g.set(k, []); g.get(k).push(it); });
+    return g;
+  }
+  const WORLD_INFO = {  // [job title, one-line description, how the world works, formal problem class]
+    rule_world: ["Intake desk",
+      "The agent sends each incoming request to one of four handling desks. Hidden rules decide which desk is right. A real change flips one of those rules, a cosmetic change renames the desks, and a desk the agent overloads can shed its work on its own.",
+      "Requests arrive one at a time as short intake emails (a sender, a subject line, a note from the requester), each carrying a type, region and size. A hidden rule table maps every combination to the one desk that will accept it; the agent picks a desk and hears accepted or rejected, nothing more. A real change flips entries in that table, so requests the agent had mastered suddenly belong somewhere else; a cosmetic change only relabels the desk descriptions; and with the self-caused mechanism on, a desk that receives too much of the recent traffic sheds one of its request types by itself. Because the same combinations keep recurring, the logs can count exactly how many encounters it takes an agent to notice and adapt.",
+      "In the literature: non-stationary hierarchical classification — a hidden decision table with nested exceptions (depth 1–3), abrupt or gradual concept drift, optionally endogenous (action-induced)."],
+    form_filler: ["Order-form data entry",
+      "The agent enters orders into the company form from prose intake notes: typed-up phone orders and voicemail transcriptions in which every value appears verbatim. A real change renames a field or alters its format or limits, a cosmetic change renames the source columns or restructures the note, and IT sometimes quietly starts accepting a wrong field name the agent keeps typing.",
+      "Each step the agent gets an intake note (every value stated verbatim and quoted) and must submit it as a filled form, matching the schema's field names, formats and limits. The submission is checked field by field, with a few attempts allowed per record; richer feedback levels name what was wrong. A real change mutates the schema itself: a field renamed, a format tightened, a cap moved. A cosmetic change renames the source record's columns while the form stays the same. With the self-caused mechanism on, IT quietly adds an alias for a wrong field name the agent keeps typing, so the world bends around the agent's habit.",
+      "In the literature: structured generation under schema drift — constrained JSON output validated against a mutating hidden schema, with multi-attempt episodes."],
+    inventory: ["Inventory buyer",
+      "The agent orders stock for one product line without seeing true demand. A real change moves the demand rate, a cosmetic change rewords the daily report, and a huge order strains the supplier, which slows deliveries for a while.",
+      "Each morning the agent sees stock on hand, orders in transit and yesterday's sales (capped by what was in stock), then orders a quantity that arrives after the lead time. Demand is drawn from a hidden rate; the day's score combines holding costs, lost sales and a fixed ordering fee. A real change jumps the demand rate from that day on; a cosmetic change only rewords the daily report; and with the self-caused mechanism on, an oversized order strains the supplier and lengthens the lead time for a stretch. A retail regime shapes demand like a real series: a weekday cycle over the base level, with occasional promotion spikes, and level jumps that preserve the weekly shape. The right order quantity is a genuine calculation, not a choice from a list.",
+      "In the literature: non-stationary inventory control — lot-sizing under censored Poisson demand, delivery lead times, and state-dependent supply strain."],
+    codebase: ["Platform developer",
+      "The agent builds small functions on the team's internal library, against a style guide it cannot read. A real change revises the guide or deprecates a library helper, a cosmetic change rewords the ticket template, and the reviewer picks up habits from the agent's recent submissions.",
+      "Tickets ask for small Python functions, a third of which build on the team's internal util module (identifier, date, text and money helpers, provided in scope). Every submission is actually executed in a sandbox against the ticket's tests, and also checked against a style guide the agent can never read: full credit needs both. With API drift on, a latent change renames a helper: the old name keeps working but is deprecated, and the onboarding docs in the job description silently go stale. Reviews may run several rounds per ticket, and richer feedback levels name what failed. A real change revises the style guide, so code that used to pass review stops passing; a cosmetic change rewords the ticket template; and with the self-caused mechanism on, the reviewer starts expecting habits it has seen in the agent's own recent submissions.",
+      "In the literature: constrained code synthesis — small self-contained functions with a fixed executed test suite and drifting style conventions (AST-checked). Deliberately not repository-scale work."],
+    claims_desk: ["Claims desk",
+      "The agent approves or rejects insurance claims while a fraud ring adapts against it: when too many fraudulent claims get caught, the ring re-styles them to mimic the traffic the agent has been approving. The drift aims exactly where the agent is weakest.",
+      "Claims arrive one at a time as short narratives with three underlying attributes: type, filing channel and amount band. A fraud ring operates with a signature, a pair of attribute values its claims always carry, and legitimate claims never fully match it, so tracking the signature is the whole game. The agent approves or rejects, and the audit reveals the truth in feedback. A scheduled change moves the signature at random; with the adversary on, the ring watches what gets through and re-styles its claims to mimic whatever the agent has been approving, so the change is aimed rather than random.",
+      "In the literature: adversarial concept drift — binary classification where the drift generator is a co-adapting opponent responding to the classifier's own decisions."],
+    campaign_desk: ["Campaign desk",
+      "The agent picks each day's outreach angle but never sees how a single push performs: results arrive only as a pooled report every ten days. Audience tastes shift, and an angle used relentlessly wears out on its own.",
+      "Each day (a named weekday: audience activity follows a weekly cycle that scales all angles equally) the agent picks one of four angles for that day's push. Every push lands or falls flat according to a hidden per-angle engagement rate, but no single result is ever shown: the only feedback is a pooled total every report period, with no breakdown. Connecting reports back to choices is the whole game, and it takes memory. A real change redraws the engagement rates (an audience shift); a cosmetic change rewords the angle descriptions; and with fatigue on, an angle used relentlessly wears out and recovers with rest.",
+      "In the literature: a non-stationary bandit with batched, delayed, aggregate feedback — credit assignment over pooled outcomes, plus optional reward decay under repetition (fatigue)."],
+  };
+  const AGENT_NOTES = {
+    reference: "An LLM agent that lives inside driftlab, with a pluggable memory. When it rewrites its notes, the new version shows on the Activity tab.",
+    tabular: "A simple baseline with no LLM: it memorizes which answers worked recently for each kind of task. A floor to beat, not a contender.",
+    harness: "An external coding agent, such as Claude Code or Antigravity, playing on its own through driftlab's server. It sets its own pace and may keep a notebook.",
+    harness_cli: "An external coding agent driven one command-line call per step, with settings pinned by driftlab. Its memory lives inside its own session, where driftlab cannot look.",
+    custom: "A user-supplied agent.",
+  };
+  // metric glossary: shown on the Benchmarks tab and as hover help on profile tables
+  const METRIC_HELP = {
+    "detection latency": "After a change, the number of tries on the affected tasks before the agent stops giving the old, now-wrong answer. Lower is better. (In the literature: change-point detection lag.)",
+    "recovery latency": "After a change, the number of tries on the affected tasks before the agent first gives the new right answer. Lower is better. (In the literature: re-acquisition speed, post-change sample efficiency.)",
+    "final accuracy": "The share of correct actions over the last fifth of the run, scored against the world's hidden truth. This is what the agent ends up knowing. Higher is better.",
+    "retention": "Accuracy on the tasks a change affected, measured well after that change. It shows whether the new rule stuck. Higher is better.",
+    "stale-memory rate": "How often the agent still gives the old answer after it has already proven it knows the new rule. Lower is better. (In the literature: perseveration; proactive interference from outdated memory.)",
+    "over-update rate": "After feedback wrongly punishes a correct action (only possible in worlds with misleading feedback): how often the agent abandons the still-correct behavior at its next chance. Lower is better. (In the literature: excessive lose-shift switching under noisy feedback.)",
+    "interference": "How accuracy moved on the tasks a change did not touch. Zero is ideal; below zero means learning one thing damaged another. (In the literature: catastrophic forgetting, negative backward transfer.)",
+    "calibration error": "The gap between how confident the agent says it is and how often it is actually right — the Brier score. Lower is better.",
+    "overconfidence": "Stated confidence minus actual accuracy. Above zero means the agent trusts itself more than its results justify.",
+    "confidence lag": "After a real change, how many encounters on the affected tasks until the agent's stated confidence sags below its pre-change level. Shorter means confidence notices sooner.",
+    "confidence lead": "Recovery lag minus confidence lag. Above zero means confidence sagged before behavior recovered — confidence works as a change detector.",
+    "wrong predictions": "When the agent states an outcome prediction (an EXPECT line, e.g. the world-model memory), the share of predictions the world then contradicted. Lower is better.",
+    "parse failure rate": "The share of replies the world could not read as a valid action. Should be near zero.",
+    "cost per success ($)": "LLM spending divided by the number of correct actions. Lower is better.",
+    "final mean reward": "Average reward over the last fifth of the run, for jobs where the outcome is more than right or wrong. Higher is better.",
+    "driftlab score": "The average of the measured capability dimensions: adaptation, knowledge and epistemics. Efficiency (cost, discipline) is reported beside it, never blended in, so token pricing cannot move a capability ranking. A convenience for ranking, never a substitute for the full profile — and only comparable between agents measured on the same dimensions.",
+    "adaptation": "0 to 1. How quickly the agent notices a change and gets back to correct behavior.",
+    "knowledge": "0 to 1. How accurate the agent ends up, whether new rules stick, and whether learning one thing damaged another.",
+    "epistemics": "0 to 1. Whether the agent's confidence is honest and its memory free of outdated beliefs.",
+    "efficiency": "0 to 1. How reliably its replies parse, and what each success costs. Reported beside the driftlab score, never inside it.",
+  };
+
+  function state(label) {
+    if (!runs.has(label)) runs.set(label, { label, steps: [], events: [], metrics: null, analysis: null, cell: null, T: null,
+      instructions: "", memory: null, memories: [], memView: null, done: null, keys: new Map(), changedKeys: new Set(), extra: {} });
+    return runs.get(label);
+  }
+
+  function ingest(ev) {
+    const s = state(ev.run || "run");
+    if (ev.kind === "run_start") { Object.assign(s, { steps: [], events: [], metrics: null, analysis: null, done: null, keys: new Map(), changedKeys: new Set(), extra: {}, memories: [], memView: null, cost: null });
+      s.cell = ev.cell; s.T = ev.T; s.instructions = ev.instructions || ""; s.world = ev.world; s.experiment = ev.experiment; s.cost = ev.cost || null;
+      if (!pinned && !replaying) active = s.label; }
+    else if (ev.kind === "step") { s.steps.push(ev); s.T = ev.T || s.T;
+      if (ev.key) { const k = ev.key.join("|"); s.keys.set(k, { reward: ev.reward, t: ev.t, correct: ev.correct }); }
+      (ev.changes || ev.mutations || []).forEach(m => (m.affected || []).forEach(a => s.changedKeys.add(a.join("|"))));
+      for (const f of ["stock_end", "true_rate", "lost", "version", "season", "session"]) if (ev[f] !== undefined && ev[f] !== null) (s.extra[f] = s.extra[f] || []).push({ t: ev.t, v: ev[f] });
+      if (Array.isArray(ev.true_rates)) ev.true_rates.forEach((v, i) => { const k = `rate_${"ABCD"[i] || i}`; (s.extra[k] = s.extra[k] || []).push({ t: ev.t, v: +v }); }); }
+    else if (ev.kind === "event") { s.events.push({ t: s.steps.length, kind: ev.event_kind || "event", msg: ev.msg });
+      if (ev.memory !== undefined && ev.memory !== null) { s.memory = ev.memory; s.memories.push({ t: s.steps.length, text: ev.memory, kind: ev.memory_kind || "notes" }); s.memView = null; } }
+    else if (ev.kind === "metrics") s.metrics = ev;
+    else if (ev.kind === "run_end") { s.done = ev; refreshRuns(); }
+    else if (ev.kind === "analysis") { for (const r of runs.values()) if (r.experiment === ev.experiment || !r.experiment) r.analysis = ev.text; s.analysis = ev.text;
+      const e = (String(ev.experiment || "").match(/exp\d+/) || [])[0]; if (e) analysisByExp[e] = ev.text; }
+    if (!active) active = s.label;
+  }
+
+  // ---- rendering ---------------------------------------------------------------
+  const fmt = x => (x === null || x === undefined || Number.isNaN(x)) ? "—" : (Math.round(x * 100) / 100).toFixed(2);
+  const TUTORIAL_TILES = {
+    roll: "Average reward over the last 10 steps. This is the number that reacts when the world changes.",
+    cum: "Average reward over the whole run so far. It moves slowly, so an early mistake drags it down for a long time.",
+    pf: "Replies the world could not read as a valid action. Near zero is normal. A climbing count means a formatting problem, not a learning problem.",
+    nch: "Rule changes, relabelings and notices so far. Check the chart to see whether reward dipped around them.",
+    spend: "What this run has cost in LLM calls. Agents driven through their own command-line tools report their own usage. Fully autonomous runs are not metered and stay blank.",
+    steptime: "Average seconds the agent takes to answer one step.",
+  };
+  const TUTORIAL_PANELS = {
+    hPerf: "The orange line is the average over the whole run: it moves slowly and shows overall competence. The blue line is the average of the last 10 steps: it reacts fast and shows current form. Each dashed vertical line marks a change or a notice. Look for a dip right after one; the shaded stretch shows how long recovery took.",
+    hWorld: "The world's side of the story, including what the agent cannot see. The grid (intake-desk job only) shows the last outcome for every kind of request, and an orange dot means that kind's rule has changed. The list below it shows every change as it happened.",
+    hAgent: "The raw exchange: what the agent sees, what it answered, and what it was told back. Everything else on this page is computed from a sequence of these.",
+    hMemory: "Whatever the agent wrote down for itself, version by version. An agent that plays through its own command-line tool keeps its memory in its own session, so an empty panel is expected for those unless the spec turns on workspace (its scratch files are snapshotted) or capture_session (its own session transcript is read after the episode).",
+    hRuns: "Every run on disk, live or finished, grouped by agent and condition; click a group to unfold its seeds (the paired repeats). Each run shows its average reward per step. The newest run is followed until you click one to pin it. The ▶ button replays a finished run.",
+    hExp: "What this experiment does, all of its settings, and the exact job description the agent was given at the start of the run.",
+    hAgentCfg: "Everything the run's record says about who played. When driftlab enforced these settings, they are facts, not the agent's self-description.",
+    hMatrix: "Every agent with analyzed full-length runs. Each cell is that agent's driftlab score on one experiment; darker is higher. Click a cell to open those runs. The score is for ranking; the profiles further down are the real result.",
+    hDims: "Each agent's four score dimensions, averaged across its experiments. Hover a column heading for what it measures. A dash means no experiment measured that dimension.",
+    hRegistry: "One entry per experiment: what it does, its settings, what it varies and measures, and the claim it is built to test. An experiment is a protocol, not a belief, so verdicts and evidence live under Hypotheses. The same definition is stamped into every run's record.",
+    hHyp: "The lab's claims, one per entry: the claim in plain words, its current status, the verdict the run data supports so far, and the numbers behind that verdict. A verdict only speaks for the agents and worlds actually tested.",
+    hWorldCfg: "The job the agent was doing and the kinds of change this world can throw at it.",
+    hWorlds: "The jobs agents can be dropped into. Each entry explains how the world actually works, which experiments can run on it, and the exact job description the agent receives.",
+    hAgents: "Every agent this lab has configured or run, grouped by base model: unfold a model to see its configurations (route, reasoning mode, memory), what each one is, and where it has played.",
+    hGloss: "Plain definitions of every number in the tables on this page.",
+  };
+  function applyTutorial() {  // explanations are always shown, under the values
+    for (const [id, text] of Object.entries(TUTORIAL_TILES)) {
+      const valueEl = document.getElementById(id); if (!valueEl) continue;
+      let sub = valueEl.parentElement.querySelector(".s");
+      if (!sub) { sub = document.createElement("div"); sub.className = "s"; valueEl.after(sub); }
+      sub.textContent = text;
+    }
+    for (const [id, text] of Object.entries(TUTORIAL_PANELS)) {
+      const h2 = document.getElementById(id); if (!h2) continue;
+      let hint = document.getElementById(`hint-${id}`);
+      if (!hint) { hint = document.createElement("div"); hint.id = `hint-${id}`; hint.className = "muted";
+        hint.style.cssText = "margin:-2px 0 6px;font-size:11px;line-height:1.35"; h2.after(hint); }
+      hint.textContent = text;
+    }
+  }
+
+  function expId(s) {
+    const m = String(s.experiment || "").match(/exp\d+/);
+    return m ? m[0] : null;
+  }
+
+  function render() {
+    renderRuns();
+    applyTutorial();
+    const s = runs.get(active); if (!s) return;
+    const n = s.steps.length, r = s.steps.map(x => x.reward);
+    const roll = n ? r.slice(-10).reduce((a, b) => a + b, 0) / Math.min(10, n) : null;
+    const cum = n ? r.reduce((a, b) => a + b, 0) / n : null;
+    const reg = REGISTRY[expId(s)] || null;
+    $("prog").style.width = s.T ? `${100 * n / s.T}%` : "0";
+    $("progWrap").title = `${humanRun(s.label)} · step ${n}${s.T ? ` / ${s.T}` : ""}`;
+    $("roll").textContent = fmt(roll); $("cum").textContent = fmt(cum);
+    $("pf").textContent = s.steps.filter(x => x.parse_failed).length;
+    $("nch").textContent = s.events.filter(e => e.kind === "world_change" || e.kind === "notice").length;
+    const spend = s.done?.cost_usd ?? (s.cost ? Object.values(s.cost).reduce((a, c) => a + (c.cost_usd || 0), 0)
+                                             : (s.metrics && s.metrics.spent_usd > 0 ? s.metrics.spent_usd : null));
+    $("spend").textContent = spend != null ? `$${(+spend).toFixed(4)}` : "—";
+    const times = s.steps.map(x => x.act_s).filter(v => v != null);
+    $("steptime").textContent = times.length ? `${(times.reduce((a, b) => a + b, 0) / times.length).toFixed(1)}s` : "—";
+    const last = s.steps[n - 1];
+    if (last) {
+      const good = last.reward > 0, badge = $("outcome");
+      badge.className = "badge " + (good ? "good" : "bad"); badge.textContent = `${good ? "positive outcome" : "negative outcome"}  ${last.reward >= 0 ? "+" : ""}${fmt(last.reward)}`;
+      $("nowT").textContent = `step ${last.t + 1}`;
+      $("obs").textContent = last.observation || "—"; $("reply").textContent = last.reply || last.action || "—"; $("fb").textContent = last.feedback || "—";
+      $("noticeBox").style.display = last.notice ? "" : "none"; $("noticeText").textContent = last.notice || "";
+    }
+    renderMemory(s);
+    renderLog(s); drawChart(s, roll, cum); drawStrip(s); drawGrid(s); drawExtra(s);
+    renderConfig(s, reg);
+  }
+
+  // ---- experiment metrics: format analyze() text as tables (used on the Benchmarks view)
+  function analysisHTML(text) {
+    if (!text) return "";
+    const lines = text.split("\n");
+    let html = "", i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+      if (line.trim() && i + 1 < lines.length && /^-{4,}\s*$/.test(lines[i + 1].trim())) {
+        const cols = line.trim().split(/\s{2,}/);
+        const rows = []; i += 2;
+        while (i < lines.length && lines[i].trim() && !/^-{4,}/.test(lines[i].trim())) { rows.push(lines[i].trim().split(/\s{2,}/)); i++; }
+        html += `<div class="tablewrap"><table class="cohort"><tr>${cols.map(c => `<th>${escapeHtml(c)}</th>`).join("")}</tr>` +
+                rows.map(r => `<tr>${r.map((c, j) => `<td${j === 0 ? ` style="text-align:left"${METRIC_HELP[c] ? ` class="mhelp" title="${escapeHtml(METRIC_HELP[c])}"` : ""}` : ""}>${escapeHtml(human(c))}</td>`).join("")}</tr>`).join("") +
+                `</table></div>`;
+      } else { if (line.trim()) html += `<p class="aline">${escapeHtml(line)}</p>`; i++; }
+    }
+    return `<div class="analysisFmt">${html}</div>`;
+  }
+
+  // ---- cohort profile HTML from a directory's profile.json -----------------------
+  const profCache = {};  // dir -> profile.json | null | "pending"
+  function cohortHTML(p, dir) {
+    const dims = ["adaptation", "knowledge", "epistemics", "efficiency"];
+    const f = v => (v == null || Number.isNaN(+v)) ? "—" : (+v).toFixed(2);
+    let html = `<div class="benchhint">Each agent's four score dimensions (0 to 1) over this experiment's runs. The driftlab score averages the capability dimensions (adaptation, knowledge, epistemics); efficiency sits beside it. Hover a column heading for what it measures. A dash means these runs do not measure it.</div>` +
+      `<div class="tablewrap"><table class="cohort">` +
+      `<tr><th>agent</th>${dims.map(d => `<th class="mhelp" title="${escapeHtml(METRIC_HELP[d] || "")}">${d}</th>`).join("")}<th class="mhelp" title="${escapeHtml(METRIC_HELP["driftlab score"] || "")}">score</th></tr>` +
+      [...groupByModel(Object.entries(p.agents).map(([name, a]) => ({ name, a, spec: { name, ...(a.spec || {}) } }))).entries()]
+        .map(([model, items]) =>
+          (items.length > 1 ? `<tr class="mgroup"><td colspan="99">${escapeHtml(model)}</td></tr>` : "") +
+          items.map(it => {
+            const cfg = configLabel(it.spec) || human(it.name);
+            const dup = items.length > 1 && items.filter(x => (configLabel(x.spec) || human(x.name)) === cfg).length > 1;
+            return `<tr><td style="text-align:left;${items.length > 1 ? "padding-left:20px" : ""}" title="${escapeHtml(it.name)}">` +
+            `${escapeHtml(items.length > 1 ? cfg : (agentLabel(it.spec) || human(it.name)))}${dup ? ` <span class="muted">(${escapeHtml(it.name)})</span>` : ""}</td>` +
+            dims.map(d => `<td>${f(it.a.dimensions[d])}</td>`).join("") +
+            `<td class="score">${f(it.a.driftlab_score)}</td></tr>`;
+          }).join("")).join("") + `</table></div>`;
+    const fx = (p.effects?.agent || []).concat(p.effects?.regime || []);
+    if (fx.length) {
+      html += `<h3>Paired effects on ${escapeHtml(human(p.effects.field))}</h3>` +
+        `<div class="benchhint">Each row compares two conditions on the same seeds: the average difference, its 95% confidence interval, and the number of matched run pairs behind it. When the interval does not touch zero, the difference is real rather than luck of the draw.</div><ul class="fx">` +
+        fx.slice(0, 10).map(e => {
+          const ci = e.ci ? ` [${e.ci[0] >= 0 ? "+" : ""}${e.ci[0].toFixed(2)}, ${e.ci[1] >= 0 ? "+" : ""}${e.ci[1].toFixed(2)}]` : "";
+          return `<li><span>${escapeHtml(human(e.b))} − ${escapeHtml(human(e.a))}${e.agent ? ` <span style="color:var(--text-muted)">(${escapeHtml(human(e.agent))})</span>` : ""}</span>` +
+                 `<span class="d">${e.delta >= 0 ? "+" : ""}${e.delta.toFixed(3)}${ci} · ${e.n} pairs</span></li>`;
+        }).join("") +
+        (fx.length > 10 ? `<li><span class="d">… ${fx.length - 10} more paired effects</span></li>` : "") + `</ul>`;
+    }
+    return html;
+  }
+
+  function kvRows(el, entries) {
+    el.innerHTML = entries.map(([k, v]) => `<span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span>`).join("") ||
+                   '<span class="muted">nothing recorded</span>';
+  }
+
+  function renderConfig(s, reg) {
+    const agent = (s.cell || {}).agent || {};
+    const rows = [];
+    for (const [k, v] of Object.entries(agent)) {
+      if (v === null || v === undefined || k === "bin") continue;  // executable paths are noise here
+      if (typeof v === "object") { for (const [k2, v2] of Object.entries(v)) rows.push([`${human(k)} ${human(k2)}`, String(v2)]); }
+      else rows.push([human(k), human(k === "type" ? v : String(v))]);
+    }
+    kvRows($("agentProf"), rows);
+    $("agentNote").textContent = AGENT_NOTES[agent.type] || "";
+
+    const wname = s.world || (s.cell || {}).world || "";
+    const info = WORLD_INFO[wname];
+    $("worldBlurb").textContent = info ? `${info[0]}. ${info[1]}` : "";
+    kvRows($("worldProf"), [
+      ["world", human(wname || "—")],
+      ["regime", human((s.cell || {}).regime ?? "—")],
+      ["seed", String((s.cell || {}).seed ?? "—")],
+      ["episode length", s.T ? `${s.T} steps` : "—"],
+    ]);
+
+    const e = [];
+    if (reg) {
+      e.push(["experiment", `${reg.title} (${expId(s)}, version ${reg.version})`]);
+      if (reg.design) e.push(["what happens", reg.design]);
+      for (const [k, v] of Object.entries(reg.parameters || {})) e.push([k, v]);
+      e.push(["why it's run", reg.hypothesis]);
+      e.push(["varies", (reg.independent || []).map(human).join("; ")]);
+      e.push(["measures", (reg.dependent || []).map(human).join("; ")]);
+      e.push(["kinds of change", (reg.drift || []).join("; ")]);
+      e.push(["bears on", (reg.hypotheses || []).join(", ") + " (see Research)"]);
+    } else if (s.experiment) e.push(["experiment", human(s.experiment)]);
+    kvRows($("expProf"), e);
+    $("instr").textContent = s.instructions || "—";
+  }
+
+  function renderMemory(s) {
+    const vs = $("versions"); vs.innerHTML = "";
+    if (!s.memories.length) { $("memory").textContent = "nothing yet. Agents that keep visible notes show every rewrite here. An agent playing through its own command-line tool keeps its memory in its own session, out of driftlab's sight — unless its spec turns on workspace (scratch files snapshotted as they change) or capture_session (its own session transcript, read after the episode)."; $("memory").className = "empty tall"; $("memMeta").textContent = ""; return; }
+    const idx = s.memView === null ? s.memories.length - 1 : s.memView, m = s.memories[idx];
+    s.memories.forEach((mm, i) => { const b = document.createElement("button"); b.textContent = `v${i + 1} · step ${mm.t}`; b.className = i === idx ? "on" : "";
+      b.onclick = () => { s.memView = i; render(); }; vs.appendChild(b); });
+    const cap = (((s.cell || {}).agent || {}).substrate || {}).budget_chars;
+    $("memMeta").textContent = `${human(m.kind)} · version ${idx + 1} of ${s.memories.length} · ${m.text.length} chars` +
+      (cap ? ` · this experiment caps the notes at ${cap} characters, so they may end mid-sentence by design` : "");
+    $("memory").textContent = m.text || "(the agent cleared its notebook; nothing saved at this version)"; $("memory").className = "tall";
+  }
+
+  let diskLogs = [];
+  const filter = { q: "", exp: "", regime: "", agent: "", model: "" };
+  function playButton(path) {
+    const b = document.createElement("button"); b.className = "play"; b.textContent = "▶"; b.title = "replay this log";
+    b.onclick = e => { e.stopPropagation(); replayLog(path, 150); };
+    return b;
+  }
+  function stemParts(stem) {
+    const m = stem.match(/^(.*?)__(.*?)__seed(\d+)$/);
+    return m ? { agent: m[1], regime: m[2], seed: m[3] } : { agent: stem, regime: "", seed: "" };
+  }
+  function entryFor(s, d) {  // s: an ingested run's state; d: the /runs disk entry (either may be missing)
+    if (s) {
+      const c = s.cell || {}, a = c.agent || {}, st = stemParts(s.label);
+      return { label: s.label, s, path: d && d.path, agent: a.name || st.agent, model: a.model || "", spec: a,
+               regime: String(c.regime ?? st.regime ?? ""), seed: String(c.seed ?? st.seed ?? ""), exp: expId(s) || "" };
+    }
+    const a = d.agent || {}, st = stemParts(d.label);
+    return { label: d.label, path: d.path, agent: a.name || st.agent, model: a.model || "", spec: a,
+             regime: String(d.regime ?? st.regime ?? ""), seed: String(d.seed ?? st.seed ?? ""),
+             exp: (d.path.match(/exp\d+/) || [""])[0], mean: d.mean_reward, done: d.complete };
+  }
+  function passes(e) {
+    const title = (REGISTRY[e.exp] || {}).title || "";
+    const hay = `${e.agent} ${e.model} ${e.exp} ${title} ${e.regime} ${e.label}`.toLowerCase();
+    return (!filter.q || hay.includes(filter.q)) && (!filter.exp || e.exp === filter.exp) &&
+           (!filter.regime || e.regime === filter.regime) && (!filter.agent || e.agent === filter.agent) &&
+           (!filter.model || e.model === filter.model);
+  }
+  function refreshFilterOptions(entries) {
+    const opts = { fExp: new Set(), fRegime: new Set(), fAgent: new Set(), fModel: new Set() };
+    entries.forEach(e => { if (e.exp) opts.fExp.add(e.exp); if (e.regime) opts.fRegime.add(e.regime);
+                           if (e.agent) opts.fAgent.add(e.agent); if (e.model) opts.fModel.add(e.model); });
+    for (const [id, vals] of Object.entries(opts)) {
+      const sel = $(id); if (!sel || document.activeElement === sel) continue;
+      const keep = sel.value;
+      sel.innerHTML = '<option value="">all</option>' + [...vals].sort().map(v =>
+        `<option value="${escapeHtml(v)}">${escapeHtml(id === "fExp" ? `${v} ${(REGISTRY[v] || {}).title || ""}`.trim() : human(v))}</option>`).join("");
+      sel.value = [...vals].includes(keep) ? keep : "";
+    }
+  }
+  const openGroups = new Set();  // group ids the user expanded; the active run's group opens itself
+  function entryMean(e) {
+    return e.s ? (e.s.steps.length ? e.s.steps.reduce((a, b) => a + b.reward, 0) / e.s.steps.length : null) : e.mean;
+  }
+  function entryLi(e, indent) {
+    const li = document.createElement("li"); li.className = e.s && e.s.label === active ? "active" : "";
+    if (indent) li.style.paddingLeft = "22px";
+    const title = (REGISTRY[e.exp] || {}).title || human(e.exp);
+    const sub = [title, e.regime ? human(e.regime) : "", e.seed !== "" ? `seed ${e.seed}` : ""].filter(Boolean).join(" · ");
+    const main = document.createElement("div"); main.className = "rmain";
+    const mean = entryMean(e);
+    const icon = e.s ? (e.s.done ? "✓" : (e.s.steps.length ? "▶" : "…")) : (e.done ? "✓" : "◦");
+    const status = `${icon}${mean != null ? ` ${fmt(mean)} avg` : ""}`;
+    const name = indent ? `seed ${e.seed !== "" ? e.seed : "?"}` : (agentLabel(e.spec) || human(e.agent));
+    main.innerHTML = `<span class="n" title="${escapeHtml(e.label)}${e.model ? " · " + escapeHtml(e.model) : ""}">${escapeHtml(name)}</span>` +
+      `<span class="m" title="✓ finished · ▶ playing · ◦ incomplete log. The number is the run's average reward per step (1.0 = every step correct)">${status}</span>`;
+    if (e.path && (!e.s || e.s.done)) main.appendChild(playButton(e.path));
+    li.appendChild(main);
+    if (!indent) { const subEl = document.createElement("div"); subEl.className = "rsub"; subEl.textContent = sub; li.appendChild(subEl); }
+    li.onclick = e.s ? (() => { active = e.s.label; pinned = true; render(); })
+                     : (() => replayLog(e.path, 0));  // never seen: load it instantly
+    return li;
+  }
+  function renderRuns() {
+    const ul = $("runs"); ul.innerHTML = "";
+    const logByStem = new Map(diskLogs.map(d => [d.label, d]));
+    const ingested = [...runs.values()].reverse().map(s => entryFor(s, logByStem.get(s.label)));
+    const seen = new Set(ingested.map(e => e.label));
+    const diskOnly = diskLogs.filter(d => !seen.has(d.label)).map(d => entryFor(null, d));
+    const entries = ingested.concat(diskOnly);
+    refreshFilterOptions(entries);
+    // one group per agent x regime x experiment; the seeds inside are the paired repeats
+    const groups = new Map();
+    entries.filter(passes).forEach(e => {
+      const gid = `${e.exp}|${e.agent}|${e.regime}`;
+      if (!groups.has(gid)) groups.set(gid, []);
+      groups.get(gid).push(e);
+    });
+    for (const [gid, es] of groups) {
+      if (es.length === 1) { ul.appendChild(entryLi(es[0], false)); continue; }
+      const hasActive = es.some(e => e.s && e.s.label === active);
+      const open = openGroups.has(gid) || hasActive;
+      const e0 = es[0];
+      const title = (REGISTRY[e0.exp] || {}).title || human(e0.exp);
+      const means = es.map(entryMean).filter(v => v != null);
+      const doneN = es.filter(e => e.s ? e.s.done : e.done).length;
+      const li = document.createElement("li");
+      const main = document.createElement("div"); main.className = "rmain";
+      main.innerHTML = `<span class="n" title="${es.length} runs, one per seed">${open ? "▾" : "▸"} ${escapeHtml(agentLabel(e0.spec) || human(e0.agent))}</span>` +
+        `<span class="m" title="finished runs, and the average of their per-run averages">${doneN}/${es.length}${means.length ? ` · ${fmt(means.reduce((a, b) => a + b, 0) / means.length)} avg` : ""}</span>`;
+      li.appendChild(main);
+      const subEl = document.createElement("div"); subEl.className = "rsub";
+      subEl.textContent = [title, e0.regime ? human(e0.regime) : "", `${es.length} seeds`].filter(Boolean).join(" · ");
+      li.appendChild(subEl);
+      li.onclick = () => { openGroups.has(gid) ? openGroups.delete(gid) : openGroups.add(gid); renderRuns(); };
+      ul.appendChild(li);
+      if (open) es.forEach(e => ul.appendChild(entryLi(e, true)));
+    }
+  }
+  $("runSearch").oninput = ev => { filter.q = (ev.target.value || "").toLowerCase(); renderRuns(); };
+  $("filterBtn").onclick = () => { const p = $("filterPanel"); p.hidden = !p.hidden; $("filterBtn").className = p.hidden ? "" : "on"; };
+  for (const [id, key] of [["fExp", "exp"], ["fRegime", "regime"], ["fAgent", "agent"], ["fModel", "model"]])
+    $(id).onchange = ev => { filter[key] = ev.target.value; renderRuns(); };
+  $("clearFilters").onclick = () => {
+    filter.q = filter.exp = filter.regime = filter.agent = filter.model = "";
+    $("runSearch").value = "";
+    ["fExp", "fRegime", "fAgent", "fModel"].forEach(id => { $(id).value = ""; });
+    renderRuns();
+  };
+
+  // Change descriptions come verbatim from the logs; translate the terse ones for display.
+  function humanEvent(msg) {
+    return String(msg).replace(/rule flip \((.*?)\)\s+(\S+) -> (\S+) \(affects (\d+) keys?\)/,
+      (_, key, o, n, k) => {
+        const what = key.replace(/'/g, "").split(",").map(x => x.trim()).filter(Boolean).join(" · ");
+        return `the rule for ${what} requests changed: the correct desk is now ${n} (was ${o}; ${k} kind${k === "1" ? "" : "s"} of request affected)`;
+      });
+  }
+  function renderLog(s) {
+    const ul = $("log"); ul.innerHTML = "";
+    s.events.slice(-60).reverse().forEach(e => {
+      const li = document.createElement("li"); li.className = e.kind;
+      li.innerHTML = `<span class="t">t${e.t}</span><span>${escapeHtml(humanEvent(e.msg))}</span>`; ul.appendChild(li);
+    });
+    if (!s.events.length) ul.innerHTML = `<li class="empty">nothing has changed yet</li>`;
+  }
+
+  // ---- charts (plain SVG) ------------------------------------------------------
+  function drawChart(s) {
+    const svg = $("chart"), W = svg.clientWidth || 600, H = svg.clientHeight || 220, m = { l: 34, r: 10, t: 10, b: 22 };
+    const T = Math.max(s.T || 1, s.steps.length, 10), r = s.steps.map(x => x.reward);
+    const lo = Math.min(0, ...r), hi = Math.max(1, ...r);
+    const x = t => m.l + (t / (T - 1)) * (W - m.l - m.r), y = v => m.t + (1 - (v - lo) / (hi - lo || 1)) * (H - m.t - m.b);
+    const roll = r.map((_, i) => { const w = r.slice(Math.max(0, i - 9), i + 1); return w.reduce((a, b) => a + b, 0) / w.length; });
+    const cum = r.map((_, i) => r.slice(0, i + 1).reduce((a, b) => a + b, 0) / (i + 1));
+    const path = a => a.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    let g = `<g class="grid">`;
+    for (const v of [lo, (lo + hi) / 2, hi]) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+    for (const t of [0, Math.round(T / 2), T - 1]) g += `<text x="${x(t)}" y="${H - 6}" text-anchor="middle">${t + 1}</text>`;
+    g += `</g>`;
+    // recovery windows: from each substantive change until rolling reward regains its pre-change level
+    const changeTs = s.events.filter(e => e.kind === "world_change").map(e => e.t);
+    for (const tc of changeTs) {
+      if (tc < 1 || tc >= roll.length) continue;
+      const pre = roll[tc - 1];
+      let end = null;
+      for (let i = tc; i < roll.length; i++) if (roll[i] >= pre) { end = i; break; }
+      const x2 = end === null ? x(Math.max(r.length - 1, tc)) : x(end);
+      if (x2 > x(tc)) g += `<rect x="${x(tc).toFixed(1)}" y="${m.t}" width="${(x2 - x(tc)).toFixed(1)}" height="${H - m.t - m.b}" fill="var(--series-2)" opacity="0.08"/>`;
+    }
+    s.events.filter(e => e.kind === "world_change" || e.kind === "notice").forEach(e => {
+      g += `<line x1="${x(e.t)}" x2="${x(e.t)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--mark-event)" stroke-dasharray="3 3" stroke-width="1"/>`; });
+    const conf = s.steps.map(st => (st.confidence == null ? null : +st.confidence));
+    const hasConf = conf.some(v => v != null);
+    if (r.length) { g += `<path d="${path(cum)}" fill="none" stroke="var(--series-2)" stroke-width="2"/>`;
+                    g += `<path d="${path(roll)}" fill="none" stroke="var(--series-1)" stroke-width="2"/>`; }
+    if (hasConf) {  // stated confidence (0-1), dotted; segments break where none was stated
+      let d = "", pen = false;
+      conf.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`; pen = true; });
+      g += `<path d="${d}" fill="none" stroke="var(--series-3)" stroke-width="1.5" stroke-dasharray="2 3"/>`;
+    }
+    $("legConf").hidden = !hasConf; $("legRecov").hidden = !changeTs.length;
+    g += `<rect id="hit" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent"/><g id="cross"></g>`;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.innerHTML = g;
+    const hit = svg.querySelector("#hit"), cross = svg.querySelector("#cross"), tip = $("tip");
+    if (!hit) return;
+    hit.onmousemove = ev => { const rect = svg.getBoundingClientRect(); const px = (ev.clientX - rect.left) * (W / rect.width);
+      const t = Math.max(0, Math.min(r.length - 1, Math.round((px - m.l) / (W - m.l - m.r) * (T - 1)))); if (!r.length) return;
+      cross.innerHTML = `<line x1="${x(t)}" x2="${x(t)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--text-muted)"/><circle cx="${x(t)}" cy="${y(roll[t])}" r="4" fill="var(--series-1)" stroke="var(--surface-1)" stroke-width="2"/><circle cx="${x(t)}" cy="${y(cum[t])}" r="4" fill="var(--series-2)" stroke="var(--surface-1)" stroke-width="2"/>`;
+      const st = s.steps[t]; tip.style.display = "block"; tip.style.left = (ev.clientX + 12) + "px"; tip.style.top = (ev.clientY + 12) + "px";
+      tip.innerHTML = `<b>step ${t + 1}</b><br>rolling ${fmt(roll[t])} · cumulative ${fmt(cum[t])}<br><span class="muted">${escapeHtml((st.observation || "").split("\n")[0]).slice(0, 80)}</span><br>did ${escapeHtml(String(st.action))} → ${st.reward > 0 ? "accepted" : "rejected"}`; };
+    hit.onmouseleave = () => { cross.innerHTML = ""; tip.style.display = "none"; };
+  }
+
+  function drawStrip(s) {
+    const el = $("strip"); el.innerHTML = "";
+    s.steps.forEach((st, i) => { const b = document.createElement("i"); b.className = (st.reward > 0 ? "good" : "bad") + (i === s.steps.length - 1 ? " cur" : "");
+      b.title = `step ${i + 1}: ${st.action} → ${st.reward > 0 ? "accepted" : "rejected"}`; el.appendChild(b); });
+  }
+
+  function drawGrid(s) {  // any world whose tasks carry a 3-part key: rows = part 1, columns = parts 2 x 3
+    const panel = $("gridPanel"); if (!s.keys.size) { panel.style.display = "none"; return; }
+    const parts = [...s.keys.keys()].map(k => k.split("|"));
+    if (!parts.every(p => p.length === 3)) { panel.style.display = "none"; return; }
+    panel.style.display = "";
+    const types = [...new Set(parts.map(p => p[0]))];
+    const seconds = [...new Set(parts.map(p => p[1]))].sort(), thirds = [...new Set(parts.map(p => p[2]))].sort();
+    const cur = s.steps.length ? (s.steps[s.steps.length - 1].key || []).join("|") : "";
+    let h = `<table><tr><th></th>${seconds.map(r => thirds.map(z => `<th class="c" title="${r} · ${z}">${r[0].toUpperCase()}${z[0]}</th>`).join("")).join("")}</tr>`;
+    for (const ty of types) { h += `<tr><th>${ty}</th>`;
+      for (const r of seconds) for (const z of thirds) { const k = `${ty}|${r}|${z}`, v = s.keys.get(k);
+        const cls = "cell" + (v ? (v.reward > 0 ? " good" : " bad") : "") + (k === cur ? " cur" : "") + (s.changedKeys.has(k) ? " changed" : "");
+        h += `<td><div class="${cls}" title="${k.split("|").join(" · ")}${v ? `: last attempt ${v.reward > 0 ? "accepted" : "rejected"} at step ${v.t + 1}; the correct answer is ${v.correct}` : ": not tried yet"}">${v ? String(v.correct)[0] : ""}</div></td>`; }
+      h += `</tr>`; }
+    $("grid").innerHTML = h + `</table>`;
+  }
+
+  function drawExtra(s) {
+    const known = ["stock_end", "true_rate", "lost", "rate_A", "rate_B", "rate_C", "rate_D"];
+    const fields = Object.keys(s.extra).filter(f => known.includes(f) && s.extra[f].length > 1);
+    const panel = $("extraPanel"); if (!fields.length) { panel.style.display = "none"; return; }
+    panel.style.display = "flex";
+    $("extraTitle").textContent = fields[0].startsWith("rate_")
+      ? "The hidden engagement rate of each angle (the agent never sees these)"
+      : "Inventory: stock on hand vs true demand rate";
+    const svg = $("extraChart"), W = svg.clientWidth || 600, H = svg.clientHeight || 130, m = { l: 34, r: 10, t: 10, b: 22 };
+    const NAMES = { stock_end: "stock on hand", true_rate: "true demand rate", lost: "lost demand",
+                    rate_A: "angle A", rate_B: "angle B", rate_C: "angle C", rate_D: "angle D" };
+    const series = fields.map((f, i) => ({ f, pts: s.extra[f], color: ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--warning)"][i % 4] }));
+    const all = series.flatMap(x => x.pts.map(p => p.v)), lo = Math.min(0, ...all), hi = Math.max(1, ...all), T = Math.max(s.T || 1, s.steps.length);
+    const x = t => m.l + (t / (T - 1)) * (W - m.l - m.r), y = v => m.t + (1 - (v - lo) / (hi - lo || 1)) * (H - m.t - m.b);
+    let g = `<line x1="${m.l}" x2="${W - m.r}" y1="${y(lo)}" y2="${y(lo)}" stroke="var(--grid)"/><text x="${m.l - 6}" y="${y(hi) + 4}" text-anchor="end">${fmt(hi)}</text><text x="${m.l - 6}" y="${y(lo) + 4}" text-anchor="end">${fmt(lo)}</text>`;
+    series.forEach(sr => { g += `<path d="${sr.pts.map((p, i) => `${i ? "L" : "M"}${x(p.t).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ")}" fill="none" stroke="${sr.color}" stroke-width="2"/>`; });
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.innerHTML = g;
+    $("extraLegend").innerHTML = series.map(sr => `<span><i style="background:${sr.color}"></i>${NAMES[sr.f] || human(sr.f)}</span>`).join("");
+  }
+
+  function escapeHtml(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  // ---- top-level views: Runs / Benchmarks / Research ------------------------------
+  let topView = "home", benchData = null, hypData = null;
+  const TOP = { home: ["topHome", "viewHome"], research: ["topResearch", "viewResearch"], results: ["topResults", "viewResults"] };
+  let resTab = "bench";
+  function setResTab(which) {
+    resTab = which;
+    for (const [k, btn, sec] of [["bench", "restabBench", "resBench"], ["runs", "restabRuns", "viewRuns"]]) {
+      $(btn).className = k === which ? "on" : ""; $(sec).hidden = k !== which;
+    }
+    if (which === "bench") loadBench(true);  // always re-fetch on entry
+    if (which === "runs") render();
+    applyTutorial();
+  }
+  $("restabBench").onclick = () => setResTab("bench"); $("restabRuns").onclick = () => setResTab("runs");
+  function setTop(v) {
+    topView = v;
+    for (const [k, [btn, view]] of Object.entries(TOP)) {
+      const b = $(btn), m = $(view);
+      if (b) b.className = k === v ? "on" : "";
+      if (m) m.hidden = k !== v;
+    }
+    if (v === "home") renderHome();
+    if (v === "research") renderResearch();
+    if (v === "results") setResTab(resTab);
+    applyTutorial();
+  }
+
+  // ---- home: where the research program stands, computed from the same data as everything else
+  async function renderHome() {
+    if (!valData) { try { valData = await (await fetch("/validation")).json(); } catch (e) { valData = null; } }
+    const done = diskLogs.filter(d => d.complete);
+    $("homeRuns").textContent = String(done.length);
+    const exps = new Set(diskLogs.map(d => (d.path.match(/exp\d+/) || [""])[0]).filter(Boolean));
+    const total = Object.keys(REGISTRY).length;
+    $("homeExps").textContent = total ? `${exps.size} of ${total}` : String(exps.size);
+    const spend = diskLogs.reduce((a, d) => a + (d.cost_usd || 0), 0);
+    $("homeSpend").textContent = `$${spend.toFixed(2)}`;
+    const rows = [], seen = new Set();
+    for (const h of Object.values((valData || {}).hypotheses || {}))
+      for (const r of h.rows || []) {
+        const key = [r.exp, r.world, r.agent, r.claim].join("|");
+        if (seen.has(key) || (r.verdict !== "supported" && r.verdict !== "contradicted")) continue;
+        seen.add(key); rows.push(r);
+      }
+    $("homeVerdicts").textContent = String(rows.length);
+    const ul = $("homeFindings"); if (!ul) return;
+    ul.innerHTML = rows.map(r => {
+      const title = (REGISTRY[r.exp] || {}).title || r.exp;
+      const claim = r.claim ? r.claim[0].toUpperCase() + r.claim.slice(1) : "";
+      const backed = r.verdict === "supported" ? "The data backs this" : "The data says otherwise";
+      const who = r.agent && r.agent !== "all pairs" ? `, with ${human(r.agent)}` : "";
+      const sg = v => `${v >= 0 ? "+" : ""}${v.toFixed(2)}`;
+      const num = r.delta != null
+        ? ` The effect measured ${sg(r.delta)}${r.ci ? `; allowing for the margin of error, it lands between ${sg(r.ci[0])} and ${sg(r.ci[1])}` : ""}, across ${r.n} paired runs.`
+        : "";
+      return `<li style="display:block;padding:6px 0;max-width:94ch"><strong>${escapeHtml(claim)}</strong><br>` +
+        `<span class="v-${r.verdict}" style="font-weight:600">${backed}</span>, in "${escapeHtml(title)}" on the ${escapeHtml(human(r.world))}${escapeHtml(who)}.${escapeHtml(num)}</li>`;
+    }).join("") || `<li style="display:block" class="muted">No conclusive results yet. A finding appears here once validation measures a difference the seeds cannot explain away.</li>`;
+  }
+  for (const [k, [btn]] of Object.entries(TOP)) { const b = $(btn); if (b) b.onclick = () => setTop(k); }
+  document.querySelectorAll(".linkbtn").forEach(b => b.onclick = () => {
+    setTop(b.dataset.top);
+    if (b.dataset.rtab) setRTab(b.dataset.rtab);
+    if (b.dataset.restab) setResTab(b.dataset.restab);
+  });
+
+  async function loadBench(force) {
+    if (force || benchData === null) {
+      if (force) for (const k of Object.keys(profCache)) delete profCache[k];
+      try { benchData = await (await fetch("/benchmarks")).json(); } catch (e) { benchData = {}; }
+    }
+    renderBench();
+  }
+  // ---- benchmarks: click-to-sort and per-column gradients on every table ----------------
+  // metrics where LOWER is better: the gradient is inverted so the strongest tint is always best
+  const LOWER_BETTER = /lag|latenc|dip|stale|over.?upd|parse|cost|error|overconf|wrong|fail|steps_to/i;
+  const benchSort = {};   // table key -> {col, dir}; survives re-renders so a chosen sort sticks
+  function cellNum(td) {
+    const t = td.textContent.replace(/[^0-9+\-.eE]/g, "");
+    return t && /\d/.test(t) ? parseFloat(t) : NaN;
+  }
+  function enhanceBench() {
+    ["benchMatrix", "benchDims", "benchExps"].forEach(cid => {
+      const box = $(cid); if (!box) return;
+      box.querySelectorAll("table.cohort").forEach((tbl, ti) => {
+        if (tbl.dataset.enhanced) return;
+        tbl.dataset.enhanced = "1";
+        const headRow = tbl.querySelector("tr"); if (!headRow) return;
+        const body = headRow.parentNode, ths = [...headRow.children];
+        const allRows = [...tbl.querySelectorAll("tr")].slice(1);
+        const dataRows = allRows.filter(r => !r.classList.contains("mgroup"));
+        if (dataRows.length < 2) return;
+        // per-column gradient over the measured values; cells that carry their own tint
+        // (the score matrix) keep it, and "—" stays untinted
+        ths.forEach((th, c) => {
+          if (c === 0) return;
+          const cells = dataRows.map(r => r.children[c]).filter(Boolean);
+          const vals = cells.map(cellNum), fin = vals.filter(v => !Number.isNaN(v));
+          if (fin.length < 2) return;
+          const lo = Math.min(...fin), hi = Math.max(...fin);
+          if (hi <= lo) return;
+          const invert = LOWER_BETTER.test(th.textContent);
+          cells.forEach((td, i) => {
+            if (Number.isNaN(vals[i]) || td.style.background) return;
+            let n = (vals[i] - lo) / (hi - lo); if (invert) n = 1 - n;
+            td.style.background = `color-mix(in srgb, var(--series-3) ${Math.round(35 * n)}%, transparent)`;
+          });
+        });
+        const panel = tbl.closest(".panel");
+        const key = cid + "|" + (panel ? (panel.querySelector("h2") || {}).textContent || "" : "") + "|" + ti + "|" + ths.map(t => t.textContent).join(",");
+        const groups = allRows.filter(r => r.classList.contains("mgroup"));
+        const original = allRows.slice();
+        const apply = () => {
+          const st = benchSort[key];
+          ths.forEach((t, c) => { if (st && st.col === c) t.dataset.dir = st.dir; else delete t.dataset.dir; });
+          if (!st) { groups.forEach(g => g.style.display = ""); original.forEach(r => body.appendChild(r)); return; }
+          groups.forEach(g => g.style.display = "none");   // model grouping no longer applies while sorted
+          const dir = st.dir === "asc" ? 1 : -1;
+          [...dataRows].sort((a, b) => {
+            if (st.col === 0) return dir * a.children[0].textContent.trim().localeCompare(b.children[0].textContent.trim());
+            const va = cellNum(a.children[st.col] || {}), vb = cellNum(b.children[st.col] || {});
+            if (Number.isNaN(va) && Number.isNaN(vb)) return 0;
+            if (Number.isNaN(va)) return 1;   // unmeasured sinks to the bottom either way
+            if (Number.isNaN(vb)) return -1;
+            return dir * (va - vb);
+          }).forEach(r => body.appendChild(r));
+        };
+        ths.forEach((th, c) => {
+          th.classList.add("sortable");
+          th.title = (th.title ? th.title + " · " : "") + "click to sort";
+          th.onclick = () => {
+            const first = c === 0 ? "asc" : "desc", second = c === 0 ? "desc" : "asc";
+            const st = benchSort[key];
+            if (!st || st.col !== c) benchSort[key] = { col: c, dir: first };
+            else if (st.dir === first) benchSort[key] = { col: c, dir: second };
+            else delete benchSort[key];
+            apply();
+          };
+        });
+        apply();   // re-apply a remembered sort after a re-render
+      });
+    });
+  }
+  function renderBench() {
+    const sel = $("benchWorld"), worlds = Object.keys(benchData || {});
+    if (document.activeElement !== sel) {
+      const keep = sel.value;
+      sel.innerHTML = worlds.map(w => `<option>${escapeHtml(w)}</option>`).join("") || '<option value="">none</option>';
+      if (worlds.includes(keep)) sel.value = keep;
+    }
+    const world = sel.value || worlds[0] || "rule_world";
+    const m = (benchData || {})[world];
+    $("benchStamp").textContent = m ? `covers every analyzed run · last recomputed ${new Date(m.generated * 1000).toLocaleString()}` +
+        (m.stale ? " · STALE: runs finished after this was computed — run an analysis to refresh" : "")
+                                    : "no profiles computed yet. Run an experiment, or analyze existing runs, then reopen this tab";
+    const f = v => (v == null || Number.isNaN(+v)) ? "—" : (+v).toFixed(2);
+    if (m) {
+      const exps = m.suite;
+      const CAP_DIMS = ["adaptation", "knowledge", "epistemics"];
+      const nCap = cell => cell && cell.dimensions ? CAP_DIMS.filter(d => cell.dimensions[d] != null && !Number.isNaN(+cell.dimensions[d])).length : 0;
+      const anyQuick = Object.values(m.agents).some(r => Object.values(r.experiments).some(e => e.quick));
+      const anyPartial = Object.values(m.agents).some(r => Object.values(r.experiments).some(e => e.partial));
+      const anyFew = Object.values(m.agents).some(r => Object.values(r.experiments).some(e => {
+        const n = nCap(e); return n > 0 && n < CAP_DIMS.length;
+      }));
+      // rows grouped by base model: one header per model, one row per configuration under it
+      const groups = groupByModel(Object.entries(m.agents).map(([a, row]) => ({ a, row, spec: { name: a, ...(row.spec || {}) } })));
+      const nameCell = (it, items) => {
+        const solo = items.length === 1;
+        const cfg = configLabel(it.spec) || human(it.a);
+        const label = solo ? agentLabel(it.spec) : cfg;
+        // two distinct agents can share one configuration (e.g. a roster agent and an
+        // experiment arm on the same model); the raw name disambiguates them
+        const dup = !solo && items.filter(x => (configLabel(x.spec) || human(x.a)) === cfg).length > 1;
+        return `<td style="text-align:left;${solo ? "" : "padding-left:20px"}" title="${escapeHtml(it.a)}">${escapeHtml(label)}${dup ? ` <span class="muted">(${escapeHtml(it.a)})</span>` : ""}</td>`;
+      };
+      const bodyRows = cellsFn => [...groups.entries()].map(([model, items]) =>
+        (items.length > 1 ? `<tr class="mgroup"><td colspan="99">${escapeHtml(model)}</td></tr>` : "") +
+        items.map(it => `<tr>${nameCell(it, items)}${cellsFn(it)}</tr>`).join("")).join("");
+      $("benchMatrix").innerHTML = `<table class="cohort"><tr><th>agent</th>${exps.map(e => `<th title="${escapeHtml((REGISTRY[e] || {}).title || "")}">${e}</th>`).join("")}<th>mean</th></tr>` +
+        bodyRows(it => exps.map(e => {
+            const cell = it.row.experiments[e], sc = cell ? cell.driftlab_score : null;
+            const tint = sc != null && !Number.isNaN(+sc) ? ` style="background:color-mix(in srgb, var(--series-3) ${Math.round(sc * 35)}%, transparent)"` : "";
+            const q = cell && cell.quick, pt = cell && cell.partial;
+            const n = nCap(cell), few = sc != null && n > 0 && n < CAP_DIMS.length;
+            return `<td class="cell-drill" data-exp="${e}" data-agent="${escapeHtml(it.a)}"${tint} title="${q ? "smoke runs only, not comparable to full-length scores. " : ""}${pt ? "covers only the conditions a hypothesis run needed. " : ""}${few ? `scored over ${n} of ${CAP_DIMS.length} capability dimensions — compare only against scores measuring the same ones. ` : ""}open these runs">${f(sc)}${q ? '<span class="muted">*</span>' : ""}${pt ? '<span class="muted">°</span>' : ""}${few ? '<span class="muted">†</span>' : ""}</td>`;
+          }).join("") + `<td class="score"${it.row.quick_only ? ' title="quick-mode runs only"' : ""}>${f(it.row.mean_score)}${it.row.quick_only ? '<span class="muted">*</span>' : ""}</td>`) + `</table>` +
+        ((anyQuick || anyPartial || anyFew) ? `<div class="benchhint" style="margin-top:4px">${anyQuick ? "* from smoke runs, which verify the plumbing and are not comparable to full-length scores. " : ""}${anyPartial ? "° from a hypothesis run: valid full-length episodes, but covering only the conditions that hypothesis's predictions needed — a later full grid fills the rest. " : ""}${anyFew ? "† scored over fewer than all three capability dimensions; compare it only against scores measuring the same ones." : ""}</div>` : "");
+      document.querySelectorAll("#benchMatrix td.cell-drill").forEach(td => td.onclick = () => drillTo(td.dataset.agent, td.dataset.exp));
+      const dims = ["adaptation", "knowledge", "epistemics", "efficiency"];
+      $("benchDims").innerHTML = `<table class="cohort"><tr><th>agent</th>${dims.map(d => `<th>${d}</th>`).join("")}</tr>` +
+        bodyRows(it => dims.map(d => `<td>${f(it.row.mean_dimensions[d])}</td>`).join("")) + `</table>`;
+    } else { $("benchMatrix").innerHTML = '<p class="muted">no matrix yet</p>'; $("benchDims").innerHTML = ""; }
+    // one panel per experiment directory: the cohort profile, effects, and the analyze() tables
+    const expSet = new Set(m ? m.suite : []);
+    diskLogs.forEach(d => { const e = (d.path.match(/exp\d+/) || [])[0]; if (e && d.path.includes(`/${world}/`)) expSet.add(e); });
+    const cont = $("benchExps"); cont.innerHTML = "";
+    [...expSet].sort().forEach(exp => {
+      const dir = `runs/${exp}/${world}`;
+      if (!(dir in profCache)) {
+        profCache[dir] = "pending";
+        fetch("/profile?dir=" + encodeURIComponent(dir)).then(r => r.json())
+          .then(p => { profCache[dir] = p; if (!$("resBench").hidden) renderBench(); }).catch(() => { profCache[dir] = null; });
+      }
+      const p = profCache[dir], reg = REGISTRY[exp] || {};
+      const div = document.createElement("div"); div.className = "panel";
+      let inner = `<h2>${exp}${reg.title ? " · " + escapeHtml(reg.title) : ""}</h2>`;
+      if (reg.design || reg.hypothesis) inner += `<p class="aline" style="max-width:100ch">${escapeHtml(reg.design || reg.hypothesis)}</p>`;
+      inner += (p && p !== "pending" && p.agents) ? cohortHTML(p, dir)
+             : `<p class="muted">no profile computed for this experiment and world yet</p>`;
+      const at = analysisByExp[exp];
+      if (at) inner += `<h3>Experiment metrics</h3>` +
+        `<div class="benchhint">This experiment's own analysis, recomputed over every run it has. Latencies count tries on the affected tasks, not raw steps, and lower is better. Hover any metric name for its definition.</div>` + analysisHTML(at);
+      div.innerHTML = inner; cont.appendChild(div);
+    });
+    enhanceBench();
+  }
+  $("benchWorld").onchange = () => renderBench();
+  function drillTo(agent, exp) {
+    filter.agent = agent; filter.exp = exp; filter.regime = ""; filter.model = ""; filter.q = "";
+    $("runSearch").value = "";
+    setTop("results"); setResTab("runs");
+    $("filterPanel").hidden = false; $("filterBtn").className = "on";
+    renderRuns();
+    $("fExp").value = exp; $("fAgent").value = agent;
+  }
+
+  let valData, worldData = null;
+  const VCHIP = { "SUPPORTED": "good", "NOT SUPPORTED": "bad", "PARTIALLY SUPPORTED": "mixed", "INCONCLUSIVE": "" };
+  // what each world capability means, in plain words (internal-only capabilities are omitted)
+  function renderWorlds() {
+    const el = $("worldList"); if (!el) return;
+    el.innerHTML = (worldData || []).map(w => {
+      const info = WORLD_INFO[w.id] || [human(w.id), "", ""];
+      const used = Object.entries(REGISTRY)
+        .filter(([, e]) => (e.worlds || []).some(x => x === w.id || String(x).startsWith("any")))
+        .map(([id, e]) => `<span class="k">${id.replace("exp", "")}</span><span>${escapeHtml(e.title)}</span>`).join("");
+      return `<details class="hyp"><summary><strong>${escapeHtml(info[0])}</strong> <span class="muted">${escapeHtml(human(w.id))}</span></summary>` +
+        (info[1] ? `<div class="subtile"><h4 class="evhead">The job</h4><p style="margin:2px 0;max-width:90ch">${escapeHtml(info[1])}</p></div>` : "") +
+        (info[2] ? `<div class="subtile"><h4 class="evhead">How it works</h4><p style="margin:2px 0;max-width:90ch">${escapeHtml(info[2])}</p>` +
+          (info[3] ? `<p class="muted" style="margin:8px 0 2px;max-width:90ch;font-size:12.5px">${escapeHtml(info[3])}</p>` : "") + `</div>` : "") +
+        `<div class="subtile"><h4 class="evhead">Experiments that can run here</h4>` +
+        (used ? `<div class="kv" style="max-width:560px">${used}</div>` : `<p class="muted" style="margin:2px 0">none</p>`) + `</div>` +
+        `<div class="subtile"><h4 class="evhead">The job description the agent receives, verbatim</h4><pre style="max-height:240px">${escapeHtml(w.system_prompt || "")}</pre></div></details>`;
+    }).join("") || '<p class="muted">the dashboard server is running an older version and does not know this view yet. Stop it and start it again, then reopen this tab.</p>';
+  }
+  const VMEAN = {
+    "SUPPORTED": "every prediction that reached a verdict agrees with the hypothesis",
+    "NOT SUPPORTED": "every prediction that reached a verdict points the other way",
+    "PARTIALLY SUPPORTED": "predictions that reached a verdict disagree with each other; look at which agents or worlds split",
+    "INCONCLUSIVE": "no prediction has reached a verdict yet: either there are not enough full-length runs on matched seeds, or the confidence intervals still include zero",
+  };
+  // the numeric evidence view: per prediction, one row per verdict with delta, CI and an interval plot
+  const VCOLOR = { supported: "var(--good)", contradicted: "var(--critical)", inconclusive: "var(--text-muted)" };
+  function ciBar(delta, ci, span, color) {
+    const W = 150, C = W / 2, K = (W / 2 - 8) / span, x = v => (C + v * K).toFixed(1);
+    let g = `<line x1="${C}" y1="1" x2="${C}" y2="13" stroke="var(--grid)"/>`;
+    if (ci) g += `<line x1="${x(ci[0])}" y1="7" x2="${x(ci[1])}" y2="7" stroke="${color}" stroke-width="2"/>` +
+                 `<line x1="${x(ci[0])}" y1="3" x2="${x(ci[0])}" y2="11" stroke="${color}"/>` +
+                 `<line x1="${x(ci[1])}" y1="3" x2="${x(ci[1])}" y2="11" stroke="${color}"/>`;
+    if (delta != null) g += `<circle cx="${x(delta)}" cy="7" r="3" fill="${color}"/>`;
+    return `<svg width="${W}" height="14" viewBox="0 0 ${W} 14" style="vertical-align:middle" role="img" aria-label="interval vs zero">${g}</svg>`;
+  }
+  function ciRowsTable(rs) {
+    const span = Math.max(0.05, ...rs.flatMap(r => [Math.abs(r.delta ?? 0), ...(r.ci ? r.ci.map(Math.abs) : [])])) * 1.15;
+    const num = v => v == null ? "—" : `${v >= 0 ? "+" : ""}${v.toFixed(3)}`;
+    return `<div class="tablewrap"><table class="cohort ev"><tr><th style="text-align:left">verdict</th><th style="text-align:left">world</th><th style="text-align:left">agent</th><th>Δ</th><th>95% CI</th><th>pairs</th><th style="text-align:left">interval vs 0</th></tr>` +
+      rs.map(r => {
+        const color = VCOLOR[r.verdict] || "var(--text-muted)";
+        const civ = r.ci ? `[${num(r.ci[0])}, ${num(r.ci[1])}]` : "—";
+        return `<tr title="${escapeHtml(r.reason || "")}"><td style="text-align:left"><span class="v-${r.verdict}">${r.verdict}</span></td>` +
+               `<td style="text-align:left">${escapeHtml(human(r.world))}</td>` +
+               `<td style="text-align:left">${escapeHtml(human(r.agent))}</td><td>${num(r.delta)}</td><td>${civ}</td><td>${r.n}</td>` +
+               `<td style="text-align:left">${r.ci || r.delta != null ? ciBar(r.delta, r.ci, span, color) : `<span class="muted" style="font-size:11px">${escapeHtml((r.reason || "no data").split("(")[0].trim())}</span>`}</td></tr>`;
+      }).join("") + `</table></div>`;
+  }
+  // one block per registered prediction: the claim, who tests it and how, and its result rows
+  function hypEvidenceHTML(hid, v) {
+    const byClaim = new Map(), seen = new Set();
+    ((v && v.rows) || []).forEach(r => {
+      const key = [r.exp, r.world, r.agent, r.claim].join("|");
+      if (seen.has(key)) return;
+      seen.add(key);
+      if (!byClaim.has(r.claim)) byClaim.set(r.claim, []);
+      byClaim.get(r.claim).push(r);
+    });
+    let html = "", anyPred = false, anyRows = false;
+    for (const [id, e] of Object.entries(REGISTRY)) {
+      if (!(e.hypotheses || []).includes(hid)) continue;
+      for (const p of e.predictions || []) {
+        anyPred = true;
+        const rs = byClaim.get(p.claim) || [];
+        anyRows = anyRows || rs.length > 0;
+        html += `<div style="margin:6px 0 14px">` +
+          `<p style="margin:2px 0 4px;max-width:90ch"><strong>${escapeHtml(p.claim)}</strong>` +
+          ` <span class="muted" style="font-size:11.5px">· tested by ${escapeHtml(e.title)} (${id})</span></p>` +
+          (rs.length ? ciRowsTable(rs) : `<p class="muted" style="margin:2px 0">no full-length runs to evaluate yet</p>`) + `</div>`;
+      }
+    }
+    if (!anyPred) return `<p class="muted" style="margin:2px 0">none of this hypothesis's experiments has registered a testable prediction yet</p>`;
+    if (anyRows) html += `<div class="benchhint" style="margin:2px 0 4px">In the plot: the dot is the average difference, the whiskers its 95% confidence interval, the center line zero. An interval clear of the line is conclusive. Hover a row for its reasoning.</div>`;
+    return html;
+  }
+
+  function setRTab(which) {
+    for (const [k, btn, sec] of [["hyp", "rtabHyp", "rsecHyp"], ["exp", "rtabExp", "rsecExp"], ["worlds", "rtabWorlds", "rsecWorlds"], ["agents", "rtabAgents", "rsecAgents"]]) {
+      $(btn).className = k === which ? "on" : ""; $(sec).hidden = k !== which;
+    }
+    if (which === "agents") renderAgents();  // pick up runs finished since the tab was last open
+    applyTutorial();
+  }
+  $("rtabHyp").onclick = () => setRTab("hyp"); $("rtabExp").onclick = () => setRTab("exp");
+  $("rtabWorlds").onclick = () => setRTab("worlds"); $("rtabAgents").onclick = () => setRTab("agents");
+  // ---- agents: everyone configured or seen in a run record, one entry each
+  let agentSpecs = null;  // agents.json, when present
+  function renderAgents() {
+    const el = $("agentList"); if (!el) return;
+    const roster = new Map();
+    diskLogs.forEach(d => {
+      const a = d.agent || {}; if (!a.name) return;
+      const r = roster.get(a.name) || { spec: a, runs: 0, exps: new Set(), worlds: new Set(), cost: 0 };
+      if (d.complete) r.runs += 1;
+      const exp = (d.path.match(/exp\d+/) || [""])[0]; if (exp) r.exps.add(exp);
+      if (d.world) r.worlds.add(d.world);
+      r.cost += d.cost_usd || 0;
+      if (Object.keys(a).length > Object.keys(r.spec).length) r.spec = a;  // keep the richest header seen
+      roster.set(a.name, r);
+    });
+    (agentSpecs || []).forEach(s => {
+      if (!s.name) return;
+      if (!roster.has(s.name)) roster.set(s.name, { spec: s, runs: 0, exps: new Set(), worlds: new Set(), cost: 0 });
+      roster.get(s.name).declared = true;
+    });
+    const configHTML = (name, r, nested) => {
+      const a = r.spec, s = a.substrate || {};
+      const mem = !s.kind ? "" : s.kind === "none" ? "none: every step starts from scratch"
+        : s.kind === "transcript" ? `a transcript of the last ${s.window ?? "?"} steps${s.wipe_at != null ? `, erased at step ${s.wipe_at}` : ""}`
+        : s.kind === "notes" ? `self-written notes${s.budget_chars ? `, capped at ${s.budget_chars} characters` : ""}${s.every ? `, rewritten every ${s.every} steps` : ""}${s.wipe_at != null ? `, raw history erased at step ${s.wipe_at}` : ""}`
+        : s.kind === "skills" ? `extracted procedures${s.every ? `, updated every ${s.every} steps` : ""}`
+        : s.kind === "beliefs" ? `a structured belief file (belief, confidence, what would change it)${s.every ? `, rewritten every ${s.every} steps` : ""}`
+        : s.kind === "worldmodel" ? `an explicit world model (rule hypotheses with validity conditions); the agent predicts every outcome, and a wrong prediction triggers an immediate revision`
+        : s.kind === "fastslow" ? `two timescales at once: a short transcript plus consolidated notes` : human(s.kind);
+      const rows = [["kind", human(a.type || "unknown")]];
+      if (a.model) rows.push(["model", a.model]);
+      if (a.harness) rows.push(["harness", a.harness]);
+      if (mem) rows.push(["memory", mem]);
+      if (a.reasoning_effort) rows.push(["reasoning effort", a.reasoning_effort]);
+      if (r.declared) rows.push(["configured in", "agents.json"]);
+      const played = r.runs
+        ? `${r.runs} finished run${r.runs === 1 ? "" : "s"} across ${[...r.exps].sort().join(", ")} on ${[...r.worlds].sort().map(human).join(", ")}` +
+          (r.cost > 0 ? ` · $${r.cost.toFixed(2)} spent` : "")
+        : "no runs yet";
+      const title = nested ? (configLabel(a) || human(name)) : (agentLabel(a) || human(name));
+      return `<details class="hyp"${nested ? ' style="margin-left:20px;border-bottom:none;padding:2px 0"' : ""}>` +
+        `<summary><strong>${escapeHtml(title)}</strong> <span class="muted">${escapeHtml(name)} · ${r.runs} run${r.runs === 1 ? "" : "s"}</span></summary>` +
+        `<div class="subtile"><h4 class="evhead">What it is</h4>` +
+        `<p style="margin:2px 0 6px;max-width:90ch">${escapeHtml(AGENT_NOTES[a.type] || "An agent known only from its run records.")}</p>` +
+        `<div class="kv">${rows.map(([k, v]) => `<span class="k">${escapeHtml(k)}</span><span>${escapeHtml(v)}</span>`).join("")}</div></div>` +
+        `<div class="subtile"><h4 class="evhead">Where it has played</h4><p style="margin:2px 0;max-width:90ch">${escapeHtml(played)}</p></div></details>`;
+    };
+    // one entry per base model; its configurations (route, memory, reasoning mode) branch underneath
+    const groups = groupByModel([...roster.entries()].map(([name, r]) => ({ name, r, spec: { name, ...r.spec } })));
+    el.innerHTML = [...groups.entries()].map(([model, items]) => {
+      if (items.length === 1) return configHTML(items[0].name, items[0].r, false);
+      const runs = items.reduce((n, it) => n + it.r.runs, 0);
+      return `<details class="hyp" open><summary><strong>${escapeHtml(model)}</strong> ` +
+        `<span class="muted">${items.length} configurations · ${runs} finished run${runs === 1 ? "" : "s"}</span></summary>` +
+        items.map(it => configHTML(it.name, it.r, true)).join("") + `</details>`;
+    }).join("") || '<p class="muted">no agents yet: none declared in agents.json and no run records on disk</p>';
+  }
+  async function renderResearch() {
+    try { hypData = await (await fetch("/hypotheses")).json(); } catch (e) { hypData = hypData || []; }
+    try { valData = await (await fetch("/validation")).json(); } catch (e) { valData = valData || null; }
+    if (worldData === null || !worldData.length) {
+      try { const d = await (await fetch("/worlds")).json(); worldData = Array.isArray(d) ? d : []; } catch (e) { worldData = []; }
+    }
+    renderWorlds();
+    if (agentSpecs === null) {
+      try { const d = await (await fetch("/agents")).json(); agentSpecs = Array.isArray(d) ? d : []; } catch (e) { agentSpecs = []; }
+    }
+    renderAgents();
+    $("expList").innerHTML = Object.entries(REGISTRY).map(([id, e]) => {
+      const hyps = (e.hypotheses || []).join(", ");
+      return `<details class="hyp"><summary><strong>${id.replace("exp", "")}</strong> ${escapeHtml(e.title)} <span class="muted">v${e.version}</span></summary>` +
+        (e.design ? `<div class="subtile"><h4 class="evhead">What happens</h4><p style="margin:2px 0;max-width:90ch">${escapeHtml(e.design)}</p></div>` : "") +
+        `<div class="subtile"><h4 class="evhead">Why it's run</h4>` +
+        `<p style="margin:2px 0;max-width:90ch">${escapeHtml(e.hypothesis)}</p>` +
+        `<p class="muted" style="margin:6px 0 2px">Bears on ${escapeHtml(hyps)}; the verdict and evidence live in the Hypotheses tab.</p></div>` +
+        `<div class="subtile"><h4 class="evhead">Parameters</h4><div class="kv">` +
+        Object.entries(e.parameters || {}).map(([k, v]) => `<span class="k">${escapeHtml(k)}</span><span>${escapeHtml(v)}</span>`).join("") +
+        `<span class="k">measures</span><span>${(e.dependent || []).map(x => escapeHtml(human(x))).join("<br>")}</span>` +
+        `<span class="k">worlds</span><span>${escapeHtml((e.worlds || []).join(", "))}</span></div>` +
+        `<p class="benchhint" style="margin:8px 0 0">Smoke runs scale these lengths to a tenth as plumbing checks and never count; quick runs halve them, staying valid, with a smaller task space where the world supports it.</p>` +
+        `</div></details>`;
+    }).join("");
+    $("valStamp").textContent = valData
+      ? `Validation last ran ${new Date(valData.generated * 1000).toLocaleString()}. Verdicts are proposals computed from the run logs, and each one speaks only for the agents and worlds it was tested on.` +
+        (valData.stale ? " STALE: runs finished after this was computed; it refreshes automatically when an experiment completes, or run experiments.validate." : "")
+      : "Validation has not run yet. It runs automatically when an experiment completes; verdicts appear here.";
+    $("hypList").innerHTML = (hypData || []).map(h => {
+      const v = valData && valData.hypotheses ? valData.hypotheses[h.id] : null;
+      const chip = v ? `<span class="chip ${VCHIP[v.proposed_status] || ""}" title="${escapeHtml(VMEAN[v.proposed_status] || "")}">${escapeHtml(v.proposed_status)}</span>` : `<span class="chip">NOT VALIDATED</span>`;
+      const claim = h.claim ? `<div class="subtile"><h4 class="evhead">The claim</h4><p style="margin:2px 0;max-width:90ch">${escapeHtml(h.claim)}</p></div>` : "";
+      const protocol = `<p style="margin:2px 0;max-width:90ch">Each prediction is checked as a paired comparison: the same experiment, world and seeds, with only the thing the prediction names differing. The 95% confidence interval of that difference decides the verdict: entirely on the predicted side of zero is supported; entirely on the other side, contradicted; anything else, inconclusive. A verdict needs at least ${(valData && valData.min_pairs) || 5} matched pairs of full-length runs, and short sense-check runs never count.</p>` +
+        (v ? `<p style="margin:8px 0 2px;max-width:90ch"><span class="muted">Current verdict:</span> ${escapeHtml(VMEAN[v.proposed_status] || "")} (${escapeHtml(v.scope)}).</p>` : "");
+      return `<details class="hyp"><summary><strong>${escapeHtml(h.id)}</strong> ${escapeHtml(h.title)} ${chip}</summary>` +
+        claim +
+        `<div class="subtile"><h4 class="evhead">Evidence</h4>${hypEvidenceHTML(h.id, v)}</div>` +
+        `<div class="subtile"><h4 class="evhead">How it is validated</h4>${protocol}</div></details>`;
+    }).join("") || '<p class="muted">no hypotheses defined yet</p>';
+  }
+
+  // ---- tabs -------------------------------------------------------------------
+  function setTab(name) {
+    tab = name;
+    for (const t of ["Activity", "Performance", "Config"]) {
+      const btn = $("tab" + t), sec = $("sec" + t);
+      if (btn) btn.className = t === name ? "on" : "";
+      if (sec) sec.hidden = t !== name;
+    }
+    render();  // charts drawn while hidden had no size; redraw now that the tab is visible
+  }
+  for (const t of ["Activity", "Performance", "Config"]) { const b = $("tab" + t); if (b) b.onclick = () => setTab(t); }
+
+  // ---- live stream ----------------------------------------------------------------
+  let pending = false;
+  function scheduleRender() { if (pending) return; pending = true; requestAnimationFrame(() => { pending = false; render(); }); }
+  const es = new EventSource("/events");
+  es.onopen = () => { const d = $("dot"); d.className = "dot on"; d.title = "live"; };
+  es.onerror = () => { const d = $("dot"); d.className = "dot"; d.title = "reconnecting…"; };
+  es.onmessage = e => { if (replaying) return; try { ingest(JSON.parse(e.data)); scheduleRender(); } catch (err) { console.warn(err); } };
+  fetch("/registry").then(r => r.json()).then(d => { if (d && !Array.isArray(d)) { REGISTRY = d; scheduleRender(); } }).catch(() => {});
+
+  // ---- replay from a finished log -------------------------------------------------
+  async function refreshRuns() {
+    try { diskLogs = await (await fetch("/runs")).json(); } catch (e) { return; }
+    if (topView === "home") renderHome();
+    scheduleRender();
+  }
+  refreshRuns();
+  setInterval(refreshRuns, 4000);
+  async function replayLog(path, delay) {
+    const data = await (await fetch("/log?path=" + encodeURIComponent(path))).json();
+    // replay into the run's own entry: run_start resets its state in place, so the list order holds
+    const label = path.split("/").pop().replace(".jsonl", ""); const h = data.header;
+    replaying = true; active = label; pinned = true;
+    ingest({ run: label, kind: "run_start", cell: h.cell, T: data.steps.length, instructions: "(the exact job text is not stored in run logs)", experiment: path.split("/")[1], world: (h.cell || {}).world, cost: h.cost });
+    const memVersions = (h.memory_versions || []).slice(); // harness notebook edits, stored in the header
+    for (const st of data.steps) {
+      (st.changes || st.mutations || []).forEach(mu => ingest({ run: label, kind: "event", event_kind: "world_change", msg: mu.desc || `rule flip ${JSON.stringify(mu.key)} ${mu.old} → ${mu.new} (affects ${(mu.affected || []).length} keys)` }));
+      if (st.notice) ingest({ run: label, kind: "event", event_kind: "notice", msg: "notice shown: " + st.notice });
+      while (memVersions.length && memVersions[0].t <= st.t) { const v = memVersions.shift();
+        ingest({ run: label, kind: "event", event_kind: "memory", msg: `memory updated (${v.chars} chars)`, memory: v.text, memory_kind: v.kind || "notebook" }); }
+      ingest({ run: label, kind: "step", t: st.t, T: data.steps.length, ...st });
+      if (delay) { scheduleRender(); await new Promise(res => setTimeout(res, delay)); }
+    }
+    memVersions.forEach(v => ingest({ run: label, kind: "event", event_kind: "memory", msg: `memory updated (${v.chars} chars)`, memory: v.text, memory_kind: v.kind || "notebook" }));
+    ingest({ run: label, kind: "run_end", steps: data.steps.length });
+    replaying = false; render();
+  }
+  window.addEventListener("resize", scheduleRender);
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(() => scheduleRender());
+    ["chart", "extraChart"].forEach(id => { const el = $(id); if (el) ro.observe(el.parentElement || el); });
+  }
+  applyTutorial();
+})();
+</script>
+</body>
+</html>

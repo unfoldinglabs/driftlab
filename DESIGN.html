@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DriftLab System Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --ground: #f7f8f6; --surface: #ffffff; --ink: #17191c; --muted: #5b6470;
+    --accent: #2456c4; --accent-soft: #e8eefb; --line: #e3e6e2; --line-strong: #c9cec9;
+    --good: #177a3e; --bad: #b3382f; --warn: #a86a10; --chip: #eef0ed;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #141619; --surface: #1c1f24; --ink: #f0f1f0; --muted: #98a1ab;
+      --accent: #6f97ee; --accent-soft: #22304d; --line: #2b2f35; --line-strong: #3a4048;
+      --good: #4cb372; --bad: #d96a5e; --warn: #cf9440; --chip: #24282e;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #141619; --surface: #1c1f24; --ink: #f0f1f0; --muted: #98a1ab;
+    --accent: #6f97ee; --accent-soft: #22304d; --line: #2b2f35; --line-strong: #3a4048;
+    --good: #4cb372; --bad: #d96a5e; --warn: #cf9440; --chip: #24282e;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink);
+         font: 15px/1.55 "Public Sans", system-ui, sans-serif; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 36px 24px 80px; }
+  h1, h2 { font-family: "Newsreader", Georgia, serif; font-weight: 600; text-wrap: balance; }
+  h1 { font-size: 40px; margin: 0 0 4px; }
+  h2 { font-size: 25px; margin: 52px 0 6px; }
+  .lede { color: var(--muted); max-width: 68ch; margin: 0; }
+  .sub { color: var(--muted); max-width: 72ch; margin: 4px 0 20px; }
+  code, .mono { font-family: var(--mono); font-size: 0.92em; }
+  code { background: var(--chip); border-radius: 4px; padding: 1px 5px; }
+  pre { background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+        padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 13px; line-height: 1.6; }
+  pre code { background: none; padding: 0; }
+  a { color: var(--accent); }
+
+  /* the interactive diagrams */
+  .maprow { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; margin-top: 24px; align-items: start; }
+  @media (max-width: 900px) { .maprow { grid-template-columns: 1fr; } }
+  .map svg { width: 100%; height: auto; display: block; }
+  svg .zone { fill: var(--chip); opacity: .5; stroke: var(--line); stroke-width: .8; }
+  svg .eyebrow { fill: var(--muted); font: 500 8px var(--mono); letter-spacing: .14em; }
+  svg .node { cursor: pointer; }
+  svg .node .box { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1; }
+  svg .node:hover .box { stroke: var(--accent); }
+  svg .node.on .box { fill: var(--accent-soft); stroke: var(--accent); }
+  svg .node:focus-visible { outline: none; }
+  svg .node:focus-visible .box { stroke: var(--accent); stroke-width: 1.6; }
+  svg .name { fill: var(--ink); font: 600 12px "Public Sans", system-ui, sans-serif; }
+  svg .num { fill: var(--muted); font: 500 12px var(--mono); }
+  svg .sub { fill: var(--muted); font: 400 8px var(--mono); }
+  svg .edge { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+  svg .edge.acc { stroke: var(--accent); }
+  svg .edge.dash { stroke-dasharray: 4 3; stroke-width: 1; }
+  svg .mask { fill: var(--ground); }
+  svg .alabel { fill: var(--muted); font: 500 8px var(--mono); letter-spacing: .06em; }
+  svg .alabel.acc { fill: var(--accent); }
+  .panel { position: sticky; top: 16px; background: var(--surface); border: 1px solid var(--line);
+           border-radius: 10px; padding: 16px 18px; }
+  .panel h3 { margin: 0 0 2px; font-size: 16px; }
+  .panel .file { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+  .panel p { margin: 8px 0; font-size: 13.5px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; background: var(--surface);
+          border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .tablewrap { overflow-x: auto; border-radius: 10px; }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
+       color: var(--muted); text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line-strong); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.n { font-family: var(--mono); color: var(--muted); white-space: nowrap; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .card h3 { margin: 0; font-size: 15.5px; }
+  .card .mono { font-size: 11.5px; color: var(--muted); }
+  .card p { margin: 8px 0 0; font-size: 13.5px; color: var(--ink); }
+  .card .drift { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .tag { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em;
+         background: var(--chip); border-radius: 999px; padding: 2px 8px; margin: 6px 4px 0 0; color: var(--muted); }
+  .tag.adv { color: var(--bad); } .tag.pool { color: var(--warn); }
+  .hyp { border-left: 3px solid var(--accent); padding: 2px 0 2px 14px; margin: 14px 0; }
+  .hyp b { font-size: 14.5px; }
+  .hyp .mono { color: var(--muted); font-size: 11.5px; }
+  .hyp p { margin: 3px 0 0; font-size: 13.5px; color: var(--muted); max-width: 78ch; }
+  .note { font-size: 13px; color: var(--muted); max-width: 78ch; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; font-size: 13.5px; }
+  .kv .k { font-family: var(--mono); font-size: 12px; color: var(--muted); padding-top: 1px; }
+  .invariant { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px;
+               padding: 12px 16px; font-size: 14px; max-width: 78ch; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>DriftLab System Map</h1>
+<p class="lede">A testbed for how agents cope when the world keeps changing under them.
+Worlds carry hidden, seeded ground truth; agents just work a job; every claim about
+learning is measured from the logs, after the fact, with paired statistics. This page is
+the map of how the pieces fit. The README covers usage; CONTRIBUTING covers additions;
+the dashboard shows the live state.</p>
+
+<h2>The pipeline</h2>
+<p class="sub">Click any box. Data flows downward: definitions feed runs, runs write logs,
+and everything below the record layer is computed from those logs and nothing else.</p>
+
+<div class="maprow" id="row-pipeline">
+  <div class="map">
+    <svg viewBox="0 0 720 616" role="img" aria-labelledby="pl-title pl-desc">
+      <title id="pl-title">The driftlab pipeline</title>
+      <desc id="pl-desc">Definitions feed runs, runs write append-only logs, and measurement, validation and the dashboard are computed from the logs.</desc>
+      <defs>
+        <marker id="pl-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--muted)"/></marker>
+        <marker id="pl-aa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/></marker>
+      </defs>
+      <rect class="zone" x="8" y="8" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="24">DEFINE</text>
+      <rect class="zone" x="8" y="136" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="152">RUN</text>
+      <rect class="zone" x="8" y="264" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="280">RECORD</text>
+      <rect class="zone" x="8" y="392" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="408">MEASURE</text>
+      <rect class="zone" x="8" y="520" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="536">WATCH</text>
+
+      <line class="edge" x1="272" y1="84" x2="272" y2="164" marker-end="url(#pl-a)"/>
+      <rect class="mask" x="280" y="118" width="60" height="12" rx="2"/>
+      <text class="alabel" x="284" y="127">SCENARIO</text>
+      <path class="edge acc" d="M272,212 V244 Q272,252 264,252 H104 Q96,252 96,260 V292" marker-end="url(#pl-aa)"/>
+      <rect class="mask" x="148" y="234" width="72" height="12" rx="2"/>
+      <text class="alabel acc" x="184" y="243" text-anchor="middle">STEP + TRUTH</text>
+      <path class="edge" d="M448,84 V116 Q448,124 456,124 H616 Q624,124 624,132 V164" marker-end="url(#pl-a)"/>
+      <rect class="mask" x="504" y="106" width="64" height="12" rx="2"/>
+      <text class="alabel" x="536" y="115" text-anchor="middle">TRIMS GRID</text>
+      <line class="edge" x1="96" y1="340" x2="96" y2="420" marker-end="url(#pl-a)"/>
+      <rect class="mask" x="104" y="370" width="64" height="12" rx="2"/>
+      <text class="alabel" x="108" y="379">READ-ONLY</text>
+      <path class="edge" d="M448,468 V500 Q448,508 440,508 H104 Q96,508 96,516 V548" marker-end="url(#pl-a)"/>
+      <rect class="mask" x="240" y="490" width="64" height="12" rx="2"/>
+      <text class="alabel" x="272" y="499" text-anchor="middle">VERDICTS</text>
+
+      <g class="node" data-k="world" tabindex="0" role="button" aria-label="World, driftlab/worlds/">
+        <rect class="box" x="16" y="36" width="160" height="48" rx="6"/>
+        <text class="name" x="96" y="56" text-anchor="middle">World</text>
+        <text class="sub" x="96" y="72" text-anchor="middle">driftlab/worlds/</text>
+      </g>
+      <g class="node" data-k="experiment" tabindex="0" role="button" aria-label="Experiment, experiments/expNN_*.py">
+        <rect class="box" x="192" y="36" width="160" height="48" rx="6"/>
+        <text class="name" x="272" y="56" text-anchor="middle">Experiment</text>
+        <text class="sub" x="272" y="72" text-anchor="middle">experiments/expNN_*.py</text>
+      </g>
+      <g class="node" data-k="registry" tabindex="0" role="button" aria-label="Registry, experiments/registry.py">
+        <rect class="box" x="368" y="36" width="160" height="48" rx="6"/>
+        <text class="name" x="448" y="56" text-anchor="middle">Registry</text>
+        <text class="sub" x="448" y="72" text-anchor="middle">experiments/registry.py</text>
+      </g>
+      <g class="node" data-k="hypothesis" tabindex="0" role="button" aria-label="Hypothesis, research/hypotheses/">
+        <rect class="box" x="544" y="36" width="160" height="48" rx="6"/>
+        <text class="name" x="624" y="56" text-anchor="middle">Hypothesis</text>
+        <text class="sub" x="624" y="72" text-anchor="middle">research/hypotheses/</text>
+      </g>
+      <g class="node" data-k="agent" tabindex="0" role="button" aria-label="Agent, agents.json">
+        <rect class="box" x="16" y="164" width="160" height="48" rx="6"/>
+        <text class="name" x="96" y="184" text-anchor="middle">Agent</text>
+        <text class="sub" x="96" y="200" text-anchor="middle">agents/ · agents.json</text>
+      </g>
+      <g class="node" data-k="loop" tabindex="0" role="button" aria-label="Episode loop, driftlab/core.py">
+        <rect class="box" x="192" y="164" width="160" height="48" rx="6"/>
+        <text class="name" x="272" y="184" text-anchor="middle">Episode loop</text>
+        <text class="sub" x="272" y="200" text-anchor="middle">driftlab/core.py</text>
+      </g>
+      <g class="node" data-k="runner" tabindex="0" role="button" aria-label="Grid runner, driftlab/runner.py">
+        <rect class="box" x="368" y="164" width="160" height="48" rx="6"/>
+        <text class="name" x="448" y="184" text-anchor="middle">Grid runner</text>
+        <text class="sub" x="448" y="200" text-anchor="middle">driftlab/runner.py</text>
+      </g>
+      <g class="node" data-k="hyprun" tabindex="0" role="button" aria-label="Hypothesis run, experiments/run_hypothesis.py">
+        <rect class="box" x="544" y="164" width="160" height="48" rx="6"/>
+        <text class="name" x="624" y="184" text-anchor="middle">Hypothesis run</text>
+        <text class="sub" x="624" y="200" text-anchor="middle">run_hypothesis.py</text>
+      </g>
+      <g class="node" data-k="log" tabindex="0" role="button" aria-label="Run log, runs directories">
+        <rect class="box" x="16" y="292" width="160" height="48" rx="6"/>
+        <text class="name" x="96" y="312" text-anchor="middle">Run log</text>
+        <text class="sub" x="96" y="328" text-anchor="middle">runs/…/*.jsonl</text>
+      </g>
+      <g class="node" data-k="cache" tabindex="0" role="button" aria-label="LLM cache and budget, agents/brain.py">
+        <rect class="box" x="192" y="292" width="160" height="48" rx="6"/>
+        <text class="name" x="272" y="312" text-anchor="middle">LLM cache + budget</text>
+        <text class="sub" x="272" y="328" text-anchor="middle">agents/brain.py</text>
+      </g>
+      <g class="node" data-k="profile" tabindex="0" role="button" aria-label="Profile, driftlab/profile.py">
+        <rect class="box" x="16" y="420" width="160" height="48" rx="6"/>
+        <text class="name" x="96" y="440" text-anchor="middle">Profile</text>
+        <text class="sub" x="96" y="456" text-anchor="middle">driftlab/profile.py</text>
+      </g>
+      <g class="node" data-k="effects" tabindex="0" role="button" aria-label="Paired effects, profile.json">
+        <rect class="box" x="192" y="420" width="160" height="48" rx="6"/>
+        <text class="name" x="272" y="440" text-anchor="middle">Paired effects</text>
+        <text class="sub" x="272" y="456" text-anchor="middle">profile.json</text>
+      </g>
+      <g class="node" data-k="validate" tabindex="0" role="button" aria-label="Validation, experiments/validate.py">
+        <rect class="box" x="368" y="420" width="160" height="48" rx="6"/>
+        <text class="name" x="448" y="440" text-anchor="middle">Validation</text>
+        <text class="sub" x="448" y="456" text-anchor="middle">validate.py</text>
+      </g>
+      <g class="node" data-k="dashboard" tabindex="0" role="button" aria-label="Dashboard, driftlab/viz/">
+        <rect class="box" x="16" y="548" width="160" height="48" rx="6"/>
+        <text class="name" x="96" y="568" text-anchor="middle">Dashboard</text>
+        <text class="sub" x="96" y="584" text-anchor="middle">driftlab/viz/</text>
+      </g>
+      <g class="node" data-k="doctor" tabindex="0" role="button" aria-label="Doctor, driftlab/doctor.py">
+        <rect class="box" x="192" y="548" width="160" height="48" rx="6"/>
+        <text class="name" x="272" y="568" text-anchor="middle">Doctor</text>
+        <text class="sub" x="272" y="584" text-anchor="middle">driftlab/doctor.py</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="panel" aria-live="polite">
+    <h3></h3>
+    <div class="file"></div>
+    <div class="pbody"></div>
+  </aside>
+</div>
+
+<h2>Who owns what</h2>
+<p class="sub">Five stores of state. The two sides never touch: they meet only in the
+loop, as text, and the loop writes each exchange next to the truth the agent never saw.
+Click any box.</p>
+<div class="maprow" id="row-state">
+  <div class="map">
+    <svg viewBox="0 0 720 296" role="img" aria-labelledby="st-title st-desc">
+      <title id="st-title">Who owns what state</title>
+      <desc id="st-desc">World hidden state and agent memory exchange only text through the episode loop, which writes the run log; derived results are recomputed from the log at any time.</desc>
+      <defs>
+        <marker id="st-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--muted)"/></marker>
+        <marker id="st-aa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/></marker>
+      </defs>
+
+      <line class="edge" x1="216" y1="68" x2="280" y2="68" marker-end="url(#st-a)"/>
+      <rect class="mask" x="220" y="50" width="56" height="12" rx="2"/>
+      <text class="alabel" x="248" y="59" text-anchor="middle">OBSERVE</text>
+      <line class="edge" x1="280" y1="92" x2="216" y2="92" marker-end="url(#st-a)"/>
+      <rect class="mask" x="224" y="74" width="48" height="12" rx="2"/>
+      <text class="alabel" x="248" y="83" text-anchor="middle">ACTION</text>
+      <line class="edge" x1="440" y1="68" x2="504" y2="68" marker-end="url(#st-a)"/>
+      <rect class="mask" x="444" y="50" width="56" height="12" rx="2"/>
+      <text class="alabel" x="472" y="59" text-anchor="middle">PROMPT</text>
+      <line class="edge" x1="504" y1="92" x2="440" y2="92" marker-end="url(#st-a)"/>
+      <rect class="mask" x="452" y="74" width="40" height="12" rx="2"/>
+      <text class="alabel" x="472" y="83" text-anchor="middle">REPLY</text>
+      <line class="edge acc" x1="360" y1="112" x2="360" y2="208" marker-end="url(#st-aa)"/>
+      <rect class="mask" x="368" y="148" width="76" height="12" rx="2"/>
+      <text class="alabel acc" x="372" y="157">STEP + TRUTH</text>
+      <line class="edge dash" x1="440" y1="240" x2="504" y2="240" marker-end="url(#st-a)"/>
+      <rect class="mask" x="444" y="222" width="56" height="12" rx="2"/>
+      <text class="alabel" x="472" y="231" text-anchor="middle">ANY TIME</text>
+
+      <g class="node" data-k="wstate" tabindex="0" role="button" aria-label="World hidden state, driftlab/worlds/">
+        <rect class="box" x="16" y="48" width="200" height="64" rx="6"/>
+        <text class="name" x="116" y="76" text-anchor="middle">World hidden state</text>
+        <text class="sub" x="116" y="92" text-anchor="middle">driftlab/worlds/*.py</text>
+      </g>
+      <g class="node" data-k="sloop" tabindex="0" role="button" aria-label="Episode loop, driftlab/core.py">
+        <rect class="box" x="280" y="48" width="160" height="64" rx="6"/>
+        <text class="name" x="360" y="76" text-anchor="middle">Episode loop</text>
+        <text class="sub" x="360" y="92" text-anchor="middle">driftlab/core.py</text>
+      </g>
+      <g class="node" data-k="amem" tabindex="0" role="button" aria-label="Agent memory, substrates, notebook or CLI session">
+        <rect class="box" x="504" y="48" width="200" height="64" rx="6"/>
+        <text class="name" x="604" y="76" text-anchor="middle">Agent memory</text>
+        <text class="sub" x="604" y="92" text-anchor="middle">substrates · notebook · CLI</text>
+      </g>
+      <g class="node" data-k="slog" tabindex="0" role="button" aria-label="Run log, runs directories">
+        <rect class="box" x="280" y="208" width="160" height="64" rx="6"/>
+        <text class="name" x="360" y="236" text-anchor="middle">Run log</text>
+        <text class="sub" x="360" y="252" text-anchor="middle">runs/…/*.jsonl</text>
+      </g>
+      <g class="node" data-k="derived" tabindex="0" role="button" aria-label="Derived results, profile.json, manifest, events">
+        <rect class="box" x="504" y="208" width="200" height="64" rx="6"/>
+        <text class="name" x="604" y="236" text-anchor="middle">Derived results</text>
+        <text class="sub" x="604" y="252" text-anchor="middle">profile.json · manifest · events</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="panel" aria-live="polite"><h3></h3><div class="file"></div><div class="pbody"></div></aside>
+</div>
+<p class="invariant"><b>The boundary:</b> the agent never reads world state, and driftlab
+never reads agent memory. Every derived number is a pure function of the append-only log,
+so the same profile applies to a run played by an in-process agent or an external harness,
+and a metric invented today applies to every run ever recorded.</p>
+
+<h2>One step, in order</h2>
+<p class="sub">What the episode loop does, T times per episode. The experiment's scenario
+owns the timing of every hook; the world owns the mechanics of every change. Click a step.</p>
+<div class="maprow" id="row-step">
+  <div class="map">
+    <svg viewBox="0 0 720 360" role="img" aria-labelledby="sp-title sp-desc">
+      <title id="sp-title">One step of an episode</title>
+      <desc id="sp-desc">Nine stages repeat every step: scheduled drift and an optional notice, then the observe, act, parse, react exchange with possible feedback delay, then the agent updates memory and the step is recorded with the hidden truth.</desc>
+      <defs>
+        <marker id="sp-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--muted)"/></marker>
+      </defs>
+
+      <line class="edge" x1="216" y1="80" x2="252" y2="80" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="444" y1="80" x2="480" y2="80" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="576" y1="112" x2="576" y2="160" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="480" y1="192" x2="444" y2="192" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="252" y1="192" x2="216" y2="192" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="120" y1="224" x2="120" y2="272" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="216" y1="304" x2="252" y2="304" marker-end="url(#sp-a)"/>
+      <line class="edge" x1="444" y1="304" x2="480" y2="304" marker-end="url(#sp-a)"/>
+      <path class="edge dash" d="M672,304 H688 Q696,304 696,296 V32 Q696,24 688,24 H128 Q120,24 120,32 V48" marker-end="url(#sp-a)"/>
+      <rect class="mask" x="364" y="4" width="72" height="12" rx="2"/>
+      <text class="alabel" x="400" y="13" text-anchor="middle">REPEAT ×T</text>
+
+      <g class="node" data-k="drift" tabindex="0" role="button" aria-label="Step 1, drift hooks fire">
+        <rect class="box" x="24" y="48" width="192" height="64" rx="6"/>
+        <text class="name" x="120" y="78" text-anchor="middle"><tspan class="num">1 · </tspan>Drift hooks fire</text>
+        <text class="sub" x="120" y="94" text-anchor="middle">scenario.before_step(t)</text>
+      </g>
+      <g class="node" data-k="notice" tabindex="0" role="button" aria-label="Step 2, an optional notice">
+        <rect class="box" x="252" y="48" width="192" height="64" rx="6"/>
+        <text class="name" x="348" y="78" text-anchor="middle"><tspan class="num">2 · </tspan>An optional notice</text>
+        <text class="sub" x="348" y="94" text-anchor="middle">scenario.notice_fn(t)</text>
+      </g>
+      <g class="node" data-k="obs" tabindex="0" role="button" aria-label="Step 3, the task renders">
+        <rect class="box" x="480" y="48" width="192" height="64" rx="6"/>
+        <text class="name" x="576" y="78" text-anchor="middle"><tspan class="num">3 · </tspan>The task renders</text>
+        <text class="sub" x="576" y="94" text-anchor="middle">world.observe(t)</text>
+      </g>
+      <g class="node" data-k="act" tabindex="0" role="button" aria-label="Step 4, the agent acts">
+        <rect class="box" x="480" y="160" width="192" height="64" rx="6"/>
+        <text class="name" x="576" y="190" text-anchor="middle"><tspan class="num">4 · </tspan>The agent acts</text>
+        <text class="sub" x="576" y="206" text-anchor="middle">agent.act(prompt) → str</text>
+      </g>
+      <g class="node" data-k="parse" tabindex="0" role="button" aria-label="Step 5, the reply is parsed">
+        <rect class="box" x="252" y="160" width="192" height="64" rx="6"/>
+        <text class="name" x="348" y="190" text-anchor="middle"><tspan class="num">5 · </tspan>The reply is parsed</text>
+        <text class="sub" x="348" y="206" text-anchor="middle">world.parse(text)</text>
+      </g>
+      <g class="node" data-k="react" tabindex="0" role="button" aria-label="Step 6, the world reacts">
+        <rect class="box" x="24" y="160" width="192" height="64" rx="6"/>
+        <text class="name" x="120" y="190" text-anchor="middle"><tspan class="num">6 · </tspan>The world reacts</text>
+        <text class="sub" x="120" y="206" text-anchor="middle">world.act(t, action)</text>
+      </g>
+      <g class="node" data-k="delay" tabindex="0" role="button" aria-label="Step 7, feedback may wait">
+        <rect class="box" x="24" y="272" width="192" height="64" rx="6"/>
+        <text class="name" x="120" y="302" text-anchor="middle"><tspan class="num">7 · </tspan>Feedback may wait</text>
+        <text class="sub" x="120" y="318" text-anchor="middle">scenario.feedback_delay</text>
+      </g>
+      <g class="node" data-k="aobs" tabindex="0" role="button" aria-label="Step 8, the agent observes">
+        <rect class="box" x="252" y="272" width="192" height="64" rx="6"/>
+        <text class="name" x="348" y="302" text-anchor="middle"><tspan class="num">8 · </tspan>The agent observes</text>
+        <text class="sub" x="348" y="318" text-anchor="middle">agent.observe(fb, reward)</text>
+      </g>
+      <g class="node" data-k="record" tabindex="0" role="button" aria-label="Step 9, recorded with the truth">
+        <rect class="box" x="480" y="272" width="192" height="64" rx="6"/>
+        <text class="name" x="576" y="302" text-anchor="middle"><tspan class="num">9 · </tspan>Recorded, with truth</text>
+        <text class="sub" x="576" y="318" text-anchor="middle">world.privileged(t)</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="panel" aria-live="polite"><h3></h3><div class="file"></div><div class="pbody"></div></aside>
+</div>
+
+<h2>Six worlds</h2>
+<p class="sub">Each is a job at a fictional company. The agent is never told it is in an
+experiment. Three evaluate a choice; three evaluate a result (executed code, a graded
+form, a numeric decision with consequences). Self-caused mechanisms are off by default so
+scheduled experiments stay controlled.</p>
+<div class="grid2">
+  <div class="card"><h3>Intake desk <span class="mono">rule_world</span></h3>
+    <p>Route each request to one of four desks. A hidden rule table decides which desk is right;
+    tasks repeat, so latencies count in encounters.</p>
+    <div class="drift">Real: a rule flips · Cosmetic: desks relabeled · Self-caused: an overloaded desk sheds work</div></div>
+  <div class="card"><h3>Order forms <span class="mono">form_filler</span></h3>
+    <p>Enter orders from prose intake notes into a structured form, graded field by field, a few
+    attempts per record.</p>
+    <div class="drift">Real: schema mutates · Cosmetic: source columns renamed · Self-caused: IT starts accepting the agent's habitual mistake</div></div>
+  <div class="card"><h3>Inventory <span class="mono">inventory</span></h3>
+    <p>Order stock against hidden retail-shaped demand (a weekday cycle with promotion spikes);
+    the day's cost combines holding, lost sales and fees. The right answer is a calculation, not a pick.</p>
+    <div class="drift">Real: demand jumps · Cosmetic: report reworded · Self-caused: a big order strains the supplier</div></div>
+  <div class="card"><h3>Codebase <span class="mono">codebase</span></h3>
+    <p>Build small functions on the team's internal library. Submissions run in a sandbox against
+    tests and are judged against a style guide the agent can never read; under drift a library
+    helper is renamed and the old name is deprecated.</p>
+    <div class="drift">Real: the guide is revised · Cosmetic: ticket template reworded · Self-caused: the reviewer copies the agent's habits</div></div>
+  <div class="card"><h3>Claims desk <span class="mono">claims_desk</span></h3>
+    <p>Approve or reject narrated insurance claims. A fraud ring runs a signature of attribute
+    values; tracking it as it moves is the whole game.</p>
+    <div class="drift">Real: the signature moves · Cosmetic: template reworded · Adversarial: the ring mimics whatever gets approved</div>
+    <span class="tag adv">directed drift</span></div>
+  <div class="card"><h3>Campaign desk <span class="mono">campaign_desk</span></h3>
+    <p>Pick a daily outreach angle. No push is ever scored individually; only a pooled report
+    arrives every period, so credit assignment needs memory.</p>
+    <div class="drift">Real: audience rates redrawn · Cosmetic: angles reworded · Self-caused: a repeated angle wears out</div>
+    <span class="tag pool">pooled feedback</span></div>
+</div>
+
+<h2>Twenty experiments</h2>
+<p class="sub">An experiment is a protocol laid over a world: when change happens, what
+warnings or probes appear, what gets measured. Each is named for its question, versioned,
+and stamped into every run it produces. Registered predictions are what validation checks
+and what hypothesis runs are trimmed to.</p>
+<div class="tablewrap"><table>
+  <tr><th>#</th><th>Question</th><th>Serves</th><th>Runs on</th></tr>
+  <tr><td class="n">01</td><td>Which task-selection strategy trains an agent fastest?</td><td class="n">H004</td><td>intake desk</td></tr>
+  <tr><td class="n">02</td><td>Does detecting a rule change predict recovering from it?</td><td class="n">H001</td><td>any</td></tr>
+  <tr><td class="n">03</td><td>Can an agent tell a changed rule from one it never knew?</td><td class="n">H003</td><td>intake desk, order forms</td></tr>
+  <tr><td class="n">04</td><td>Do agents over-react to purely cosmetic change?</td><td class="n">H002</td><td>any</td></tr>
+  <tr><td class="n">05</td><td>Which memory window maximizes accuracy under drift?</td><td class="n">H001</td><td>any</td></tr>
+  <tr><td class="n">06</td><td>Does stated confidence drop before behavior recovers?</td><td class="n">H005</td><td>any</td></tr>
+  <tr><td class="n">07</td><td>Can agents exploit a predictable change schedule?</td><td class="n">H005</td><td>any; triggered clock needs the intake desk</td></tr>
+  <tr><td class="n">08</td><td>Does explanatory feedback beat outcome-only feedback?</td><td class="n">H004</td><td>brings its own three worlds</td></tr>
+  <tr><td class="n">09</td><td>How much accuracy does delayed feedback cost under drift?</td><td class="n">H004, H001</td><td>any</td></tr>
+  <tr><td class="n">10</td><td>Do minimal contrast pairs speed up rule learning?</td><td class="n">H004</td><td>intake desk</td></tr>
+  <tr><td class="n">11</td><td>Do advance warnings help, and what do false alarms cost?</td><td class="n">H002, H004</td><td>any</td></tr>
+  <tr><td class="n">12</td><td>Which note-consolidation trigger wins per dollar?</td><td class="n">H001</td><td>any</td></tr>
+  <tr><td class="n">13</td><td>Does recovery-paced change beat a fixed schedule?</td><td class="n">H004</td><td>any</td></tr>
+  <tr><td class="n">14</td><td>Does learned knowledge transfer to fresh rules and novel tasks?</td><td class="n">H001</td><td>intake desk</td></tr>
+  <tr><td class="n">15</td><td>Are self-caused changes harder to recover from than scheduled ones?</td><td class="n">H003</td><td>any</td></tr>
+  <tr><td class="n">16</td><td>Do agents over-update on misleading feedback?</td><td class="n">H006, H001</td><td>needs per-task truth: intake desk, claims desk</td></tr>
+  <tr><td class="n">17</td><td>What does consolidation preserve across a context wipe?</td><td class="n">H007, H001</td><td>any</td></tr>
+  <tr><td class="n">18</td><td>Is recovery slower when an adversary aims the drift?</td><td class="n">H008, H003</td><td>claims desk</td></tr>
+  <tr><td class="n">19</td><td>Can agents assign credit through pooled, delayed reports?</td><td class="n">H001, H004</td><td>campaign desk</td></tr>
+  <tr><td class="n">20</td><td>Does prediction-gated revision reduce over-updating?</td><td class="n">H006, H001</td><td>needs per-task truth: intake desk</td></tr>
+</table></div>
+<p class="sub" style="margin-top:20px">Two contracts keep this table honest: capabilities
+decide where an experiment can run, and the registry decides what it is allowed to claim.
+Click any box.</p>
+<div class="maprow" id="row-contract">
+  <div class="map">
+    <svg viewBox="0 0 720 264" role="img" aria-labelledby="ct-title ct-desc">
+      <title id="ct-title">The two experiment contracts</title>
+      <desc id="ct-desc">Capability negotiation decides where an experiment can run; the manifest stamp, registered predictions and versioning decide what it may claim.</desc>
+      <defs>
+        <marker id="ct-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--muted)"/></marker>
+      </defs>
+      <rect class="zone" x="8" y="8" width="704" height="104" rx="8"/>
+      <text class="eyebrow" x="20" y="24">THE CAPABILITY CONTRACT · WHERE IT CAN RUN</text>
+      <rect class="zone" x="8" y="136" width="704" height="104" rx="8"/>
+      <text class="eyebrow" x="20" y="152">THE HONESTY CONTRACT · WHAT IT MAY CLAIM</text>
+
+      <line class="edge" x1="216" y1="68" x2="252" y2="68" marker-end="url(#ct-a)"/>
+      <line class="edge" x1="444" y1="68" x2="480" y2="68" marker-end="url(#ct-a)"/>
+
+      <g class="node" data-k="needs" tabindex="0" role="button" aria-label="What an experiment demands, needs=">
+        <rect class="box" x="24" y="36" width="192" height="64" rx="6"/>
+        <text class="name" x="120" y="64" text-anchor="middle">Experiment demands</text>
+        <text class="sub" x="120" y="80" text-anchor="middle">scenario(…, needs=[…])</text>
+      </g>
+      <g class="node" data-k="caps" tabindex="0" role="button" aria-label="What a world offers, worlds/base.py">
+        <rect class="box" x="252" y="36" width="192" height="64" rx="6"/>
+        <text class="name" x="348" y="64" text-anchor="middle">World offers</text>
+        <text class="sub" x="348" y="80" text-anchor="middle">driftlab/worlds/base.py</text>
+      </g>
+      <g class="node" data-k="refuse" tabindex="0" role="button" aria-label="Refuse or skip, SystemExit at startup">
+        <rect class="box" x="480" y="36" width="192" height="64" rx="6"/>
+        <text class="name" x="576" y="64" text-anchor="middle">Refuse, or skip</text>
+        <text class="sub" x="576" y="80" text-anchor="middle">SystemExit at startup</text>
+      </g>
+      <g class="node" data-k="stamp" tabindex="0" role="button" aria-label="The manifest stamp, manifest.json">
+        <rect class="box" x="24" y="164" width="192" height="64" rx="6"/>
+        <text class="name" x="120" y="192" text-anchor="middle">The manifest stamp</text>
+        <text class="sub" x="120" y="208" text-anchor="middle">runs/…/manifest.json</text>
+      </g>
+      <g class="node" data-k="preds" tabindex="0" role="button" aria-label="Registered predictions, experiments/registry.py">
+        <rect class="box" x="252" y="164" width="192" height="64" rx="6"/>
+        <text class="name" x="348" y="192" text-anchor="middle">Registered predictions</text>
+        <text class="sub" x="348" y="208" text-anchor="middle">experiments/registry.py</text>
+      </g>
+      <g class="node" data-k="version" tabindex="0" role="button" aria-label="Versions, not edits">
+        <rect class="box" x="480" y="164" width="192" height="64" rx="6"/>
+        <text class="name" x="576" y="192" text-anchor="middle">Versions, not edits</text>
+        <text class="sub" x="576" y="208" text-anchor="middle">version: N</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="panel" aria-live="polite"><h3></h3><div class="file"></div><div class="pbody"></div></aside>
+</div>
+
+<h2>Eight hypotheses</h2>
+<p class="sub">Hypotheses state claims; experiments ask the questions that test them.
+Verdicts are proposals computed from the runs, always scoped to the agents and worlds
+tested; the live board is on the dashboard's Research tab.</p>
+<div class="hyp"><b>H001</b> <span class="mono">memory-shapes-adaptation</span>
+  <p>How an agent stores what it learns matters more for coping with change than which model it is, and every memory design trades speed of noticing against durability of knowledge.</p></div>
+<div class="hyp"><b>H002</b> <span class="mono">surface-overreaction</span>
+  <p>Agents over-react to how things look and under-react to how they work.</p></div>
+<div class="hyp"><b>H003</b> <span class="mono">self-caused-drift</span>
+  <p>The changes an agent causes itself are the ones it is worst at seeing: no memo announces them.</p></div>
+<div class="hyp"><b>H004</b> <span class="mono">environment-engineering</span>
+  <p>You can make an agent learn faster without touching the agent: task order, feedback richness and timing, and change pacing are all environment-side dials.</p></div>
+<div class="hyp"><b>H005</b> <span class="mono">calibration-tracks-drift</span>
+  <p>An agent's stated confidence sags when the world shifts, before its behavior recovers, making confidence a cheap change detector. Blocked until a confidence-lag metric exists.</p></div>
+<div class="hyp"><b>H006</b> <span class="mono">update-on-dynamics</span>
+  <p>Agents update on the size of a surprise, not on how their world actually changes, so they abandon correct behavior when feedback merely lies and cling to stale behavior when rules really move.</p></div>
+<div class="hyp"><b>H007</b> <span class="mono">consolidation-pays-at-context-death</span>
+  <p>Notes and transcripts tie while raw history persists; consolidation earns its cost only when the context is severed.</p></div>
+<div class="hyp"><b>H008</b> <span class="mono">adversarial-chase</span>
+  <p>Against an adversary that adapts to you, adaptation never settles: becoming confident is what triggers the next shift.</p></div>
+
+<h2>From a log to a verdict</h2>
+<p class="sub">Nothing downstream of the episode loop touches a live object: the chain is
+pure functions, each reading only what the previous one wrote. Click any stage.</p>
+<div class="maprow" id="row-verdict">
+  <div class="map">
+    <svg viewBox="0 0 720 360" role="img" aria-labelledby="vd-title vd-desc">
+      <title id="vd-title">From a log to a verdict</title>
+      <desc id="vd-desc">A run directory reduces to raw metrics and dimensions, paired effects compare matched seeds, and prediction verdicts roll up into a hypothesis status; hypothesis runs and shared directories keep the chain cheap.</desc>
+      <defs>
+        <marker id="vd-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--muted)"/></marker>
+        <marker id="vd-aa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="var(--accent)"/></marker>
+      </defs>
+      <rect class="zone" x="8" y="8" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="24">REDUCE · NAN = UNMEASURED, NEVER ZERO</text>
+      <rect class="zone" x="8" y="136" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="152">COMPARE, THEN JUDGE</text>
+      <rect class="zone" x="8" y="248" width="704" height="88" rx="8"/>
+      <text class="eyebrow" x="20" y="264">ECONOMY</text>
+
+      <line class="edge" x1="224" y1="60" x2="260" y2="60" marker-end="url(#vd-a)"/>
+      <line class="edge" x1="460" y1="60" x2="496" y2="60" marker-end="url(#vd-a)"/>
+      <path class="edge acc" d="M596,84 V116 Q596,124 588,124 H132 Q124,124 124,132 V164" marker-end="url(#vd-aa)"/>
+      <rect class="mask" x="320" y="106" width="80" height="12" rx="2"/>
+      <text class="alabel acc" x="360" y="115" text-anchor="middle">MATCHED SEEDS</text>
+      <line class="edge" x1="224" y1="188" x2="260" y2="188" marker-end="url(#vd-a)"/>
+      <line class="edge" x1="460" y1="188" x2="496" y2="188" marker-end="url(#vd-a)"/>
+
+      <g class="node" data-k="vdir" tabindex="0" role="button" aria-label="Run directory">
+        <rect class="box" x="24" y="36" width="200" height="48" rx="6"/>
+        <text class="name" x="124" y="56" text-anchor="middle">Run directory</text>
+        <text class="sub" x="124" y="72" text-anchor="middle">runs/…/</text>
+      </g>
+      <g class="node" data-k="vraw" tabindex="0" role="button" aria-label="Twelve raw metrics, run_profile()">
+        <rect class="box" x="260" y="36" width="200" height="48" rx="6"/>
+        <text class="name" x="360" y="56" text-anchor="middle">Twelve raw metrics</text>
+        <text class="sub" x="360" y="72" text-anchor="middle">run_profile()</text>
+      </g>
+      <g class="node" data-k="vdims" tabindex="0" role="button" aria-label="Four dimensions and one score, dimension_scores()">
+        <rect class="box" x="496" y="36" width="200" height="48" rx="6"/>
+        <text class="name" x="596" y="56" text-anchor="middle">Dimensions + score</text>
+        <text class="sub" x="596" y="72" text-anchor="middle">dimension_scores()</text>
+      </g>
+      <g class="node" data-k="veff" tabindex="0" role="button" aria-label="Paired effects, profile.json">
+        <rect class="box" x="24" y="164" width="200" height="48" rx="6"/>
+        <text class="name" x="124" y="184" text-anchor="middle">Paired effects</text>
+        <text class="sub" x="124" y="200" text-anchor="middle">profile.json</text>
+      </g>
+      <g class="node" data-k="vval" tabindex="0" role="button" aria-label="Prediction verdicts, experiments/validate.py">
+        <rect class="box" x="260" y="164" width="200" height="48" rx="6"/>
+        <text class="name" x="360" y="184" text-anchor="middle">Prediction verdicts</text>
+        <text class="sub" x="360" y="200" text-anchor="middle">experiments/validate.py</text>
+      </g>
+      <g class="node" data-k="vstat" tabindex="0" role="button" aria-label="Hypothesis status, validate --apply">
+        <rect class="box" x="496" y="164" width="200" height="48" rx="6"/>
+        <text class="name" x="596" y="184" text-anchor="middle">Hypothesis status</text>
+        <text class="sub" x="596" y="200" text-anchor="middle">validate --apply</text>
+      </g>
+      <g class="node" data-k="vhyp" tabindex="0" role="button" aria-label="Hypothesis run, the chain driven backwards">
+        <rect class="box" x="24" y="276" width="200" height="48" rx="6"/>
+        <text class="name" x="124" y="296" text-anchor="middle">Hypothesis run</text>
+        <text class="sub" x="124" y="312" text-anchor="middle">run_hypothesis.py</text>
+      </g>
+      <g class="node" data-k="vshare" tabindex="0" role="button" aria-label="One directory, many writers">
+        <rect class="box" x="260" y="276" width="200" height="48" rx="6"/>
+        <text class="name" x="360" y="296" text-anchor="middle">One directory, many writers</text>
+        <text class="sub" x="360" y="312" text-anchor="middle">deterministic ids · cache</text>
+      </g>
+    </svg>
+  </div>
+  <aside class="panel" aria-live="polite"><h3></h3><div class="file"></div><div class="pbody"></div></aside>
+</div>
+
+<h2>Agents and routes</h2>
+<div class="grid2">
+  <div class="card"><h3>In-process, over an API</h3>
+    <p>A model plus a memory substrate: <code>none</code>, <code>transcript</code>, <code>notes</code>,
+    <code>skills</code>, <code>beliefs</code>, <code>worldmodel</code> (explicit rule hypotheses with
+    validity conditions; the agent predicts every outcome and a wrong prediction triggers an
+    immediate revision), or <code>fastslow</code>. Substrates are the arms of the memory experiments;
+    any transcript or notes can be wiped mid-run. Calls are priced, budgeted and cached; OpenRouter
+    slugs route automatically.</p></div>
+  <div class="card"><h3>A harness, two ways</h3>
+    <p><b>Path A, autonomous</b>: the harness plays through the MCP server at its own pace with an
+    optional versioned notebook; the launcher pins its model so the header carries enforced facts.
+    <b>Path B, controlled</b>: the CLI is called once per step and slots into the normal grid with
+    paired seeds and its own reported costs. Where A and B disagree is itself a finding.</p></div>
+</div>
+<p class="note" style="margin-top:10px">The roster lives in <code>agents.json</code>: model-first names
+(<code>g56luna_codex</code>, <code>sonnet5_api_low_notes</code>), one name per configuration, because
+the name is what runs are grouped, resumed and compared by.</p>
+
+<h2>Run modes</h2>
+<div class="kv" style="max-width:760px">
+  <span class="k">full</span><span>the real thing: 90 to 160 step episodes, 5+ seeds.</span>
+  <span class="k">--quick</span><span>half-length episodes and a smaller task space where the world supports it; stays above the 30-step validity floor and counts toward profiles and verdicts. Confirm anything that matters at full length.</span>
+  <span class="k">--smoke</span><span>a tenth of everything, one seed: a plumbing check that never counts. With <code>--mock</code> it needs no credentials.</span>
+</div>
+<p class="note" style="margin-top:12px">Mechanically: experiments wrap step counts in
+<code>q()</code>, which the active mode scales; <code>COMPACT_WORLDS</code> shrinks a
+world's task space in reduced modes (fewer request types, fewer claim categories) so each
+task is still revisited often enough for encounter-based latencies; and the mode is
+stamped into every run's config, which is how smoke runs are excluded downstream while
+quick runs count.</p>
+
+<h2>Command reference</h2>
+<pre><code>python -m driftlab                                        # interactive menu
+python -m driftlab.doctor                                 # every contract and cross-reference
+python -m experiments.run_hypothesis H008 --plan          # what a hypothesis needs
+python -m experiments.run_hypothesis H008 --model openai/gpt-5.6-luna --budget-usd 15 --resume
+python -m experiments.survey --model openai/gpt-5.6-luna --quick  # one agent, every experiment, 3 seeds
+python -m experiments.exp02_detect_adapt_lag --world claims_desk --agent-spec agents.json
+python -m experiments.benchmark --agent-spec agents.json  # the five-experiment yardstick
+python -m experiments.validate --apply                    # write proposed statuses to the H-files
+python -m driftlab.profile runs/exp02/rule_world          # the standardized result for any run dir
+python -m driftlab.viz.server --open                      # the dashboard</code></pre>
+
+</div>
+<script>
+(() => {
+  const D = {
+    world: ["World", "driftlab/worlds/<name>.py", `A seeded job with hidden state. It renders observations, parses replies,
+      scores actions, and reports the truth to the logger through privileged(): the correct answer, task keys, what changed.
+      Capabilities (change_latent, change_surface, endogenous, probe, task_key, ...) declare what experiments may ask of it.
+      Endogenous mechanisms are opt-in. Observations carry realistic, signal-free flavor drawn statelessly from (seed, step).`],
+    experiment: ["Experiment", "experiments/expNN_<slug>.py", `Four parts: cells(seeds) makes the regime-by-seed grid (a cell may pin
+      its own world), scenario(cell, ctx) builds the world and wires the change schedule, REFERENCE_AGENTS are its arms, and
+      analyze(run_dir) prints its own tables. Step counts wrap in q() so the reduced modes scale them.`],
+    registry: ["Registry", "experiments/registry.py", `The machine-readable definition of every experiment: a question for a
+      title, the design in plain words, concrete parameters, variables, worlds, the hypotheses it bears on, and registered
+      predictions (effect or reversal over profile metrics). The entry is stamped into every run's manifest, and versions bump
+      instead of definitions changing after results exist.`],
+    hypothesis: ["Hypothesis", "research/hypotheses/HNNN-<slug>.md", `A claim in plain words, with predictions, an evidence table
+      and an interpretation section. It gathers evidence only through experiments that reference it. Pre-registration lives here:
+      effect sizes of interest, replication rules, caveats written before data.`],
+    agent: ["Agent", "agents.json · driftlab/agents/", `Anything that answers text with text. In-process agents pair a model with a
+      memory substrate; harness agents run over MCP (path A) or one CLI call per step (path B). The spec dict is the identity: it
+      lands verbatim in run headers, and its name is what resume and comparison key on.`],
+    loop: ["Episode loop", "driftlab/core.py", `run(scenario, agent): each step applies scheduled changes, shows an observation,
+      parses the reply (falling back to a default action on a parse failure), scores it, delivers feedback, and records the step
+      next to privileged truth. Notices, probes and feedback delay are scenario hooks. The agent never sees any of the machinery.`],
+    runner: ["Grid runner", "driftlab/runner.py", `Crosses environment cells with agents, runs episodes concurrently, and writes
+      one JSONL per episode with a deterministic id, atomically on completion. That makes every grid resumable at episode
+      granularity, across machines sharing runs/. Manifests carry config, costs and the registry entry.`],
+    hyprun: ["Hypothesis run", "experiments/run_hypothesis.py", `The preferred way to test a claim. It reads the registry, takes
+      every experiment bearing on the hypothesis with a registered prediction, trims each grid to the regimes those predictions
+      reference, skips experiments the chosen world can't host, runs with 5 seeds by default (3 is the floor where verdicts begin), and ends by
+      refreshing validation and printing the verdict. --plan shows the bill first.`],
+    log: ["Run log", "runs/<exp>/<world>/<agent>__<regime>__seedN.jsonl", `Header (agent spec, config, costs, memory snapshots,
+      world summary) plus one record per step: observation, reply, action, reward, feedback, and the privileged truth. Append-only,
+      never edited after the fact, committed with the code that produced it. Everything downstream is computed from these files.`],
+    cache: ["LLM cache and budget", "driftlab/agents/brain.py", `Every (model, effort, system, prompt) call is content-hashed and
+      cached per run directory, so resumes and re-runs replay old calls free. PRICES maps models to per-token costs; --budget-usd
+      aborts a run past its cap, and an unpriced model is flagged so its zero-cost records are never mistaken for free.`],
+    profile: ["Profile", "driftlab/profile.py", `The standardized result for any run directory: detection and recovery latency,
+      final accuracy, retention, stale-memory rate, over-update rate, interference, calibration, overconfidence, parse failures,
+      cost per success. Normalized into four 0-to-1 dimensions (adaptation, knowledge, epistemics, efficiency); the capability
+      dimensions average into the driftlab score, with efficiency reported beside it, never blended in. Unmeasured stays NaN,
+      never zero. Runs under 30 steps are excluded.`],
+    effects: ["Paired effects", "profile.json", `Because every agent plays the same seeded worlds, comparisons are paired:
+      the mean difference on matched seeds with a 95% bootstrap interval, agent against agent and regime against regime
+      within each agent. An interval clear of zero is a difference the world-draw lottery can't explain.`],
+    validate: ["Validation", "experiments/validate.py · runs/validation.json", `Turns registered predictions into verdicts:
+      supported when the paired interval sits entirely on the predicted side of zero across at least 3 matched pairs (small n means wide intervals, so only large effects turn conclusive early),
+      contradicted on the other side, inconclusive otherwise. Refreshes automatically when any experiment completes;
+      --apply writes proposed statuses into the hypothesis files. Verdicts name their agents and worlds, always.`],
+    dashboard: ["Dashboard", "driftlab/viz/server.py + index.html", `Home | Research | Results. Home shows where the program
+      stands and the conclusive findings as sentences. Research holds the hypotheses with evidence, the experiment registry with
+      every parameter, the worlds with how each works, and the agents grouped by base model. Results pairs the benchmark matrix
+      with every run, watchable live or replayed from its log, memory included. It reads only the logs and flags itself stale
+      when runs outpace the last analysis.`],
+    doctor: ["Doctor", "driftlab/doctor.py", `Runs every world through a live step, checks every experiment's contract and
+      registry entry, verifies predictions name real metrics and regimes, cross-references hypotheses, sanity-checks agents.json,
+      and refreshes the dashboard's world snapshot. Green doctor before every commit.`],
+  };
+  const D_STATE = {
+    wstate: ["World hidden state", "driftlab/worlds/*.py", `Rules, schemas, demand rates and conventions, plus the cosmetic
+      surface layer and any strain the agent has caused. Seeded, fully known to the logger, invisible to the agent. The world is
+      the only component that knows the correct answer, which is what lets learning be measured against reality instead of against
+      another model's opinion.`],
+    amem: ["Agent memory", "agents/substrates.py · MCP notebook · CLI session", `Deliberately outside driftlab's model: the
+      framework never reads it. Reference substrates make it a controlled variable; an MCP harness's notebook is versioned into
+      the log so the dashboard can show memory evolving; a CLI session is opaque by design. How memory changes at observe() is
+      exactly the thing under study.`],
+    sloop: ["Episode loop", "driftlab/core.py", `A stateless mediator: it holds nothing but the feedback-delay queue. It moves
+      text between the two sides, fires the scenario's hooks, and writes each step next to the truth. Keeping it stateless is what
+      keeps the agent contract two methods long.`],
+    slog: ["Run log", "runs/<exp>/<world>/*.jsonl", `The single source of truth. A header (agent spec, config, costs, memory
+      snapshots), then one record per step with the privileged column beside it. Append-only, never edited after the fact,
+      committed with the code that produced it.`],
+    derived: ["Derived results", "profile.json · manifest.json · runs/events.jsonl · runs/benchmark/", `Everything downstream is
+      recomputed from the logs, any time: invent a metric today and every run ever recorded gets it. profile.json is a directory's
+      standardized result; the manifest carries costs and the registry stamp; events.jsonl is the dashboard's live stream.`],
+  };
+  const D_STEP = {
+    drift: ["1 · Drift hooks fire", "scenario.before_step(t, world)", `The scenario applies scheduled changes through the world's
+      capabilities: a rule flips, a schema mutates, a label is reworded. Endogenous change is the one exception: the world
+      triggers it itself, in response to what the agent has been doing, so nothing external marks the moment.`],
+    notice: ["2 · An optional notice", "scenario.notice_fn(t, world)", `An in-role memo prepended to the observation. This is how
+      warnings (exp11) and teaching (exp10) enter, always as office mail, never as "the experiment has changed".`],
+    obs: ["3 · The world renders the task", "world.observe(t)", `A request to route, a claim to judge, a ticket to implement.
+      Cosmetic drift changes this text without changing what is correct, which is the trap exp04 measures. Flavor (names, dates,
+      chatter) is drawn statelessly from (seed, t), so paired runs stay byte-identical and flavor can never leak hidden state.`],
+    act: ["4 · The agent acts", "agent.act(prompt) → str", `The only inbound channel. Whatever the agent is (an API loop, a
+      lookup table, a coding harness), it answers text with text.`],
+    parse: ["5 · The world parses the reply", "world.parse(text) · world.default_action(rng)", `An unparseable reply falls back to
+      a seeded default action and increments the parse-failure count, which feeds the efficiency dimension. A config error
+      therefore shows up as a score, never as a crash. Harness adapters fail loudly instead, so a broken setup can't hide there.`],
+    react: ["6 · The world reacts", "world.act(t, action) → (reward, feedback)", `"Accepted", "Rejected: missing field", "Day cost
+      12.40". Feedback richness is a world parameter (exp08); in the campaign desk this step returns nothing at all except at the
+      pooled report.`],
+    delay: ["7 · Feedback may wait", "scenario.feedback_delay", `Outcomes can be queued N steps (exp09), so the agent learns under
+      stale credit assignment. The log records the true step either way, so the metrics stay exact.`],
+    aobs: ["8 · The agent observes", "agent.observe(feedback, reward)", `The only outbound channel, and the only moment memory may
+      legitimately update. What the agent does here is exactly the variable driftlab compares.`],
+    record: ["9 · Recorded, with the truth", "world.privileged(t) · scenario.after_step", `Changes applied this step, the task
+      key, the correct answer, stated confidence, whether this task is currently affected: all logged beside the exchange, never
+      shown to the agent. Off-the-record probes can add a supervisor's question (an attribution probe, an evaluation with no
+      feedback) that goes into the log without touching the world.`],
+  };
+  const D_CONTRACT = {
+    needs: ["What an experiment demands", "scenario(cell, ctx, needs=[…])", `An experiment's scenario declares the capabilities it
+      needs. change_latent is the minimum for most; probes, task keys, confidence elicitation and endogenous mechanisms unlock
+      more. It never touches a world's mechanics: exp02 schedules "a real change at step 40" and lets the world decide what that
+      means, whether a rule flip, a schema mutation, or a moved fraud signature.`],
+    caps: ["What a world offers", "driftlab/worlds/base.py", `Worlds declare capabilities by implementing them: change_latent,
+      change_surface, endogenous, probe, task_key, ask_confidence, consult (spend a step asking instead of acting), sample_task,
+      and more. This negotiation is why most experiments run on any world without knowing anything about it.`],
+    refuse: ["Refuse, or skip", "SystemExit at startup", `A world missing a needed capability refuses the experiment before any
+      episode runs: a hard stop for a single run, a skip inside a hypothesis run, so one wrong world never kills a whole
+      sequence.`],
+    stamp: ["The manifest stamp", "runs/<exp>/<world>/manifest.json", `The registry entry (parameters, variables, predictions,
+      version) is stamped into every manifest, so a run directory explains itself years later, without the code that made it.`],
+    preds: ["Registered predictions", "experiments/registry.py", `Written before data. An effect names two regimes or agents and a
+      direction over a profile metric; a reversal names a metric whose ordering should flip between regimes. The doctor verifies
+      every named regime and metric actually exists.`],
+    version: ["Versions, not edits", "version: N", `After results exist, a registered experiment never changes; its version bumps
+      instead. Old verdicts stay interpretable under the definition that produced them.`],
+  };
+  const D_VERDICT = {
+    vdir: ["Run directory", "runs/<exp>/<world>/", `The chain starts at a directory, not an experiment: the profiler reads every
+      trajectory in it regardless of who played it, whether reference agents, harnesses, hypothesis runs or full grids.`],
+    vraw: ["Twelve raw metrics", "driftlab/profile.py · run_profile()", `Per run, from the log alone: detection and recovery
+      latency around each change, final accuracy, retention, stale-memory rate, over-update rate, interference, calibration,
+      overconfidence, parse failures, cost per success. Where tasks repeat (task_key), latencies count encounters with affected
+      tasks, not wall-clock steps. Anything a world can't measure stays NaN and prints as "—": a continuous-reward world has no
+      accuracy, and that is correct, not a bug.`],
+    vdims: ["Four dimensions, one score", "dimension_scores() · driftlab_score()", `Metrics average per agent, NaN-aware, and
+      normalize into four 0-to-1 dimensions: adaptation, knowledge, epistemics, efficiency. The capability dimensions average
+      into the driftlab score, a convenience for ranking; efficiency (cost, discipline) is reported beside it, never blended in,
+      so token pricing cannot move a capability ranking. The vector is the result; compare the score only between agents
+      measured on the same dimensions.`],
+    veff: ["Paired effects", "profile.json", `Because the grid runner crosses the same seeded cells over every agent, comparisons
+      never rely on unpaired means: each delta (agent against agent, regime against regime within an agent) is a mean of
+      matched-seed differences with a 95% bootstrap interval. An interval clear of zero is a difference the seed lottery can't
+      explain.`],
+    vval: ["Prediction verdicts", "experiments/validate.py · runs/validation.json", `Each registered prediction is matched against
+      the paired effects: supported when the interval sits entirely on the predicted side of zero over at least 3 matched pairs (wide intervals at small n; 5+ is the confirmatory standard),
+      contradicted on the other side, inconclusive otherwise. Validation refreshes automatically whenever an experiment finishes
+      or is re-analyzed; the dashboard flags itself stale when runs outpace it.`],
+    vstat: ["Hypothesis status", "validate --apply → research/hypotheses/", `Prediction verdicts roll up into a proposed status,
+      always scope-qualified ("for these agents, on these worlds"), never a global truth-stamp. --apply writes proposals into the
+      hypothesis files, where interpretation stays human.`],
+    vhyp: ["The chain, driven backwards", "experiments/run_hypothesis.py", `run_hypothesis HNNN starts from the claim and derives
+      the minimal grid: every experiment bearing on the hypothesis with a registered prediction, trimmed to only the regimes those
+      predictions reference (a control that exists for interpretation, not the verdict, is skipped), on 5 seeds, the confirmatory
+      standard (verdicts begin at 3 pairs, on wide intervals). It ends by refreshing validation and printing the verdict; --seeds 10 --resume runs
+      only the extension when an interval straddles zero.`],
+    vshare: ["One directory, many writers", "deterministic ids · atomic writes · content-hash cache", `Hypothesis runs, full grids
+      and the benchmark all write to the same runs directories. Every episode has a deterministic id (agent, regime, seed) and is
+      written atomically, so any grid resumes at episode granularity and different entry points fill each other in; a later full
+      run completes the regimes a hypothesis run skipped. Every LLM call is content-hashed and cached per directory, so resumes
+      replay old calls free. The benchmark matrix marks partial (°) and smoke (*) scores so borrowed evidence is never mistaken
+      for the full yardstick.`],
+  };
+  const wire = (rowId, data, initial) => {
+    const row = document.getElementById(rowId);
+    const nodes = row.querySelectorAll(".node");
+    const title = row.querySelector(".panel h3");
+    const file = row.querySelector(".panel .file");
+    const body = row.querySelector(".panel .pbody");
+    const show = k => {
+      const [t, f, b] = data[k];
+      title.textContent = t;
+      file.textContent = f;
+      body.innerHTML = "<p>" + b.replace(/\s+/g, " ").trim() + "</p>";
+      nodes.forEach(n => n.classList.toggle("on", n.dataset.k === k));
+    };
+    nodes.forEach(n => {
+      n.addEventListener("click", () => show(n.dataset.k));
+      n.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(n.dataset.k); }
+      });
+    });
+    show(initial);
+  };
+  wire("row-pipeline", D, "loop");
+  wire("row-state", D_STATE, "slog");
+  wire("row-step", D_STEP, "drift");
+  wire("row-contract", D_CONTRACT, "needs");
+  wire("row-verdict", D_VERDICT, "vraw");
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1449 @@
+{
+  "runs": [
+    {
+      "run": "llm_transcript__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/llm_transcript__scheduled__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 729,
+          "cache_hits": 0,
+          "input_tokens": 1267584,
+          "cached_tokens": 0,
+          "output_tokens": 127501,
+          "reasoning_tokens": 82909,
+          "cost_usd": 0.40651800000000005,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 434.19744539260864
+    },
+    {
+      "run": "llm_transcript__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/llm_transcript__scheduled__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 789,
+          "cache_hits": 0,
+          "input_tokens": 1360221,
+          "cached_tokens": 0,
+          "output_tokens": 138338,
+          "reasoning_tokens": 89541,
+          "cost_usd": 0.43804980000000004,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 470.28769612312317
+    },
+    {
+      "run": "llm_transcript__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/llm_transcript__scheduled__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 790,
+          "cache_hits": 1,
+          "input_tokens": 1363176,
+          "cached_tokens": 0,
+          "output_tokens": 138504,
+          "reasoning_tokens": 89696,
+          "cost_usd": 0.43884000000000006,
+          "cache_saved_usd": 0.00016759999999999998
+        }
+      },
+      "wall_s": 469.9360601902008
+    },
+    {
+      "run": "llm_notes__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/llm_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 1145,
+          "cache_hits": 1,
+          "input_tokens": 1860689,
+          "cached_tokens": 0,
+          "output_tokens": 216489,
+          "reasoning_tokens": 138195,
+          "cost_usd": 0.6319246000000002,
+          "cache_saved_usd": 0.00016759999999999998
+        }
+      },
+      "wall_s": 702.7651219367981
+    },
+    {
+      "run": "llm_notes__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/llm_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 1184,
+          "cache_hits": 2,
+          "input_tokens": 1915435,
+          "cached_tokens": 0,
+          "output_tokens": 224331,
+          "reasoning_tokens": 143289,
+          "cost_usd": 0.6522841999999999,
+          "cache_saved_usd": 0.00033259999999999995
+        }
+      },
+      "wall_s": 728.1212968826294
+    },
+    {
+      "run": "llm_notes__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/llm_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 1196,
+          "cache_hits": 3,
+          "input_tokens": 1935461,
+          "cached_tokens": 0,
+          "output_tokens": 226935,
+          "reasoning_tokens": 144651,
+          "cost_usd": 0.6594141999999997,
+          "cache_saved_usd": 0.00044759999999999993
+        }
+      },
+      "wall_s": 735.39990401268
+    },
+    {
+      "run": "llm_transcript__scheduled__seed3",
+      "path": "runs/exp18/claims_desk/llm_transcript__scheduled__seed3.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 733,
+          "cache_hits": 25,
+          "input_tokens": 1133378,
+          "cached_tokens": 0,
+          "output_tokens": 154739,
+          "reasoning_tokens": 99129,
+          "cost_usd": 0.4123623999999996,
+          "cache_saved_usd": 0.007305
+        }
+      },
+      "wall_s": 479.7519540786743
+    },
+    {
+      "run": "llm_transcript__scheduled__seed4",
+      "path": "runs/exp18/claims_desk/llm_transcript__scheduled__seed4.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 735,
+          "cache_hits": 25,
+          "input_tokens": 1133633,
+          "cached_tokens": 0,
+          "output_tokens": 155901,
+          "reasoning_tokens": 100312,
+          "cost_usd": 0.4138077999999992,
+          "cache_saved_usd": 0.007252399999999999
+        }
+      },
+      "wall_s": 482.15890979766846
+    },
+    {
+      "run": "llm_notes__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/llm_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 764,
+          "cache_hits": 45,
+          "input_tokens": 1227957,
+          "cached_tokens": 0,
+          "output_tokens": 161821,
+          "reasoning_tokens": 102935,
+          "cost_usd": 0.4397765999999984,
+          "cache_saved_usd": 0.013127400000000001
+        }
+      },
+      "wall_s": 512.5637514591217
+    },
+    {
+      "run": "llm_transcript__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/llm_transcript__adversarial__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 826,
+          "cache_hits": 66,
+          "input_tokens": 1333789,
+          "cached_tokens": 0,
+          "output_tokens": 175333,
+          "reasoning_tokens": 111324,
+          "cost_usd": 0.47715739999999773,
+          "cache_saved_usd": 0.020195000000000005
+        }
+      },
+      "wall_s": 554.3335745334625
+    },
+    {
+      "run": "llm_notes__scheduled__seed3",
+      "path": "runs/exp18/claims_desk/llm_notes__scheduled__seed3.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 1288,
+          "cache_hits": 78,
+          "input_tokens": 1991816,
+          "cached_tokens": 0,
+          "output_tokens": 276097,
+          "reasoning_tokens": 174772,
+          "cost_usd": 0.7296795999999975,
+          "cache_saved_usd": 0.0220132
+        }
+      },
+      "wall_s": 857.2740921974182
+    },
+    {
+      "run": "llm_transcript__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/llm_transcript__adversarial__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 781,
+          "cache_hits": 73,
+          "input_tokens": 1267789,
+          "cached_tokens": 0,
+          "output_tokens": 162786,
+          "reasoning_tokens": 101848,
+          "cost_usd": 0.448900999999998,
+          "cache_saved_usd": 0.020839999999999994
+        }
+      },
+      "wall_s": 510.5401690006256
+    },
+    {
+      "run": "llm_notes__scheduled__seed4",
+      "path": "runs/exp18/claims_desk/llm_notes__scheduled__seed4.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 1211,
+          "cache_hits": 120,
+          "input_tokens": 1996281,
+          "cached_tokens": 0,
+          "output_tokens": 254872,
+          "reasoning_tokens": 164196,
+          "cost_usd": 0.7051025999999977,
+          "cache_saved_usd": 0.035380199999999994
+        }
+      },
+      "wall_s": 803.7261664867401
+    },
+    {
+      "run": "llm_notes__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/llm_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 844,
+          "cache_hits": 115,
+          "input_tokens": 1381918,
+          "cached_tokens": 0,
+          "output_tokens": 180843,
+          "reasoning_tokens": 114798,
+          "cost_usd": 0.49339519999999837,
+          "cache_saved_usd": 0.034807199999999996
+        }
+      },
+      "wall_s": 564.5331292152405
+    },
+    {
+      "run": "llm_transcript__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/llm_transcript__adversarial__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 720,
+          "cache_hits": 116,
+          "input_tokens": 1325892,
+          "cached_tokens": 0,
+          "output_tokens": 148439,
+          "reasoning_tokens": 99750,
+          "cost_usd": 0.44330519999999973,
+          "cache_saved_usd": 0.0354154
+        }
+      },
+      "wall_s": 475.03961753845215
+    },
+    {
+      "run": "llm_transcript__adversarial__seed3",
+      "path": "runs/exp18/claims_desk/llm_transcript__adversarial__seed3.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 643,
+          "cache_hits": 86,
+          "input_tokens": 1205609,
+          "cached_tokens": 0,
+          "output_tokens": 130118,
+          "reasoning_tokens": 87774,
+          "cost_usd": 0.3972633999999997,
+          "cache_saved_usd": 0.026977200000000003
+        }
+      },
+      "wall_s": 425.0975139141083
+    },
+    {
+      "run": "llm_notes__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/llm_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 837,
+          "cache_hits": 96,
+          "input_tokens": 1489208,
+          "cached_tokens": 0,
+          "output_tokens": 173819,
+          "reasoning_tokens": 115149,
+          "cost_usd": 0.5064243999999989,
+          "cache_saved_usd": 0.0284628
+        }
+      },
+      "wall_s": 602.1660494804382
+    },
+    {
+      "run": "llm_transcript__adversarial__seed4",
+      "path": "runs/exp18/claims_desk/llm_transcript__adversarial__seed4.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 527,
+          "cache_hits": 43,
+          "input_tokens": 942114,
+          "cached_tokens": 0,
+          "output_tokens": 111095,
+          "reasoning_tokens": 73507,
+          "cost_usd": 0.32173679999999916,
+          "cache_saved_usd": 0.013442600000000013
+        }
+      },
+      "wall_s": 430.7183482646942
+    },
+    {
+      "run": "llm_notes__adversarial__seed4",
+      "path": "runs/exp18/claims_desk/llm_notes__adversarial__seed4.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 590,
+          "cache_hits": 23,
+          "input_tokens": 984181,
+          "cached_tokens": 0,
+          "output_tokens": 126311,
+          "reasoning_tokens": 81394,
+          "cost_usd": 0.34840939999999976,
+          "cache_saved_usd": 0.006763200000000011
+        }
+      },
+      "wall_s": 590.3611710071564
+    },
+    {
+      "run": "llm_notes__adversarial__seed3",
+      "path": "runs/exp18/claims_desk/llm_notes__adversarial__seed3.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 743,
+          "cache_hits": 66,
+          "input_tokens": 1214337,
+          "cached_tokens": 0,
+          "output_tokens": 164758,
+          "reasoning_tokens": 107206,
+          "cost_usd": 0.4405769999999998,
+          "cache_saved_usd": 0.02084540000000001
+        }
+      },
+      "wall_s": 824.0520126819611
+    },
+    {
+      "run": "g56luna_api_low_notes__stable__seed0",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__stable__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 49666,
+          "cached_tokens": 0,
+          "output_tokens": 18187,
+          "reasoning_tokens": 10428,
+          "cost_usd": 0.0317576,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 371.342910528183
+    },
+    {
+      "run": "g56luna_api_low_notes__stable__seed1",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__stable__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 45366,
+          "cached_tokens": 0,
+          "output_tokens": 17180,
+          "reasoning_tokens": 10228,
+          "cost_usd": 0.029689200000000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 380.7662899494171
+    },
+    {
+      "run": "g56luna_api_low_notes__stable__seed2",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__stable__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 45939,
+          "cached_tokens": 0,
+          "output_tokens": 20958,
+          "reasoning_tokens": 12944,
+          "cost_usd": 0.03433739999999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 413.30591893196106
+    },
+    {
+      "run": "g56luna_api_low_notes__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 71,
+          "cache_hits": 11,
+          "input_tokens": 46054,
+          "cached_tokens": 0,
+          "output_tokens": 17956,
+          "reasoning_tokens": 10866,
+          "cost_usd": 0.030758,
+          "cache_saved_usd": 0.0023318
+        }
+      },
+      "wall_s": 385.7181963920593
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__stable__seed0",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__stable__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 62677,
+          "cached_tokens": 10304,
+          "output_tokens": 32290,
+          "reasoning_tokens": 15646,
+          "cost_usd": 0.09509292199999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 939.9224998950958
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__stable__seed1",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__stable__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 71643,
+          "cached_tokens": 20368,
+          "output_tokens": 36237,
+          "reasoning_tokens": 17846,
+          "cost_usd": 0.10643240000000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 953.2183849811554
+    },
+    {
+      "run": "dsv41flash_api_low_notes__stable__seed1",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__stable__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 51652,
+          "cached_tokens": 7162,
+          "output_tokens": 36814,
+          "reasoning_tokens": 30782,
+          "cost_usd": 0.02878338599999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1040.95791554451
+    },
+    {
+      "run": "dsv41flash_api_low_notes__stable__seed2",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__stable__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 47563,
+          "cached_tokens": 2912,
+          "output_tokens": 28147,
+          "reasoning_tokens": 22214,
+          "cost_usd": 0.023594586000000004,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1069.8943161964417
+    },
+    {
+      "run": "g56luna_api_low_notes__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 41894,
+          "cached_tokens": 0,
+          "output_tokens": 15956,
+          "reasoning_tokens": 9411,
+          "cost_usd": 0.027526000000000002,
+          "cache_saved_usd": 0.0023122
+        }
+      },
+      "wall_s": 286.79628109931946
+    },
+    {
+      "run": "g56luna_api_low_notes__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 68,
+          "cache_hits": 14,
+          "input_tokens": 41782,
+          "cached_tokens": 0,
+          "output_tokens": 17407,
+          "reasoning_tokens": 9957,
+          "cost_usd": 0.029244799999999998,
+          "cache_saved_usd": 0.003539799999999999
+        }
+      },
+      "wall_s": 282.7204165458679
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__stable__seed2",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__stable__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 67487,
+          "cached_tokens": 1856,
+          "output_tokens": 42458,
+          "reasoning_tokens": 21663,
+          "cost_usd": 0.122591334,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1062.804165840149
+    },
+    {
+      "run": "g56luna_api_low_notes__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 34,
+          "cache_hits": 48,
+          "input_tokens": 24606,
+          "cached_tokens": 0,
+          "output_tokens": 8909,
+          "reasoning_tokens": 5239,
+          "cost_usd": 0.015612000000000001,
+          "cache_saved_usd": 0.016250399999999998
+        }
+      },
+      "wall_s": 154.01013922691345
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 71,
+          "cache_hits": 11,
+          "input_tokens": 62573,
+          "cached_tokens": 3968,
+          "output_tokens": 47637,
+          "reasoning_tokens": 29318,
+          "cost_usd": 0.13461102000000003,
+          "cache_saved_usd": 0.019844439999999998
+        }
+      },
+      "wall_s": 916.9168469905853
+    },
+    {
+      "run": "dsv41flash_api_low_notes__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 47785,
+          "cached_tokens": 8954,
+          "output_tokens": 45847,
+          "reasoning_tokens": 40601,
+          "cost_usd": 0.033359712,
+          "cache_saved_usd": 0.006915449999999999
+        }
+      },
+      "wall_s": 951.4096353054047
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 68065,
+          "cached_tokens": 8992,
+          "output_tokens": 42848,
+          "reasoning_tokens": 21318,
+          "cost_usd": 0.12325282199999998,
+          "cache_saved_usd": 0.018335441999999997
+        }
+      },
+      "wall_s": 897.4435167312622
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 37,
+          "cache_hits": 45,
+          "input_tokens": 30561,
+          "cached_tokens": 6400,
+          "output_tokens": 17740,
+          "reasoning_tokens": 10321,
+          "cost_usd": 0.05136745399999999,
+          "cache_saved_usd": 0.058317711999999994
+        }
+      },
+      "wall_s": 446.70170307159424
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 68,
+          "cache_hits": 14,
+          "input_tokens": 60029,
+          "cached_tokens": 3392,
+          "output_tokens": 35342,
+          "reasoning_tokens": 19104,
+          "cost_usd": 0.10275121799999995,
+          "cache_saved_usd": 0.022720766
+        }
+      },
+      "wall_s": 781.70010638237
+    },
+    {
+      "run": "g56luna_api_low_notes__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 60,
+          "cache_hits": 22,
+          "input_tokens": 36522,
+          "cached_tokens": 0,
+          "output_tokens": 16438,
+          "reasoning_tokens": 10548,
+          "cost_usd": 0.027030000000000002,
+          "cache_saved_usd": 0.0051654
+        }
+      },
+      "wall_s": 270.19293189048767
+    },
+    {
+      "run": "dsv41flash_api_low_notes__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 71,
+          "cache_hits": 11,
+          "input_tokens": 47222,
+          "cached_tokens": 7490,
+          "output_tokens": 105575,
+          "reasoning_tokens": 99546,
+          "cost_usd": 0.06932727,
+          "cache_saved_usd": 0.0072457500000000005
+        }
+      },
+      "wall_s": 1812.7327754497528
+    },
+    {
+      "run": "g56luna_api_low_notes__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/g56luna_api_low_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 60,
+          "cache_hits": 22,
+          "input_tokens": 39022,
+          "cached_tokens": 0,
+          "output_tokens": 19110,
+          "reasoning_tokens": 12418,
+          "cost_usd": 0.030736399999999997,
+          "cache_saved_usd": 0.0065737999999999994
+        }
+      },
+      "wall_s": 293.3191804885864
+    },
+    {
+      "run": "dsv41flash_api_low_notes__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 68,
+          "cache_hits": 14,
+          "input_tokens": 40682,
+          "cached_tokens": 7042,
+          "output_tokens": 45954,
+          "reasoning_tokens": 41363,
+          "cost_usd": 0.032639525999999995,
+          "cache_saved_usd": 0.005847000000000001
+        }
+      },
+      "wall_s": 1413.3993043899536
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 60,
+          "cache_hits": 22,
+          "input_tokens": 41952,
+          "cached_tokens": 4224,
+          "output_tokens": 27202,
+          "reasoning_tokens": 22172,
+          "cost_usd": 0.02199307200000001,
+          "cache_saved_usd": 0.010305558
+        }
+      },
+      "wall_s": 782.6312544345856
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 37,
+          "cache_hits": 45,
+          "input_tokens": 35278,
+          "cached_tokens": 2624,
+          "output_tokens": 26036,
+          "reasoning_tokens": 16109,
+          "cost_usd": 0.073773356,
+          "cache_saved_usd": 0.08279829199999998
+        }
+      },
+      "wall_s": 543.4390599727631
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/qwen38_27b_api_low_notes__adversarial__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 60,
+          "cache_hits": 22,
+          "input_tokens": 55080,
+          "cached_tokens": 12096,
+          "output_tokens": 32282,
+          "reasoning_tokens": 17176,
+          "cost_usd": 0.09333207599999997,
+          "cache_saved_usd": 0.036271284
+        }
+      },
+      "wall_s": 736.733936548233
+    },
+    {
+      "run": "dsv41flash_api_low_notes__stable__seed0",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__stable__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 79,
+          "cache_hits": 3,
+          "input_tokens": 50395,
+          "cached_tokens": 7224,
+          "output_tokens": 92944,
+          "reasoning_tokens": 86474,
+          "cost_usd": 0.06226372200000001,
+          "cache_saved_usd": 0.003053886
+        }
+      },
+      "wall_s": 3030.2367401123047
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__adversarial__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 60,
+          "cache_hits": 22,
+          "input_tokens": 38376,
+          "cached_tokens": 3328,
+          "output_tokens": 41789,
+          "reasoning_tokens": 36441,
+          "cost_usd": 0.030340584000000004,
+          "cache_saved_usd": 0.009229949999999999
+        }
+      },
+      "wall_s": 1834.9466710090637
+    },
+    {
+      "run": "dsv41flash_api_low_notes__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/dsv41flash_api_low_notes__adversarial__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 48,
+          "cache_hits": 34,
+          "input_tokens": 34669,
+          "cached_tokens": 3334,
+          "output_tokens": 103298,
+          "reasoning_tokens": 99507,
+          "cost_usd": 0.06668905200000001,
+          "cache_saved_usd": 0.03337002
+        }
+      },
+      "wall_s": 4350.9789979457855
+    },
+    {
+      "run": "random_policy__stable__seed0",
+      "path": "runs/exp18/claims_desk/random_policy__stable__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24113,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.0644536018371582
+    },
+    {
+      "run": "random_policy__stable__seed1",
+      "path": "runs/exp18/claims_desk/random_policy__stable__seed1.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24020,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06387114524841309
+    },
+    {
+      "run": "random_policy__stable__seed2",
+      "path": "runs/exp18/claims_desk/random_policy__stable__seed2.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24138,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06265687942504883
+    },
+    {
+      "run": "random_policy__stable__seed3",
+      "path": "runs/exp18/claims_desk/random_policy__stable__seed3.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24186,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06290578842163086
+    },
+    {
+      "run": "random_policy__stable__seed4",
+      "path": "runs/exp18/claims_desk/random_policy__stable__seed4.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24108,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.060518741607666016
+    },
+    {
+      "run": "random_policy__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/random_policy__scheduled__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24065,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06441569328308105
+    },
+    {
+      "run": "random_policy__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/random_policy__scheduled__seed1.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24078,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06461143493652344
+    },
+    {
+      "run": "random_policy__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/random_policy__scheduled__seed2.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24066,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06295156478881836
+    },
+    {
+      "run": "random_policy__scheduled__seed3",
+      "path": "runs/exp18/claims_desk/random_policy__scheduled__seed3.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24114,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06792449951171875
+    },
+    {
+      "run": "random_policy__scheduled__seed4",
+      "path": "runs/exp18/claims_desk/random_policy__scheduled__seed4.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24091,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.0626363754272461
+    },
+    {
+      "run": "random_policy__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/random_policy__adversarial__seed0.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24104,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06880331039428711
+    },
+    {
+      "run": "random_policy__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/random_policy__adversarial__seed1.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24065,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.0667717456817627
+    },
+    {
+      "run": "random_policy__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/random_policy__adversarial__seed2.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24063,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06812524795532227
+    },
+    {
+      "run": "random_policy__adversarial__seed3",
+      "path": "runs/exp18/claims_desk/random_policy__adversarial__seed3.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24080,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.07145452499389648
+    },
+    {
+      "run": "random_policy__adversarial__seed4",
+      "path": "runs/exp18/claims_desk/random_policy__adversarial__seed4.jsonl",
+      "cost": {
+        "mock": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 24124,
+          "cached_tokens": 0,
+          "output_tokens": 150,
+          "reasoning_tokens": 0,
+          "cost_usd": 0.0,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 0.06946277618408203
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__scheduled__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 163,
+          "cache_hits": 2,
+          "input_tokens": 109717,
+          "cached_tokens": 18954,
+          "output_tokens": 93544,
+          "reasoning_tokens": 80960,
+          "cost_usd": 0.06979771199999998,
+          "cache_saved_usd": 0.00031725
+        }
+      },
+      "wall_s": 1752.695762872696
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__scheduled__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 165,
+          "cache_hits": 0,
+          "input_tokens": 123202,
+          "cached_tokens": 22154,
+          "output_tokens": 156068,
+          "reasoning_tokens": 146327,
+          "cost_usd": 0.10886446200000004,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2898.833848953247
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__scheduled__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 162,
+          "cache_hits": 3,
+          "input_tokens": 128884,
+          "cached_tokens": 17548,
+          "output_tokens": 156662,
+          "reasoning_tokens": 140624,
+          "cost_usd": 0.11075024399999998,
+          "cache_saved_usd": 0.00156345
+        }
+      },
+      "wall_s": 3573.259975671768
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed3",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__scheduled__seed3.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 164,
+          "cache_hits": 1,
+          "input_tokens": 109325,
+          "cached_tokens": 15864,
+          "output_tokens": 96624,
+          "reasoning_tokens": 83974,
+          "cost_usd": 0.07204114199999999,
+          "cache_saved_usd": 0.00053475
+        }
+      },
+      "wall_s": 2924.704488515854
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed1",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__scheduled__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 149,
+          "cache_hits": 1,
+          "input_tokens": 414005,
+          "cached_tokens": 28160,
+          "output_tokens": 247258,
+          "reasoning_tokens": 240596,
+          "cost_usd": 0.20631602999999996,
+          "cache_saved_usd": 9.614999999999999e-05
+        }
+      },
+      "wall_s": 7208.141224861145
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed2",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__scheduled__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 409516,
+          "cached_tokens": 50880,
+          "output_tokens": 644591,
+          "reasoning_tokens": 640921,
+          "cost_usd": 0.4407026400000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 8382.126777410507
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed0",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__scheduled__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 149,
+          "cache_hits": 1,
+          "input_tokens": 411447,
+          "cached_tokens": 53228,
+          "output_tokens": 539252,
+          "reasoning_tokens": 535840,
+          "cost_usd": 0.3774437340000002,
+          "cache_saved_usd": 8.535e-05
+        }
+      },
+      "wall_s": 9030.552093744278
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__adversarial__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 143,
+          "cache_hits": 22,
+          "input_tokens": 104372,
+          "cached_tokens": 17284,
+          "output_tokens": 87706,
+          "reasoning_tokens": 75095,
+          "cost_usd": 0.06573865199999995,
+          "cache_saved_usd": 0.012109242
+        }
+      },
+      "wall_s": 2726.791360616684
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed4",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__scheduled__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 164,
+          "cache_hits": 1,
+          "input_tokens": 132155,
+          "cached_tokens": 23616,
+          "output_tokens": 274197,
+          "reasoning_tokens": 257688,
+          "cost_usd": 0.18086989800000006,
+          "cache_saved_usd": 0.0032455500000000003
+        }
+      },
+      "wall_s": 7189.220868110657
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__adversarial__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 143,
+          "cache_hits": 22,
+          "input_tokens": 96972,
+          "cached_tokens": 14366,
+          "output_tokens": 96372,
+          "reasoning_tokens": 83580,
+          "cost_usd": 0.07025719800000002,
+          "cache_saved_usd": 0.011587518000000002
+        }
+      },
+      "wall_s": 2085.848742246628
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__adversarial__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 155,
+          "cache_hits": 10,
+          "input_tokens": 122153,
+          "cached_tokens": 17220,
+          "output_tokens": 145778,
+          "reasoning_tokens": 130934,
+          "cost_usd": 0.10325841000000001,
+          "cache_saved_usd": 0.005876892
+        }
+      },
+      "wall_s": 2618.6307611465454
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__adversarial__seed1",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__adversarial__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 130,
+          "cache_hits": 20,
+          "input_tokens": 388761,
+          "cached_tokens": 17344,
+          "output_tokens": 577703,
+          "reasoning_tokens": 573175,
+          "cost_usd": 0.4023863820000001,
+          "cache_saved_usd": 0.032942664
+        }
+      },
+      "wall_s": 7687.969794511795
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed4",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__scheduled__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 410626,
+          "cached_tokens": 45568,
+          "output_tokens": 543092,
+          "reasoning_tokens": 536650,
+          "cost_usd": 0.38075060400000005,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 13595.788283109665
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__adversarial__seed0",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__adversarial__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 130,
+          "cache_hits": 20,
+          "input_tokens": 386796,
+          "cached_tokens": 15616,
+          "output_tokens": 735173,
+          "reasoning_tokens": 730035,
+          "cost_usd": 0.4968276479999998,
+          "cache_saved_usd": 0.029958581999999997
+        }
+      },
+      "wall_s": 10276.770593166351
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed3",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__scheduled__seed3.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 410320,
+          "cached_tokens": 25728,
+          "output_tokens": 645466,
+          "reasoning_tokens": 640036,
+          "cost_usd": 0.4450455839999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 16059.80546784401
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__adversarial__seed3",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__adversarial__seed3.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 142,
+          "cache_hits": 23,
+          "input_tokens": 108632,
+          "cached_tokens": 19884,
+          "output_tokens": 89175,
+          "reasoning_tokens": 77760,
+          "cost_usd": 0.066876852,
+          "cache_saved_usd": 0.011485157999999999
+        }
+      },
+      "wall_s": 1443.8597753047943
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__adversarial__seed4",
+      "path": "runs/exp18/claims_desk/llm_notes-deepseek-v4.1-flash__adversarial__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 142,
+          "cache_hits": 23,
+          "input_tokens": 101072,
+          "cached_tokens": 18398,
+          "output_tokens": 116777,
+          "reasoning_tokens": 105140,
+          "cost_usd": 0.08252249399999997,
+          "cache_saved_usd": 0.026350338
+        }
+      },
+      "wall_s": 3662.0709965229034
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__adversarial__seed2",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__adversarial__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 130,
+          "cache_hits": 20,
+          "input_tokens": 391834,
+          "cached_tokens": 35584,
+          "output_tokens": 567539,
+          "reasoning_tokens": 566029,
+          "cost_usd": 0.39406765200000005,
+          "cache_saved_usd": 0.055295256
+        }
+      },
+      "wall_s": 10616.59391617775
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__adversarial__seed4",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__adversarial__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 130,
+          "cache_hits": 20,
+          "input_tokens": 389962,
+          "cached_tokens": 39684,
+          "output_tokens": 433377,
+          "reasoning_tokens": 434292,
+          "cost_usd": 0.31268695199999985,
+          "cache_saved_usd": 0.031759529999999994
+        }
+      },
+      "wall_s": 7500.038956403732
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__adversarial__seed3",
+      "path": "runs/exp18/claims_desk/llm_transcript-deepseek-v4.1-flash__adversarial__seed3.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 13,
+          "cache_hits": 137,
+          "input_tokens": 39929,
+          "cached_tokens": 0,
+          "output_tokens": 52757,
+          "reasoning_tokens": 52578,
+          "cost_usd": 0.03764355,
+          "cache_saved_usd": 0.350602698
+        }
+      },
+      "wall_s": 1327.7503871917725
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "full",
+    "quick": false,
+    "world": "rule_world",
+    "hypothesis_run": "H008",
+    "registry": {
+      "version": 1,
+      "title": "Is recovery slower when an adversary aims the drift?",
+      "hypothesis": "Recovery from an aimed change is slower than from a random one, and it does not improve with repetition: the fraud ring always moves to wherever the agent has just become confident, so there is no equilibrium to converge to.",
+      "design": "The claims desk with three sources of change: a fully stable world, tactic shifts on a timer, and tactic shifts driven by the fraud ring's best response to the agent's own approvals. The scheduled and adversarial regimes see a similar number of shifts; only who aims them differs. Recovery is measured per shift, and early shifts are compared with late ones.",
+      "parameters": {
+        "episode length": "150 steps",
+        "conditions": "stable (no shifts); scheduled (4 tactic shifts on a timer); adversarial (the ring shifts whenever it is being caught, mimicking approved traffic)",
+        "the adversary": "reconsiders every 20 claims; moves only when at least half its recent claims were rejected",
+        "agents": "the same LLM with a transcript or with notes"
+      },
+      "independent": [
+        "who aims the change: nobody, a timer, or an adversary reading the agent"
+      ],
+      "dependent": [
+        "recovery latency per shift, early vs late",
+        "final accuracy",
+        "how many shifts the adversary makes"
+      ],
+      "drift": [
+        "adversarial tactic shifts",
+        "sudden real changes (control)"
+      ],
+      "worlds": [
+        "the claims desk (claims_desk)"
+      ],
+      "hypotheses": [
+        "H008",
+        "H003"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "recovery_lag",
+          "vary": "regime",
+          "a": "scheduled",
+          "b": "adversarial",
+          "direction": ">",
+          "within": "agent",
+          "claim": "recovery is slower when the shift is aimed at you: adversarial tactic changes take longer to recover from than scheduled ones"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

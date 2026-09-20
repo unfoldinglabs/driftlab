@@ -1,0 +1,512 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__stable__seed2",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__stable__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 53264,
+          "cached_tokens": 0,
+          "output_tokens": 24170,
+          "reasoning_tokens": 19728,
+          "cost_usd": 0.0396568,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 448.3122043609619
+    },
+    {
+      "run": "g56luna_api_low_notes__stable__seed1",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__stable__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 53821,
+          "cached_tokens": 0,
+          "output_tokens": 26603,
+          "reasoning_tokens": 21587,
+          "cost_usd": 0.042687800000000005,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 479.5454480648041
+    },
+    {
+      "run": "g56luna_api_low_notes__stable__seed0",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__stable__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 52049,
+          "cached_tokens": 0,
+          "output_tokens": 27453,
+          "reasoning_tokens": 22716,
+          "cost_usd": 0.04335339999999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 480.31003165245056
+    },
+    {
+      "run": "g56luna_api_low_notes__scheduled__seed0",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 67,
+          "cache_hits": 15,
+          "input_tokens": 46855,
+          "cached_tokens": 0,
+          "output_tokens": 23116,
+          "reasoning_tokens": 19183,
+          "cost_usd": 0.037110199999999996,
+          "cache_saved_usd": 0.0081344
+        }
+      },
+      "wall_s": 396.053870677948
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__stable__seed1",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__stable__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 75030,
+          "cached_tokens": 8976,
+          "output_tokens": 158865,
+          "reasoning_tokens": 99219,
+          "cost_usd": 0.4205877059999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 3812.3674523830414
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__scheduled__seed0",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 77204,
+          "cached_tokens": 10768,
+          "output_tokens": 139006,
+          "reasoning_tokens": 89020,
+          "cost_usd": 0.3702978040000001,
+          "cache_saved_usd": 0.079173734
+        }
+      },
+      "wall_s": 3021.169937133789
+    },
+    {
+      "run": "g56luna_api_low_notes__scheduled__seed1",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 68,
+          "cache_hits": 14,
+          "input_tokens": 46608,
+          "cached_tokens": 0,
+          "output_tokens": 19048,
+          "reasoning_tokens": 15431,
+          "cost_usd": 0.032179200000000005,
+          "cache_saved_usd": 0.007317000000000001
+        }
+      },
+      "wall_s": 333.4448459148407
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__stable__seed0",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__stable__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 70273,
+          "cached_tokens": 6656,
+          "output_tokens": 217043,
+          "reasoning_tokens": 154028,
+          "cost_usd": 0.568072088,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 4273.5224504470825
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__stable__seed2",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__stable__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 81,
+          "cache_hits": 1,
+          "input_tokens": 98204,
+          "cached_tokens": 16704,
+          "output_tokens": 232034,
+          "reasoning_tokens": 166984,
+          "cost_usd": 0.6116332999999999,
+          "cache_saved_usd": 0.002232216
+        }
+      },
+      "wall_s": 4139.513112783432
+    },
+    {
+      "run": "g56luna_api_low_notes__scheduled__seed2",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 48642,
+          "cached_tokens": 0,
+          "output_tokens": 20831,
+          "reasoning_tokens": 16783,
+          "cost_usd": 0.0347256,
+          "cache_saved_usd": 0.0059184
+        }
+      },
+      "wall_s": 329.05430006980896
+    },
+    {
+      "run": "dsv41flash_api_low_notes__stable__seed0",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__stable__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 53402,
+          "cached_tokens": 7300,
+          "output_tokens": 315144,
+          "reasoning_tokens": 301374,
+          "cost_usd": 0.19602359999999996,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 4806.6844363212585
+    },
+    {
+      "run": "g56luna_api_low_notes__endogenous__seed0",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__endogenous__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.0433678
+        }
+      },
+      "wall_s": 0.28197288513183594
+    },
+    {
+      "run": "dsv41flash_api_low_notes__stable__seed1",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__stable__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 58936,
+          "cached_tokens": 11108,
+          "output_tokens": 323370,
+          "reasoning_tokens": 299406,
+          "cost_usd": 0.2012295239999999,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 9307.00390625
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__endogenous__seed0",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__endogenous__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.568072088
+        }
+      },
+      "wall_s": 0.901317834854126
+    },
+    {
+      "run": "g56luna_api_low_notes__endogenous__seed1",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__endogenous__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.042687800000000005
+        }
+      },
+      "wall_s": 0.19186997413635254
+    },
+    {
+      "run": "dsv41flash_api_low_notes__endogenous__seed1",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__endogenous__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.2012295239999999
+        }
+      },
+      "wall_s": 0.29958319664001465
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__endogenous__seed1",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__endogenous__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.4205877059999999
+        }
+      },
+      "wall_s": 0.5489792823791504
+    },
+    {
+      "run": "g56luna_api_low_notes__endogenous__seed2",
+      "path": "runs/exp15/inventory/g56luna_api_low_notes__endogenous__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.0396568
+        }
+      },
+      "wall_s": 0.2506678104400635
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__scheduled__seed1",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 81643,
+          "cached_tokens": 7296,
+          "output_tokens": 172667,
+          "reasoning_tokens": 106875,
+          "cost_usd": 0.45730550799999997,
+          "cache_saved_usd": 0.08191014599999999
+        }
+      },
+      "wall_s": 5366.186042070389
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__endogenous__seed2",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__endogenous__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 0,
+          "cache_hits": 82,
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "cost_usd": 0,
+          "cache_saved_usd": 0.6138655159999999
+        }
+      },
+      "wall_s": 0.7659087181091309
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__scheduled__seed2",
+      "path": "runs/exp15/inventory/qwen38_27b_api_low_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 77023,
+          "cached_tokens": 7888,
+          "output_tokens": 135815,
+          "reasoning_tokens": 86316,
+          "cost_usd": 0.36230634000000006,
+          "cache_saved_usd": 0.12648142599999998
+        }
+      },
+      "wall_s": 5106.194519996643
+    },
+    {
+      "run": "dsv41flash_api_low_notes__endogenous__seed2",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__endogenous__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 14,
+          "cache_hits": 68,
+          "input_tokens": 10450,
+          "cached_tokens": 3454,
+          "output_tokens": 24221,
+          "reasoning_tokens": 22392,
+          "cost_usd": 0.015592361999999999,
+          "cache_saved_usd": 0.16871497199999996
+        }
+      },
+      "wall_s": 852.0169048309326
+    },
+    {
+      "run": "dsv41flash_api_low_notes__scheduled__seed0",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__scheduled__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 81,
+          "cache_hits": 1,
+          "input_tokens": 54284,
+          "cached_tokens": 11458,
+          "output_tokens": 233845,
+          "reasoning_tokens": 216002,
+          "cost_usd": 0.14676527399999995,
+          "cache_saved_usd": 0.0054123
+        }
+      },
+      "wall_s": 10072.738570213318
+    },
+    {
+      "run": "dsv41flash_api_low_notes__stable__seed2",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__stable__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 82,
+          "cache_hits": 0,
+          "input_tokens": 57113,
+          "cached_tokens": 6976,
+          "output_tokens": 310234,
+          "reasoning_tokens": 298148,
+          "cost_usd": 0.19368187799999995,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 10683.369306325912
+    },
+    {
+      "run": "dsv41flash_api_low_notes__scheduled__seed2",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__scheduled__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 69,
+          "cache_hits": 13,
+          "input_tokens": 50967,
+          "cached_tokens": 10870,
+          "output_tokens": 193700,
+          "reasoning_tokens": 185619,
+          "cost_usd": 0.12226715999999997,
+          "cache_saved_usd": 0.05859689999999999
+        }
+      },
+      "wall_s": 6768.112593412399
+    },
+    {
+      "run": "dsv41flash_api_low_notes__scheduled__seed1",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__scheduled__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 70,
+          "cache_hits": 12,
+          "input_tokens": 51179,
+          "cached_tokens": 14958,
+          "output_tokens": 291295,
+          "reasoning_tokens": 266114,
+          "cost_usd": 0.18025502399999999,
+          "cache_saved_usd": 0.049149533999999995
+        }
+      },
+      "wall_s": 7896.161607265472
+    },
+    {
+      "run": "dsv41flash_api_low_notes__endogenous__seed0",
+      "path": "runs/exp15/inventory/dsv41flash_api_low_notes__endogenous__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 68,
+          "cache_hits": 14,
+          "input_tokens": 50917,
+          "cached_tokens": 9298,
+          "output_tokens": 168456,
+          "reasoning_tokens": 158607,
+          "cost_usd": 0.10734434400000001,
+          "cache_saved_usd": 0.049674701999999994
+        }
+      },
+      "wall_s": 7076.727597951889
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "inventory",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "Can an agent see the change it causes?",
+      "hypothesis": "Changes the agent caused itself are the slowest to recover from, because nothing announces them. An agent that spots the pattern can also stop causing them.",
+      "design": "Nothing is scheduled by the experimenter. One condition keeps the world fully stable; one changes it on a timer as a control; and in the third, the world changes only in reaction to the agent's own behavior, such as overloading a desk until it sheds work.",
+      "parameters": {
+        "episode length": "150 steps",
+        "conditions": "stable (no changes); scheduled (4 timer changes after a 20-step warmup); self-caused (changes only when the agent triggers them)",
+        "triggers by world": "intake desk: an overloaded desk sheds work; inventory: big orders strain the supplier; coding: the reviewer copies the agent's habits; forms: IT adds an alias for a field name the agent keeps typing",
+        "agents": "the same LLM with a transcript or with notes"
+      },
+      "independent": [
+        "where changes come from: nowhere, a timer, or the agent itself"
+      ],
+      "dependent": [
+        "recovery latency by change source",
+        "how many self-caused changes happen over the run"
+      ],
+      "drift": [
+        "self-caused changes",
+        "sudden real changes (control)"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H003"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "recovery_lag",
+          "vary": "regime",
+          "a": "scheduled",
+          "b": "endogenous",
+          "direction": ">",
+          "within": "agent",
+          "claim": "recovery is slower from self-caused changes than from scheduled ones"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

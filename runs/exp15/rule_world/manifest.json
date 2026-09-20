@@ -1,0 +1,308 @@
+{
+  "runs": [
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed2",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__scheduled__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 161,
+          "cache_hits": 4,
+          "input_tokens": 104064,
+          "cached_tokens": 20992,
+          "output_tokens": 165715,
+          "reasoning_tokens": 157504,
+          "cost_usd": 0.11195277600000002,
+          "cache_saved_usd": 0.0038764499999999996
+        }
+      },
+      "wall_s": 3548.1382188796997
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed1",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__scheduled__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 160,
+          "cache_hits": 5,
+          "input_tokens": 117376,
+          "cached_tokens": 37760,
+          "output_tokens": 162622,
+          "reasoning_tokens": 152546,
+          "cost_usd": 0.10962888000000005,
+          "cache_saved_usd": 0.0035973000000000003
+        }
+      },
+      "wall_s": 6758.996006011963
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed0",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__scheduled__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 159,
+          "cache_hits": 6,
+          "input_tokens": 107939,
+          "cached_tokens": 19328,
+          "output_tokens": 321200,
+          "reasoning_tokens": 313906,
+          "cost_usd": 0.20606963399999995,
+          "cache_saved_usd": 0.0069507
+        }
+      },
+      "wall_s": 9286.473502397537
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed1",
+      "path": "runs/exp15/rule_world/llm_transcript-deepseek-v4.1-flash__scheduled__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 148,
+          "cache_hits": 2,
+          "input_tokens": 315906,
+          "cached_tokens": 35456,
+          "output_tokens": 672606,
+          "reasoning_tokens": 672603,
+          "cost_usd": 0.44573746799999997,
+          "cache_saved_usd": 0.004607849999999999
+        }
+      },
+      "wall_s": 12774.901421546936
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed3",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__scheduled__seed3.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 164,
+          "cache_hits": 1,
+          "input_tokens": 110837,
+          "cached_tokens": 19200,
+          "output_tokens": 339319,
+          "reasoning_tokens": 340140,
+          "cost_usd": 0.21739454999999994,
+          "cache_saved_usd": 0.0010411499999999998
+        }
+      },
+      "wall_s": 7213.75968837738
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed2",
+      "path": "runs/exp15/rule_world/llm_transcript-deepseek-v4.1-flash__scheduled__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 144,
+          "cache_hits": 6,
+          "input_tokens": 316205,
+          "cached_tokens": 40192,
+          "output_tokens": 947685,
+          "reasoning_tokens": 948469,
+          "cost_usd": 0.6101335259999998,
+          "cache_saved_usd": 0.003949218
+        }
+      },
+      "wall_s": 16887.099824905396
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed0",
+      "path": "runs/exp15/rule_world/llm_transcript-deepseek-v4.1-flash__scheduled__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 148,
+          "cache_hits": 2,
+          "input_tokens": 315805,
+          "cached_tokens": 28608,
+          "output_tokens": 681229,
+          "reasoning_tokens": 674894,
+          "cost_usd": 0.4519027740000001,
+          "cache_saved_usd": 0.003958349999999999
+        }
+      },
+      "wall_s": 17632.793090581894
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__scheduled__seed4",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__scheduled__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 164,
+          "cache_hits": 1,
+          "input_tokens": 113314,
+          "cached_tokens": 21280,
+          "output_tokens": 249140,
+          "reasoning_tokens": 239498,
+          "cost_usd": 0.16335293999999995,
+          "cache_saved_usd": 0.00019994999999999998
+        }
+      },
+      "wall_s": 6525.798798322678
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__scheduled__seed4",
+      "path": "runs/exp15/rule_world/llm_transcript-deepseek-v4.1-flash__scheduled__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 150,
+          "cache_hits": 0,
+          "input_tokens": 316157,
+          "cached_tokens": 39296,
+          "output_tokens": 721652,
+          "reasoning_tokens": 723572,
+          "cost_usd": 0.47463823800000016,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 14438.212084531784
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__endogenous__seed0",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__endogenous__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 133,
+          "cache_hits": 32,
+          "input_tokens": 104284,
+          "cached_tokens": 24832,
+          "output_tokens": 257068,
+          "reasoning_tokens": 249836,
+          "cost_usd": 0.1662330960000001,
+          "cache_saved_usd": 0.04940167799999998
+        }
+      },
+      "wall_s": 7434.495345115662
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__endogenous__seed0",
+      "path": "runs/exp15/rule_world/llm_transcript-deepseek-v4.1-flash__endogenous__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 112,
+          "cache_hits": 38,
+          "input_tokens": 270780,
+          "cached_tokens": 5312,
+          "output_tokens": 655213,
+          "reasoning_tokens": 651084,
+          "cost_usd": 0.43296393600000005,
+          "cache_saved_usd": 0.12423084000000002
+        }
+      },
+      "wall_s": 10615.840351819992
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__endogenous__seed1",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__endogenous__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 133,
+          "cache_hits": 32,
+          "input_tokens": 104518,
+          "cached_tokens": 34304,
+          "output_tokens": 117638,
+          "reasoning_tokens": 108812,
+          "cost_usd": 0.08121781199999999,
+          "cache_saved_usd": 0.014672766000000002
+        }
+      },
+      "wall_s": 5611.72895359993
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__endogenous__seed2",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__endogenous__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 122,
+          "cache_hits": 43,
+          "input_tokens": 84995,
+          "cached_tokens": 18176,
+          "output_tokens": 87382,
+          "reasoning_tokens": 79985,
+          "cost_usd": 0.06250657800000001,
+          "cache_saved_usd": 0.040656474
+        }
+      },
+      "wall_s": 1458.296132326126
+    },
+    {
+      "run": "llm_transcript-deepseek-v4.1-flash__endogenous__seed1",
+      "path": "runs/exp15/rule_world/llm_transcript-deepseek-v4.1-flash__endogenous__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 129,
+          "cache_hits": 21,
+          "input_tokens": 298737,
+          "cached_tokens": 22912,
+          "output_tokens": 499527,
+          "reasoning_tokens": 502247,
+          "cost_usd": 0.34115868600000027,
+          "cache_saved_usd": 0.06301671599999999
+        }
+      },
+      "wall_s": 8824.120365858078
+    },
+    {
+      "run": "llm_notes-deepseek-v4.1-flash__endogenous__seed4",
+      "path": "runs/exp15/rule_world/llm_notes-deepseek-v4.1-flash__endogenous__seed4.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 37,
+          "cache_hits": 128,
+          "input_tokens": 27182,
+          "cached_tokens": 7104,
+          "output_tokens": 41485,
+          "reasoning_tokens": 39867,
+          "cost_usd": 0.027924012000000005,
+          "cache_saved_usd": 0.10547698800000001
+        }
+      },
+      "wall_s": 2169.941974401474
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "full",
+    "quick": false,
+    "world": "rule_world",
+    "hypothesis_run": "H003",
+    "registry": {
+      "version": 1,
+      "title": "Are self-caused changes harder to recover from than scheduled ones?",
+      "hypothesis": "Changes the agent caused itself are the slowest to recover from, because nothing announces them. An agent that spots the pattern can also stop causing them.",
+      "design": "Nothing is scheduled by the experimenter. One condition keeps the world fully stable; one changes it on a timer as a control; and in the third, the world changes only in reaction to the agent's own behavior, such as overloading a desk until it sheds work.",
+      "parameters": {
+        "episode length": "150 steps",
+        "conditions": "stable (no changes); scheduled (4 timer changes after a 20-step warmup); self-caused (changes only when the agent triggers them)",
+        "triggers by world": "intake desk: an overloaded desk sheds work; inventory: big orders strain the supplier; coding: the reviewer copies the agent's habits; forms: IT adds an alias for a field name the agent keeps typing",
+        "agents": "the same LLM with a transcript or with notes"
+      },
+      "independent": [
+        "where changes come from: nowhere, a timer, or the agent itself"
+      ],
+      "dependent": [
+        "recovery latency by change source",
+        "how many self-caused changes happen over the run"
+      ],
+      "drift": [
+        "self-caused changes",
+        "sudden real changes (control)"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H003"
+      ],
+      "predictions": [
+        {
+          "kind": "effect",
+          "field": "recovery_lag",
+          "vary": "regime",
+          "a": "scheduled",
+          "b": "endogenous",
+          "direction": ">",
+          "within": "agent",
+          "claim": "recovery is slower from self-caused changes than from scheduled ones"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

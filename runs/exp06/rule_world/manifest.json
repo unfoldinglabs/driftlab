@@ -1,0 +1,203 @@
+{
+  "runs": [
+    {
+      "run": "g56luna_api_low_notes__changing__seed2",
+      "path": "runs/exp06/rule_world/g56luna_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 34447,
+          "cached_tokens": 0,
+          "output_tokens": 7573,
+          "reasoning_tokens": 4576,
+          "cost_usd": 0.015977,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 232.35304522514343
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed1",
+      "path": "runs/exp06/rule_world/g56luna_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 35470,
+          "cached_tokens": 0,
+          "output_tokens": 7390,
+          "reasoning_tokens": 4097,
+          "cost_usd": 0.015962,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 237.54606437683105
+    },
+    {
+      "run": "g56luna_api_low_notes__changing__seed0",
+      "path": "runs/exp06/rule_world/g56luna_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "openai/gpt-5.6-luna": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 37547,
+          "cached_tokens": 0,
+          "output_tokens": 8216,
+          "reasoning_tokens": 4617,
+          "cost_usd": 0.017368599999999998,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 238.18262672424316
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed0",
+      "path": "runs/exp06/rule_world/qwen38_27b_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 50742,
+          "cached_tokens": 13760,
+          "output_tokens": 32618,
+          "reasoning_tokens": 18900,
+          "cost_usd": 0.09315404800000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 683.0945103168488
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed1",
+      "path": "runs/exp06/rule_world/dsv41flash_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 42896,
+          "cached_tokens": 14144,
+          "output_tokens": 51589,
+          "reasoning_tokens": 47354,
+          "cost_usd": 0.035308632,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 977.3929576873779
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed0",
+      "path": "runs/exp06/rule_world/dsv41flash_api_low_notes__changing__seed0.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 41096,
+          "cached_tokens": 12946,
+          "output_tokens": 148483,
+          "reasoning_tokens": 146718,
+          "cost_usd": 0.09335113800000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1009.5580921173096
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed2",
+      "path": "runs/exp06/rule_world/qwen38_27b_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 50491,
+          "cached_tokens": 8384,
+          "output_tokens": 34677,
+          "reasoning_tokens": 21800,
+          "cost_usd": 0.09869484800000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 834.1382796764374
+    },
+    {
+      "run": "qwen38_27b_api_low_notes__changing__seed1",
+      "path": "runs/exp06/rule_world/qwen38_27b_api_low_notes__changing__seed1.jsonl",
+      "cost": {
+        "qwen/qwen3.8-27b": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 51517,
+          "cached_tokens": 12480,
+          "output_tokens": 47340,
+          "reasoning_tokens": 30975,
+          "cost_usd": 0.13094291800000002,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 1098.1477522850037
+    },
+    {
+      "run": "dsv41flash_api_low_notes__changing__seed2",
+      "path": "runs/exp06/rule_world/dsv41flash_api_low_notes__changing__seed2.jsonl",
+      "cost": {
+        "deepseek/deepseek-v4.1-flash": {
+          "calls": 66,
+          "cache_hits": 0,
+          "input_tokens": 41996,
+          "cached_tokens": 8854,
+          "output_tokens": 119786,
+          "reasoning_tokens": 116071,
+          "cost_usd": 0.07686946200000001,
+          "cache_saved_usd": 0
+        }
+      },
+      "wall_s": 2685.131421327591
+    }
+  ],
+  "grid_costs": [],
+  "config": {
+    "mode": "quick",
+    "quick": false,
+    "world": "rule_world",
+    "survey": true,
+    "registry": {
+      "version": 1,
+      "title": "Does confidence sag when the world shifts?",
+      "hypothesis": "An agent's stated confidence should sag on the tasks a change touched, possibly before its behavior recovers. If it does, confidence works as a built-in change detector.",
+      "design": "The agent states a confidence from 0 to 100 with every action, and the rules genuinely change six times. The run scores how honest the confidence is overall, and how quickly it drops after each change compared with how quickly performance drops and recovers.",
+      "parameters": {
+        "episode length": "120 steps",
+        "changes": "6, evenly spaced after a 20-step warmup",
+        "confidence": "0 to 100, requested with every action",
+        "agents": "the same LLM with a transcript or with notes"
+      },
+      "independent": [
+        "how the agent remembers"
+      ],
+      "dependent": [
+        "how well confidence matches results (Brier score)",
+        "overconfidence",
+        "how fast confidence drops vs how fast behavior recovers (confidence lead)"
+      ],
+      "drift": [
+        "sudden real changes"
+      ],
+      "worlds": [
+        "any"
+      ],
+      "hypotheses": [
+        "H005"
+      ],
+      "predictions": [
+        {
+          "kind": "sign",
+          "field": "confidence_lead",
+          "regime": "changing",
+          "direction": ">",
+          "claim": "confidence sags before behavior recovers: recovery lag minus confidence lag is positive after a change"
+        }
+      ]
+    }
+  },
+  "unpriced_models": []
+}

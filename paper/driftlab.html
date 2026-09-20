@@ -1,0 +1,747 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/aaaakshat/cm-web-fonts@latest/fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => renderMathInElement(document.body, {
+  delimiters: [{left: "\\(", right: "\\)", display: false}, {left: "\\[", right: "\\]", display: true}],
+  throwOnError: false,
+}));
+</script>
+<style>
+@page {
+  size: letter; margin: 0.75in 0.75in 1in 0.75in;
+  @bottom-center { content: counter(page); font-size: 9pt; font-family: serif; color: #111; }
+}
+html { -webkit-print-color-adjust: exact; }
+body { font-family: "Computer Modern Serif", "STIX Two Text", "Times New Roman", serif;
+       font-size: 9.8pt; line-height: 1.38; color: #111; margin: 0; text-align: justify;
+       hyphens: auto; }
+.twocol { column-count: 2; column-gap: 0.3in; }
+h2, h3 { break-after: avoid; }
+h1 { font-size: 17pt; text-align: center; font-weight: 700; line-height: 1.25;
+     margin: 0 0 14pt; text-align-last: center; }
+.authors { text-align: center; text-align-last: center; font-size: 11pt; margin: 0 0 2pt; }
+.authors strong { font-size: 12pt; }
+.note { text-align: center; text-align-last: center; font-size: 9.5pt; color: #444; margin: 2pt 0 18pt; }
+h2 { font-size: 12.5pt; font-weight: 700; margin: 16pt 0 6pt; text-align: left; text-align-last: left; }
+h3 { font-size: 11pt; font-weight: 700; font-style: italic; margin: 12pt 0 4pt; text-align: left; }
+p { margin: 0 0 7pt; }
+strong { font-weight: 700; }
+a { color: #0b3d91; text-decoration: none; }
+a.cite { color: #1a6633; }
+a.named { color: inherit; }
+code { font-family: "Computer Modern Typewriter", "Liberation Mono", monospace; font-size: 9.5pt;
+       background: #f4f4f2; padding: 0 2px; border-radius: 2px; overflow-wrap: anywhere; }
+table { border-collapse: collapse; width: 100%; font-size: 8.6pt; margin: 8pt 0 10pt;
+        line-height: 1.3; }
+/* Table 1 has one row per model/world and needs the full page width inside the
+   two-column results flow; the appendix tables remain in their local column. */
+table:first-of-type { column-span: all; font-size: 8.2pt; }
+th { border-top: 1.2pt solid #111; border-bottom: 0.6pt solid #111; padding: 3pt 5px;
+     text-align: left; font-weight: 700; }
+td { padding: 3pt 5px; vertical-align: top; border-bottom: 0.3pt solid #ccc; }
+tr:last-child td { border-bottom: 1.2pt solid #111; }
+table code { white-space: nowrap; overflow-wrap: normal; }
+ol, ul { margin: 0 0 7pt; padding-left: 20pt; }
+li { margin-bottom: 3pt; }
+p.ref { font-size: 9pt; text-align: left; margin-bottom: 4.5pt; }
+em { font-style: italic; }
+.arithmatex { font-size: 0.84em; }
+div.arithmatex { margin: 6pt 0 9pt; text-align: center; font-size: 0.92em; }
+.abs { font-size: 9.3pt; }
+.abs p { text-align: justify; }
+.fig { margin: 10pt 0; break-inside: avoid; }
+.fig2 { break-inside: auto; }
+.brk { break-before: page; }
+a.secref { color: #0b3d91; }
+.fig svg { width: 100%; display: block; margin: 0 auto; }
+.figcap { font-size: 8.6pt; color: #222; margin: 2pt auto 0; text-align: justify; }
+</style></head><body><h1 id="driftlab-measuring-agent-adaptation-in-non-stationary-environments">DriftLab: Measuring Agent Adaptation in Non-Stationary Environments</h1>
+<p class="authors"><strong>Nassim Berrada</strong><br />
+Unfolding Labs<br>
+nassim@unfoldinglabs.ai</p><p class="note"><em>Preprint.</em>
+<em>Code: <a href="https://github.com/unfoldinglabs/driftlab">github.com/unfoldinglabs/driftlab</a></em></p>
+<div class="twocol"><h2 style="font-size:11.5pt">Abstract</h2><div class="abs">
+<p>Benchmarks for language-model agents evaluate competence on frozen worlds: the task, its rules, and its ground truth are fixed before the first step. Conversely, deployed agents work in environments whose rules change constantly, sometimes with notice, usually without, and sometimes because of the agent&rsquo;s own behavior. We present <strong>DriftLab</strong>, a testbed for studying the dynamics of AI agent adaptation in non-stationary environments. Each defined environment is a deterministic, seeded simulation where the agent never sees the ground truth. Adaptation therefore becomes measurable as a time course: how many encounters with an affected task an agent needs to notice a change, to recover, and to make the new rule stick. Drift itself is the controlled variable, spanning abrupt, gradual, cosmetic, endogenous, and adversarial change, where an opponent aims drift at the agent&rsquo;s competence. Agents are evaluated through one loop whose memory substrate is swappable behind a fixed model, so memory itself becomes the independent variable. By treating latent world changes as a first-class testable parameter, DriftLab provides a way to measure the intelligence of agentic systems in the context of turbulent environments.</p>
+</div><h2 id="1-introduction">1 Introduction</h2>
+<p>The benchmarks that shaped the current generation of language-model agents share a tacit assumption: the environment does not change over the course of the evaluation. <a class="named" href="https://arxiv.org/abs/2310.06770">SWE-bench</a> freezes a repository at a commit (<a class="cite" href="#ref-1">Jimenez et al., 2024</a>). <a class="named" href="https://arxiv.org/abs/2311.12983">GAIA</a> fixes its questions and answers (<a class="cite" href="#ref-2">Mialon et al., 2023</a>). <a class="named" href="https://arxiv.org/abs/2307.13854">WebArena</a> resets its websites between episodes (<a class="cite" href="#ref-3">Zhou et al., 2023</a>). <a class="named" href="https://arxiv.org/abs/2308.03688">AgentBench</a> evaluates across eight environments, all stationary within an episode (<a class="cite" href="#ref-4">Liu et al., 2024</a>). <a class="named" href="https://arxiv.org/abs/2406.12045">τ-bench</a> varies the simulated user, never the rules of the domain (<a class="cite" href="#ref-5">Yao et al., 2024</a>). Under this assumption, competence is a scalar: the fraction of tasks solved.</p>
+<p>In deployment, this assumption rarely holds. A routing policy an operations agent learned last month is quietly revised. A schema gains a field and tightens a format. Demand shifts under an inventory controller. A style guide changes between a developer agent&rsquo;s tickets. In adversarial settings such as fraud, spam, and security, the environment is not merely non-stationary: it shifts in response to the agent&rsquo;s own behavior. In all of these cases the interesting quantity is the <em>dynamics</em> of competence: how quickly the agent notices that something changed, how quickly it recovers, whether the new knowledge sticks, whether learning it damaged anything else, and whether the agent can tell a changed world from a noisy one.</p>
+<p>Measuring dynamics requires ground truth about the change itself. This is necessary to know when the change happened, which tasks it affected, and what the correct behavior is at every step, before and after. DriftLab is built around this requirement. Every environment is a simulation that knows its own hidden state. At every step, the evaluation loop writes that state next to the exchange into a run record the agent never sees and nothing ever edits. All metrics are computed from the record after the fact. Because the truth is recorded rather than inferred, adaptation can be counted in its natural unit, encounters with affected tasks, and a metric defined later applies retroactively to every run ever recorded.</p>
+<p>This paper makes three contributions:</p>
+<ol>
+<li><strong>Environments with hidden, recorded ground truth</strong> (<a class="secref" href="#31-setting-and-notation"><a class="secref" href="#31-setting-and-notation">Section 3.1</a></a>, <a class="secref" href="#appendix-a-the-six-worlds">Appendix A</a>): six workplace simulations in which the agent is never told it is being evaluated and the world&rsquo;s true state is logged at every step.</li>
+<li><strong>Drift as a controlled variable</strong> (<a class="secref" href="#32-drift-as-the-controlled-variable"><a class="secref" href="#32-drift-as-the-controlled-variable">Section 3.2</a></a>): a taxonomy spanning abrupt and gradual substantive change, cosmetic change (only appearances move, so reacting is the error, endogenous change (the agent&rsquo;s own behavior triggers it), and adversarial change (a co-adapting opponent aims drift at the agent&rsquo;s competence). Gradual drift is constructed so ground truth stays deterministic at every step.</li>
+<li><strong>Adaptation metrics</strong> (<a class="secref" href="#33-measurement"><a class="secref" href="#33-measurement">Section 3.3</a></a>): encounter-based detection, recovery, and stability latencies; retention; stale-memory rate; interference; calibration and confidence lead; and an over-update rate that measures abandoning still-correct behavior under misleading feedback. A capability score aggregates adaptation, knowledge, and epistemics; cost is reported beside it.</li>
+</ol>
+<p><a class="secref" href="#4-evaluation-protocol">Section 4</a> describes the evaluation protocol, <a class="secref" href="#5-results">Section 5</a> reports benchmark characterization and registered studies as demonstrations of the instrument, and <a class="secref" href="#6-limitations-and-future-work">Section 6</a> states limitations and future work. Full specifications of the worlds, the twenty experimental protocols, and the memory substrates are in Appendices A through C.</p>
+<h2 id="2-related-work">2 Related work</h2>
+<p><strong>Agent benchmarks.</strong> <a class="named" href="https://arxiv.org/abs/2310.06770">SWE-bench</a> (<a class="cite" href="#ref-1">Jimenez et al., 2024</a>), <a class="named" href="https://arxiv.org/abs/2311.12983">GAIA</a> (<a class="cite" href="#ref-2">Mialon et al., 2023</a>), <a class="named" href="https://arxiv.org/abs/2307.13854">WebArena</a> (<a class="cite" href="#ref-3">Zhou et al., 2023</a>), <a class="named" href="https://arxiv.org/abs/2308.03688">AgentBench</a> (<a class="cite" href="#ref-4">Liu et al., 2024</a>), and <a class="named" href="https://arxiv.org/abs/2406.12045">τ-bench</a> (<a class="cite" href="#ref-5">Yao et al., 2024</a>) evaluate task competence in environments that are fixed within, and usually across, episodes. <a class="named" href="https://arxiv.org/abs/2406.12045">τ-bench</a>&rsquo;s pass^k metric probes reliability under stochastic replay, which is orthogonal to non-stationarity: the world is identical on every trial. DriftLab studies the environment&rsquo;s change process rather than the task.</p>
+<p><strong>Benchmarks with a time axis.</strong> <a class="named" href="https://arxiv.org/abs/2406.08747">StreamBench</a> (<a class="cite" href="#ref-6">Wu et al., 2024</a>) asks whether agents improve over an input-feedback sequence, with a stationary task distribution underneath: it measures improvement, not adaptation to change. <a class="named" href="https://arxiv.org/abs/2410.10813">LongMemEval</a> (<a class="cite" href="#ref-20">Wu et al., 2025</a>) tests long-term conversational memory, including knowledge updates, but the assistant&rsquo;s world changes only through what interlocutors say. Closest to our setting, the contemporaneous <a class="named" href="https://arxiv.org/abs/2606.13681">EvoArena</a> (<a class="cite" href="#ref-19">Xu et al., 2026</a>) evaluates agents under progressive environment updates to terminals, repositories, and user preferences, and proposes a patch-based memory (EvoMem). DriftLab differs on three axes. First, recorded ground truth makes dynamics measurable: detection and recovery latency in affected-task encounters, retention, and staleness, where update benchmarks measure accuracy after updates. Second, the drift taxonomy includes cosmetic, endogenous, and adversarial change, which accuracy-under-updates settings do not distinguish. Third, the statistical protocol is part of the artifact.</p>
+<p><strong>Continual and non-stationary learning.</strong> Catastrophic interference (<a class="cite" href="#ref-9">McCloskey and Cohen, 1989</a>; <a class="cite" href="#ref-24">Kirkpatrick et al., 2017</a>) and its measurement through backward transfer (<a class="cite" href="#ref-23">Lopez-Paz and Ranzato, 2017</a>) motivate our interference metric, transplanted from weight-space learning to in-context and memory-mediated learning. Continual RL formalizes learning under non-stationary processes (<a class="cite" href="#ref-8">Khetarpal et al., 2022</a>), and recent model-based work shows that limiting the influence of stale data is necessary for calibrated uncertainty under drift (<a class="cite" href="#ref-22">Iten et al., 2026</a>), the intuition behind our staleness and retention metrics. The concept-drift literature (<a class="cite" href="#ref-7">Gama et al., 2014</a>; <a class="cite" href="#ref-25">Cabrera Martin et al., 2025</a>) supplies the vocabulary of abrupt versus gradual drift; non-stationary bandits (<a class="cite" href="#ref-10">Garivier and Moulines, 2011</a>) supply regret analyses under switching rewards. DriftLab operationalizes these constructs for agents whose policy is a prompt-conditioned generation and whose weights, in effect, are a memory artifact.</p>
+<p><strong>Agent memory.</strong> <a class="named" href="https://arxiv.org/abs/2303.11366">Reflexion</a> (<a class="cite" href="#ref-11">Shinn et al., 2023</a>) converts feedback into verbal self-reflections; <a class="named" href="https://arxiv.org/abs/2305.16291">Voyager</a> (<a class="cite" href="#ref-12">Wang et al., 2023</a>) grows a skill library; <a class="named" href="https://arxiv.org/abs/2304.03442">Generative Agents</a> (<a class="cite" href="#ref-14">Park et al., 2023</a>) synthesize memories through reflection; <a class="named" href="https://arxiv.org/abs/2310.08560">MemGPT</a> (<a class="cite" href="#ref-13">Packer et al., 2023</a>) manages memory tiers. These works propose mechanisms; DriftLab provides an instrument for comparing them under change, with the memory substrate as the independent variable, including a world-model substrate with explicit validity conditions that revises itself when its own predictions fail, in the spirit of the evolver level of agentic world modeling (<a class="cite" href="#ref-21">Chu et al., 2026</a>).</p>
+<p><strong>Calibration and volatility.</strong> Verbalized confidence is often miscalibrated (<a class="cite" href="#ref-15">Xiong et al., 2024</a>; <a class="cite" href="#ref-16">Tian et al., 2023</a>). DriftLab asks a sharper temporal question: does confidence sag on affected tasks before behavior recovers, making it a usable change detector? Literature shows that people adjust their learning rates to environmental volatility (<a class="cite" href="#ref-17">Behrens et al., 2007</a>) and distinguish change-points from noise (<a class="cite" href="#ref-18">Nassar et al., 2010</a>); our over-update metric tests whether language agents make the same distinction.</p>
+<h2 id="3-the-driftlab-design">3 The DriftLab design</h2>
+<h3 id="31-setting-and-notation">3.1 Setting and notation</h3>
+<p><strong>Definition 1 (World and episode).</strong> An episode is a sequence of <span class="arithmatex">\(T\)</span> exchanges between an agent and a world. At step <span class="arithmatex">\(t\)</span> the world renders an observation <span class="arithmatex">\(x_t\)</span> from its hidden state, the agent replies with text, the world parses the reply into an action <span class="arithmatex">\(a_t\)</span> and returns a reward <span class="arithmatex">\(r_t\)</span> and in-role feedback. In worlds with discrete tasks, each task carries a key <span class="arithmatex">\(\kappa_t\)</span> identifying its kind, and the hidden state determines a truth map <span class="arithmatex">\(f_t\)</span> from keys to correct actions, so the correct action at step <span class="arithmatex">\(t\)</span> is <span class="arithmatex">\(f_t(\kappa_t)\)</span>. The agent never observes <span class="arithmatex">\(f_t\)</span>, the key, or any of the machinery around it. Six worlds instantiate this contract, workplace simulations specified in Appendix A: routing emailed requests, entering orders from prose intake notes, controlling inventory under retail-shaped demand, building code on an evolving internal library, screening insurance claims against an adaptive fraud ring, and choosing campaign angles under pooled-only feedback.</p>
+<p><strong>Definition 2 (Drift and change events).</strong> <strong>Drift</strong> is a change to <span class="arithmatex">\(f_t\)</span> (or, in continuous worlds, to the reward process). A change event <span class="arithmatex">\(c = (t_c, A_c)\)</span> occurs at step <span class="arithmatex">\(t_c\)</span> and affects a key set <span class="arithmatex">\(A_c\)</span>.</p>
+<p><strong>Definition 3 (Encounter).</strong> For a key <span class="arithmatex">\(\kappa \in A_c\)</span>, the <span class="arithmatex">\(k\)</span>-th <strong>encounter</strong> after change <span class="arithmatex">\(c\)</span> is the <span class="arithmatex">\(k\)</span>-th step <span class="arithmatex">\(t &gt; t_c\)</span> with <span class="arithmatex">\(\kappa_t = \kappa\)</span>. Counting adaptation in encounters rather than steps removes the sampling frequency of the environment from the measurement of the agent: a change the agent met twice is not scored like one it met forty times.</p>
+<p>Every world is <strong>seeded</strong>: a single integer seed determines all of its randomness, from the task sequence and the drift schedule down to surface detail such as names and narrative text. An episode is therefore a deterministic function of its seed, and two agents given the same seed face byte-identical worlds. This is what makes the paired statistics of <a class="secref" href="#44-validation"><a class="secref" href="#44-validation">Section 4.4</a></a> possible. The surface detail carries no signal about hidden state.</p>
+<p>The evaluation loop writes one entry per step into the <strong>run record</strong> (Figure 1): the observation, the agent&rsquo;s reply and parsed action, the reward and feedback, the key, the correct action <span class="arithmatex">\(f_t(\kappa_t)\)</span>, any change events applied at <span class="arithmatex">\(t\)</span>, and the agent&rsquo;s stated confidence when one was elicited. One boundary completes the design: the agent never reads world state, and the framework never reads agent memory; the two sides meet only as text.</p>
+<div class="fig">
+<svg viewBox="0 0 336 250" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#444"/></marker>
+    <marker id="arb" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2456c4"/></marker>
+  </defs>
+  <text x="168" y="10" text-anchor="middle" font-size="7" fill="#555">schedules drift</text>
+  <rect x="6" y="16" width="140" height="44" rx="4" fill="#fff" stroke="#444"/>
+  <text x="76" y="33" text-anchor="middle" font-size="10" font-weight="bold" fill="#111">Protocol</text>
+  <text x="76" y="47" text-anchor="middle" font-size="7.5" fill="#555">drift schedule, probes</text>
+  <line x1="146" y1="38" x2="190" y2="38" stroke="#444" stroke-width="1" marker-end="url(#ar)"/>
+  <rect x="190" y="16" width="140" height="44" rx="4" fill="#fff" stroke="#444"/>
+  <text x="260" y="33" text-anchor="middle" font-size="10" font-weight="bold" fill="#111">World</text>
+  <text x="260" y="47" text-anchor="middle" font-size="7.5" fill="#555">hidden state, truth map <tspan font-style="italic">f</tspan><tspan font-size="5.5" dy="1.5">t</tspan></text>
+  <line x1="238" y1="60" x2="238" y2="98" stroke="#444" stroke-width="1" marker-end="url(#ar)"/>
+  <line x1="286" y1="98" x2="286" y2="60" stroke="#444" stroke-width="1" marker-end="url(#ar)"/>
+  <text x="232" y="76" text-anchor="end" font-size="7" fill="#555">obs. + feedback</text>
+  <text x="232" y="88" text-anchor="end" font-size="7" fill="#555">reply (text only)</text>
+  <rect x="190" y="98" width="140" height="40" rx="4" fill="#fff" stroke="#444"/>
+  <text x="260" y="114" text-anchor="middle" font-size="10" font-weight="bold" fill="#111">Agent</text>
+  <text x="260" y="128" text-anchor="middle" font-size="7.5" fill="#555">memory (opaque to DriftLab)</text>
+  <line x1="6" y1="156" x2="330" y2="156" stroke="#999" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <text x="330" y="150" text-anchor="end" font-size="6.5" font-style="italic" fill="#777">everything below is invisible to the agent</text>
+  <path d="M206,60 C150,90 100,130 78,178" fill="none" stroke="#2456c4" stroke-width="1.2" marker-end="url(#arb)"/>
+  <text x="8" y="120" font-size="6.8" fill="#2456c4">exchange + truth, every step:</text>
+  <text x="8" y="130" font-size="6.8" fill="#2456c4"><tspan font-style="italic">x</tspan><tspan font-size="5" dy="1.5">t</tspan><tspan dy="-1.5">, </tspan><tspan font-style="italic">a</tspan><tspan font-size="5" dy="1.5">t</tspan><tspan dy="-1.5">, </tspan><tspan font-style="italic">r</tspan><tspan font-size="5" dy="1.5">t</tspan><tspan dy="-1.5">, </tspan><tspan font-style="italic">f</tspan><tspan font-size="5" dy="1.5">t</tspan><tspan dy="-1.5">(</tspan><tspan font-style="italic">&#954;</tspan><tspan font-size="5" dy="1.5">t</tspan><tspan dy="-1.5">), change events</tspan></text>
+  <rect x="6" y="180" width="150" height="42" rx="4" fill="#eef1f7" stroke="#444"/>
+  <text x="81" y="196" text-anchor="middle" font-size="10" font-weight="bold" fill="#111">Run record</text>
+  <text x="81" y="210" text-anchor="middle" font-size="7" fill="#555">one entry per step, never edited</text>
+  <line x1="156" y1="201" x2="188" y2="201" stroke="#444" stroke-width="1" marker-end="url(#ar)"/>
+  <text x="172" y="194" text-anchor="middle" font-size="6.5" fill="#555">post hoc</text>
+  <rect x="188" y="180" width="142" height="42" rx="4" fill="#fff" stroke="#444"/>
+  <text x="259" y="193" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#111">Metrics, paired effects,</text>
+  <text x="259" y="204" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#111">verdicts</text>
+  <text x="259" y="216" text-anchor="middle" font-size="7" fill="#555">pure functions of the record</text>
+</svg>
+<p class="figcap"><b>Figure 1:</b> The DriftLab measurement loop. The protocol schedules drift in a seeded world; the agent and the world exchange only text; and the evaluation loop writes each exchange, together with the hidden truth, into an immutable run record from which all metrics, paired effects, and verdicts are computed after the fact.</p>
+</div>
+
+<h3 id="32-drift-as-the-controlled-variable">3.2 Drift as the controlled variable</h3>
+<p>DriftLab separates what changes (owned by the world) from when it changes (owned by the experimental protocol). Five topologies are exercised.</p>
+<p><strong>Abrupt substantive drift.</strong> <span class="arithmatex">\(f_t\)</span> changes at a scheduled step: a rule flips, a schema mutates, a demand rate jumps. This is the classic change-point setting (<a class="cite" href="#ref-7">Gama et al., 2014</a>).</p>
+<p><strong>Gradual substantive drift, with deterministic truth.</strong> Real change often arrives as a transition rather than a discontinuity, but a naively randomized transition invalidates the measurement, since during the transition there is no longer a correct answer to score against. DriftLab&rsquo;s gradual drift keeps <span class="arithmatex">\(f_t\)</span> deterministic at every step. In the routing world, a flipped rule migrates its affected keys a few per step through temporary exceptions. In the fraud world, the adversary runs old and new playbooks simultaneously while its traffic mix shifts; both patterns are fraudulent during the handover, and the old one retires at the end.</p>
+<p><strong>Cosmetic drift.</strong> Only appearances move: the task is re-rendered in a different format with inverted field order, labels rotate, narrative templates change. <span class="arithmatex">\(f_t\)</span> is untouched, so any behavioral reaction is over-reaction.</p>
+<p><strong>Endogenous drift.</strong> The world changes because of the agent: an overloaded desk sheds work, a supplier strains under a large order, a reviewer starts expecting the agent&rsquo;s own habits, the IT department builds an alias around the agent&rsquo;s persistent mistake. No notice marks the change; the only evidence of it is in the agent&rsquo;s own interaction history.</p>
+<p><strong>Adversarial drift.</strong> In the fraud world, the ring observes outcomes: when too many of its claims are caught, it re-styles them to mimic the traffic the agent has recently approved. Drift is therefore concentrated where the agent&rsquo;s current policy is most permissive, and the agent&rsquo;s own success is what triggers the next shift.</p>
+<p>Protocols are packaged as twenty versioned <strong>experiments</strong> (<a class="secref" href="#appendix-b-the-twenty-experimental-protocols">Appendix B</a>). An experiment fixes a schedule of drift, notices, and probes over any world that supports it, and declares its <strong>regimes</strong>: the settings of its independent variable, such as scheduled versus adversarial drift, a feedback delay of zero versus six steps, or no drift versus twelve changes. Figure 2 shows the division of labor: the world owns what a change means and implements each mechanism as an inert hook or flag; the protocol owns when and under which conditions anything fires, and a regime is one named setting of that choice. Each protocol enables one change source at a time, so, for example, endogenous effects are studied against a scheduled control rather than as a confound.</p>
+<div class="fig fig2">
+<svg viewBox="0 0 336 268" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="ar2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#444"/></marker>
+  </defs>
+  <rect x="133" y="6" width="70" height="26" rx="4" fill="#fff" stroke="#444"/>
+  <text x="168" y="23" text-anchor="middle" font-size="10" font-weight="bold" fill="#111">World</text>
+  <line x1="150" y1="32" x2="66" y2="62" stroke="#444" stroke-width="1"/>
+  <line x1="168" y1="32" x2="168" y2="62" stroke="#444" stroke-width="1"/>
+  <line x1="186" y1="32" x2="270" y2="62" stroke="#444" stroke-width="1"/>
+  <text x="228" y="48" font-size="6.8" fill="#777" font-style="italic">exposes as capabilities</text>
+  <rect x="8" y="62" width="104" height="44" rx="4" fill="#fff" stroke="#444"/>
+  <text x="60" y="76" text-anchor="middle" font-size="9" font-weight="bold" fill="#111">hooks</text>
+  <text x="60" y="88" text-anchor="middle" font-size="6.6" fill="#555">change_latent &#183; change_surface</text>
+  <text x="60" y="98" text-anchor="middle" font-size="6.6" fill="#555">introduce_novelty</text>
+  <rect x="120" y="62" width="96" height="44" rx="4" fill="#fff" stroke="#444"/>
+  <text x="168" y="76" text-anchor="middle" font-size="9" font-weight="bold" fill="#111">flags</text>
+  <text x="168" y="88" text-anchor="middle" font-size="6.6" fill="#555">endogenous &#183; adversarial</text>
+  <text x="168" y="98" text-anchor="middle" font-size="6.6" fill="#555">(the agent trips them)</text>
+  <rect x="224" y="62" width="104" height="44" rx="4" fill="#fff" stroke="#444"/>
+  <text x="276" y="76" text-anchor="middle" font-size="9" font-weight="bold" fill="#111">knobs</text>
+  <text x="276" y="88" text-anchor="middle" font-size="6.6" fill="#555">transition_window</text>
+  <text x="276" y="98" text-anchor="middle" font-size="6.6" fill="#555">surface_strength &#183; api_drift</text>
+  <line x1="150" y1="170" x2="66" y2="110" stroke="#444" stroke-width="1" marker-end="url(#ar2)"/>
+  <line x1="168" y1="170" x2="168" y2="110" stroke="#444" stroke-width="1" marker-end="url(#ar2)"/>
+  <line x1="186" y1="170" x2="270" y2="110" stroke="#444" stroke-width="1" marker-end="url(#ar2)"/>
+  <text x="72" y="140" font-size="6.8" fill="#555">fires on its schedule</text>
+  <text x="174" y="140" font-size="6.8" fill="#555">arms</text>
+  <text x="238" y="140" font-size="6.8" fill="#555">sets</text>
+  <rect x="106" y="170" width="124" height="26" rx="4" fill="#fff" stroke="#444"/>
+  <text x="168" y="187" text-anchor="middle" font-size="10" font-weight="bold" fill="#111">Experiment</text>
+  <line x1="168" y1="196" x2="168" y2="216" stroke="#444" stroke-width="1" marker-end="url(#ar2)"/>
+  <text x="174" y="209" font-size="6.8" fill="#555">declares</text>
+  <rect x="92" y="216" width="152" height="38" rx="4" fill="#eef1f7" stroke="#444"/>
+  <text x="168" y="230" text-anchor="middle" font-size="9" font-weight="bold" fill="#111">regimes</text>
+  <text x="168" y="242" text-anchor="middle" font-size="6.6" fill="#555">one regime = one named choice of</text>
+  <text x="168" y="250" text-anchor="middle" font-size="6.6" fill="#555">schedule, knobs, and flags</text>
+</svg>
+<p class="figcap"><b>Figure 2:</b> The division of labor behind drift, as entities and their connections. A world exposes change hooks (called to move the truth or its surface), flags (mechanisms the agent's own behavior trips), and knobs (how a change unfolds), all inert on their own. An experiment fires the hooks on its schedule, arms the flags, sets the knobs, and declares its regimes: each regime is one named choice of schedule, knobs, and flags.</p>
+</div>
+
+<h3 id="33-measurement">3.3 Measurement</h3>
+<p>All metrics are pure functions of the run record, computed after the fact, so a metric defined later applies retroactively to every recorded run. For a change <span class="arithmatex">\(c\)</span> with affected keys <span class="arithmatex">\(A_c\)</span>, let <span class="arithmatex">\(e_1, e_2, \ldots\)</span> be the post-change encounters with keys in <span class="arithmatex">\(A_c\)</span>; write <span class="arithmatex">\(a_k\)</span> and <span class="arithmatex">\(\kappa_k\)</span> for the action and key at encounter <span class="arithmatex">\(e_k\)</span>, <span class="arithmatex">\(y_k = \mathbf{1}[a_k = f(\kappa_k)]\)</span> for correctness against the current truth, and <span class="arithmatex">\(f^{-}\)</span> for the truth map just before <span class="arithmatex">\(t_c\)</span>. Figure 3 illustrates the anatomy of one change.</p>
+<p><strong>Detection latency</strong> asks how many affected-task encounters elapse before the agent stops applying the obsolete rule. Formally, <span class="arithmatex">\(d(c) = \min\{k : a_k \neq f^{-}(\kappa_k)\}\)</span>: encounters before the old answer stops appearing.</p>
+<p><strong>Recovery and stability latency</strong> distinguish first success from reliable adaptation. Recovery asks when the new answer first appears; stability asks when it begins to persist. Recovery <span class="arithmatex">\(\rho(c) = \min\{k : y_k = 1\}\)</span> counts encounters before the new correct answer first appears; stability <span class="arithmatex">\(\sigma(c) = \min\{k : y_k = y_{k+1} = 1\}\)</span> requires it to hold twice in a row.</p>
+<p><strong>Retention</strong> asks whether a learned change sticks rather than merely appearing once. It is <span class="arithmatex">\(R(c) = \tfrac{1}{|W_c|}\sum_{k \in W_c} y_k\)</span>, where <span class="arithmatex">\(W_c\)</span> spans the 9th through the 38th post-change encounter, censored at the next change to the same keys.</p>
+<p><strong>Stale-memory rate</strong> measures relapse: how often an agent returns to the obsolete answer after demonstrating that it can produce the new one. It is <span class="arithmatex">\(S(c) = \tfrac{1}{|K_c|}\sum_{k \in K_c} \mathbf{1}[a_k = f^{-}(\kappa_k)]\)</span>, where <span class="arithmatex">\(K_c\)</span> is the encounters after the agent&rsquo;s first post-change success (after a five-encounter grace period when it never succeeds).</p>
+<p><strong>Interference</strong> asks whether updating affected tasks damages unrelated behavior. It is <span class="arithmatex">\(I(c) = \bar{y}^{\text{unaff}}_{\text{after}} - \bar{y}^{\text{unaff}}_{\text{before}}\)</span>: accuracy on <em>unaffected</em> keys in 15-step windows after versus before the change; a negative value is collateral damage in the sense of backward transfer (<a class="cite" href="#ref-23">Lopez-Paz and Ranzato, 2017</a>).</p>
+<p><strong>Over-update rate</strong> asks whether an agent treats misleading negative feedback as evidence that a correct rule changed. It is <span class="arithmatex">\(U = \Pr\bigl(a_{\text{next}(\kappa)} \neq a \mid a = f(\kappa),\, r \le 0\bigr)\)</span>: among events where feedback wrongly punished a correct action (possible only in worlds with misleading feedback), the share of next same-key encounters at which the agent abandoned the still-correct behavior. It requires at least one qualifying event.</p>
+<p><strong>Calibration and overconfidence</strong> measure whether expressed certainty tracks reality, rather than merely whether the final action was correct. With stated confidences <span class="arithmatex">\(p_i\)</span> and outcomes <span class="arithmatex">\(o_i \in \{0, 1\}\)</span>, calibration error is the Brier score <span class="arithmatex">\(B = \tfrac{1}{n}\sum_i (p_i - o_i)^2\)</span> and overconfidence is <span class="arithmatex">\(\bar{p} - \bar{o}\)</span>; both require at least five stated confidences.</p>
+<p><strong>Confidence lag and lead</strong> ask whether the agent&rsquo;s stated uncertainty notices a change before its actions do. The lag <span class="arithmatex">\(\lambda(c)\)</span> is the encounters until stated confidence on affected tasks falls below its pre-change baseline; the lead <span class="arithmatex">\(\rho(c) - \lambda(c)\)</span> is positive when confidence registered the change before behavior recovered.</p>
+<p><strong>Wrong-prediction rate</strong> measures the frequency with which explicit forecasts are contradicted by the world, over at least five stated predictions.</p>
+<p><strong>Parse-failure rate and cost per success</strong> describe operational reliability: whether an answer can be consumed by the environment and what it costs to obtain a successful answer. They feed the efficiency dimension and never a capability one.</p>
+<div class="fig">
+<svg viewBox="0 0 336 190" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif">
+  <text x="230" y="28" text-anchor="middle" font-size="6.5" fill="#777">post-change encounters</text>
+  <g font-size="9.5">
+    <rect x="6" y="34" width="20" height="20" fill="#c9d7f0" stroke="#444"/><text x="16" y="48" text-anchor="middle" fill="#1a2c50">A</text>
+    <rect x="29" y="34" width="20" height="20" fill="#c9d7f0" stroke="#444"/><text x="39" y="48" text-anchor="middle" fill="#1a2c50">A</text>
+    <rect x="52" y="34" width="20" height="20" fill="#c9d7f0" stroke="#444"/><text x="62" y="48" text-anchor="middle" fill="#1a2c50">A</text>
+    <line x1="80" y1="28" x2="80" y2="60" stroke="#b03030" stroke-width="1.4" stroke-dasharray="3,2"/>
+    <rect x="88" y="34" width="20" height="20" fill="#f3d6d6" stroke="#444"/><text x="98" y="48" text-anchor="middle" fill="#7a1f1f">A</text>
+    <rect x="111" y="34" width="20" height="20" fill="#f3d6d6" stroke="#444"/><text x="121" y="48" text-anchor="middle" fill="#7a1f1f">A</text>
+    <rect x="134" y="34" width="20" height="20" fill="#f0e7c8" stroke="#444"/><text x="144" y="48" text-anchor="middle" fill="#6b5a12">B</text>
+    <rect x="157" y="34" width="20" height="20" fill="#d3e8d3" stroke="#444"/><text x="167" y="48" text-anchor="middle" fill="#1f5a2a">C</text>
+    <rect x="180" y="34" width="20" height="20" fill="#f3d6d6" stroke="#444"/><text x="190" y="48" text-anchor="middle" fill="#7a1f1f">A</text>
+    <rect x="203" y="34" width="20" height="20" fill="#d3e8d3" stroke="#444"/><text x="213" y="48" text-anchor="middle" fill="#1f5a2a">C</text>
+    <rect x="226" y="34" width="20" height="20" fill="#d3e8d3" stroke="#444"/><text x="236" y="48" text-anchor="middle" fill="#1f5a2a">C</text>
+    <rect x="249" y="34" width="20" height="20" fill="#d3e8d3" stroke="#444"/><text x="259" y="48" text-anchor="middle" fill="#1f5a2a">C</text>
+    <rect x="272" y="34" width="20" height="20" fill="#d3e8d3" stroke="#444"/><text x="282" y="48" text-anchor="middle" fill="#1f5a2a">C</text>
+  </g>
+  <g font-size="6" fill="#777" text-anchor="middle">
+    <text x="98" y="66">1</text><text x="121" y="66">2</text><text x="144" y="66">3</text><text x="167" y="66">4</text>
+    <text x="190" y="66">5</text><text x="213" y="66">6</text><text x="236" y="66">7</text><text x="259" y="66">8</text><text x="282" y="66">9</text>
+  </g>
+  <text x="39" y="66" text-anchor="middle" font-size="6.5" fill="#555">old rule: A correct</text>
+  <text x="86" y="24" font-size="6.5" fill="#b03030">change: C becomes correct</text>
+  <path d="M88,74 v4 h66 v-4" fill="none" stroke="#444" stroke-width="0.9"/>
+  <text x="121" y="88" text-anchor="middle" font-size="7" fill="#333">detection <tspan font-style="italic">d</tspan>(<tspan font-style="italic">c</tspan>) = 3: the old answer stops</text>
+  <path d="M88,98 v4 h89 v-4" fill="none" stroke="#444" stroke-width="0.9"/>
+  <text x="132" y="112" text-anchor="middle" font-size="7" fill="#333">recovery <tspan font-style="italic">&#961;</tspan>(<tspan font-style="italic">c</tspan>) = 4: first correct answer</text>
+  <line x1="190" y1="122" x2="190" y2="58" stroke="#b03030" stroke-width="0.9"/>
+  <text x="190" y="132" text-anchor="middle" font-size="7" fill="#b03030">relapse to A: a stale-memory event</text>
+  <path d="M203,142 v4 h89 v-4" fill="none" stroke="#444" stroke-width="0.9"/>
+  <text x="247" y="156" text-anchor="middle" font-size="7" fill="#333">retention window: accuracy on later</text>
+  <text x="247" y="166" text-anchor="middle" font-size="7" fill="#333">encounters, censored at the next change</text>
+</svg>
+<p class="figcap"><b>Figure 3:</b> Anatomy of one change, schematically. Before the change, A is correct for this key. After it, the agent repeats A for two encounters (detected at the third, when the old answer stops), first produces the new correct answer C at the fourth (recovery), relapses once to the obsolete A (a stale-memory event), and then holds C through the retention window. Counting in encounters with affected keys, rather than steps, removes the environment's sampling frequency from the measurement.</p>
+</div>
+
+<p>The raw measurements are scored against recorded truth, not reported reward, so a world that lies in its feedback or withholds it is still evaluated against reality. <a class="secref" href="#34-scoring">Section 3.4</a> defines how these measurements become dimensions and a summary score.</p>
+<h3 id="34-scoring">3.4 Scoring</h3>
+<p>The four reported dimensions answer different practical questions. <strong>Adaptation</strong> asks how quickly the agent notices and recovers from a changed rule. <strong>Knowledge</strong> asks how accurately it performs and whether the update is retained without damaging unaffected tasks. <strong>Epistemics</strong> asks whether its memory and confidence track what is actually true, including resistance to stale beliefs and misleading feedback. <strong>Efficiency</strong> asks whether the agent produces usable answers at reasonable operational cost. These dimensions are reported together; they should not be read as interchangeable measures of intelligence.</p>
+<p>For each dimension, valid component metrics are first mapped to <span class="arithmatex">\([0,1]\)</span>, with larger values always better. Let <span class="arithmatex">\(q(\ell)=1/(1+\ell/5)\)</span> be the latency transform, and let <span class="arithmatex">\(\operatorname{clip}_{[0,1]}\)</span> bound a quantity to the unit interval. Adaptation is the mean of the available transformed detection and recovery latencies, with a component scored as zero when the agent had a fair chance but never adapted:</p>
+<div class="arithmatex">\[A = \operatorname{mean}\bigl(q(d), q(\rho)\bigr).\]</div>
+<p>Knowledge combines performance and resistance to collateral damage:</p>
+<p>Let <span class="arithmatex">\(I^* = \operatorname{clip}_{[0,1]}(1+2\min(0,I))\)</span> be the normalized interference score. Then</p>
+<div class="arithmatex">\[K = \operatorname{mean}\bigl(\text{final accuracy}, R, I^*\bigr).\]</div>
+<p>Epistemics rewards calibrated confidence and resistance to stale or unjustified updating. The implementation uses the complements of error rates, so that higher is better:</p>
+<div class="arithmatex">\[E = \operatorname{mean}\bigl(1-B, 1-S, 1-U\bigr),\]</div>
+<p>omitting components that the world or agent does not make measurable; confidence lead and wrong-prediction rate remain reported diagnostics rather than current score components. Efficiency combines parse compliance with the cost transform. Let <span class="arithmatex">\(P\)</span> be parse-failure rate and <span class="arithmatex">\(C\)</span> be cost per success:</p>
+<div class="arithmatex">\[F = \operatorname{mean}\bigl(1-P,\; 1/(1+C/\$0.01)\bigr).\]</div>
+<p>The headline <strong>DriftLab score</strong> is the capability summary, not a replacement for the vector:</p>
+<div class="arithmatex">\[D = (A + K + E)/3.\]</div>
+<p>Efficiency <span class="arithmatex">\(F\)</span>, including dollars, is reported beside <span class="arithmatex">\(D\)</span> and is never blended into it; a cheaper model must not receive a capability increase merely for being cheap. A metric that a world, agent, or regime cannot ask about is missing and excluded from the relevant mean, never silently converted to zero. Runs below the 30-step validity floor do not enter profiles. In worlds without repeating task keys, latency can fall back to time-based recovery of a rolling reward, while accuracy-style metrics remain unmeasured; continuous-cost worlds are scored on reward rather than invented accuracy. The constants in these transforms set a readable scale, not a scientific natural unit, so the dimension vector and its scope are the primary result and <span class="arithmatex">\(D\)</span> is only a ranking convenience.</p>
+<h2 id="4-evaluation-protocol">4 Evaluation protocol</h2>
+<h3 id="41-agents">4.1 Agents</h3>
+<p>The entire agent contract is <code>act(prompt) → text</code> and <code>observe(feedback, reward)</code>. A <strong>profile</strong> is a declarative record containing the agent type, pinned model, reasoning and output limits, memory-substrate configuration, and cost metadata. The same episode loop instantiates each profile, so changing a profile changes a named experimental factor rather than silently changing the harness.</p>
+<p><strong>Reference agents</strong> are in-process LLM loops whose memory substrate is the controlled variable. The model set covers gpt-5.6-luna and two open-weights models, deepseek-v4.1-flash and qwen3.8-27b, all served through one OpenAI-compatible API layer with pinned identifiers and a per-call price table. They were chosen for the best intelligence-to-cost profile available at the time rather than for peak capability. A non-LLM floor—an ε-greedy, recency-weighted lookup table—plays the discrete worlds through the same contract.</p>
+<p>The agent profile fixes the model and substrate for an episode and exposes the same observation, action, feedback, and reward fields to every arm. Prompts, token caps, reasoning effort, and consolidation settings are recorded with the profile; <a class="secref" href="#appendix-c-agents-and-memory-substrates">Appendix C</a> gives the exact profile families and memory prompts. This makes model comparisons interpretable as model comparisons and substrate comparisons interpretable as model–substrate comparisons.</p>
+<h3 id="42-memory">4.2 Memory</h3>
+<p>The seven memory profiles span a spectrum from remembering what happened to representing what currently holds:</p>
+<p><strong>None</strong> persists nothing; every step is played from the observation alone. It is the floor that any memory must beat, and the one agent a rule change cannot wrong-foot.</p>
+<p><strong>Transcript</strong> keeps a sliding window of raw exchanges, verbatim and unprocessed. Detection is cheap, because contradicting evidence sits in plain view, but nothing older than the window exists and nothing is ever revised.</p>
+<p><strong>Notes</strong> maintains a free-form working file the model rewrites on an interval or after failures. It retains beyond any window, at the price of consolidation lag and lossy rewrites: between rewrites the agent acts on a summary that may already be stale.</p>
+<p><strong>Skills</strong> extracts one-line condition-action procedures. The format matches worlds whose truth is policy-shaped and constrains worlds whose truth is a quantity or a belief.</p>
+<p><strong>Beliefs</strong> stores declarative statements, each with a confidence and an explicit condition that would revise it. It is the lightest substrate that can retire knowledge deliberately rather than by overwriting.</p>
+<p><strong>World model</strong> stores scoped rule hypotheses with confidences, age stamps, and invalidation conditions, and is the only substrate that changes the agent&rsquo;s behavior loop: the agent predicts every outcome, and a failed prediction triggers an immediate revision instead of waiting for the interval.</p>
+<p><strong>Fast+slow</strong> carries a short raw transcript and consolidated notes at once, trading tokens for coverage of both timescales.</p>
+<p>The substrate is the only state carried between steps by the agent. A raw transcript has no invalidation mechanism, a free-form summary can be revised only by lossy rewrite, and only rules with validity conditions map “the world changed” to a discrete, inspectable edit. The non-LLM lookup floor has its own tabular substrate and is included only where the world exposes discrete keys.</p>
+<h3 id="43-episodes">4.3 Episodes</h3>
+<p>An episode is a seeded sequence of environment exchanges. The world emits an observation, the profile returns an action, and the world records truth, reward, feedback, latency, and any drift event before the next exchange. The truth is hidden from the agent but retained in the run record for scoring. Each cell is an agent profile × world × regime × seed; paired cells therefore receive the same seed and the same exogenous event schedule.</p>
+<p>Experiments cross every registered regime with their seed set. Runs are resumable and written under an identity that includes experiment, world, regime, seed, model, and substrate, so a completed run is not silently replaced by a later alias or quick probe. Timeouts and unparseable outputs remain observable failures with the protocol&rsquo;s documented fallback behavior. Episode length, model settings, substrate settings, and API cost are recorded alongside the trajectory; they are protocol metadata, not hidden tuning.</p>
+<h3 id="44-validation">4.4 Validation</h3>
+<p>An experiment runs as a <strong>grid</strong>: every regime is crossed with a set of seeds, and every agent plays the identical resulting episodes. All comparisons are therefore paired. <strong>Definition 4 (Paired effect).</strong> For a metric <span class="arithmatex">\(m\)</span> and two conditions <span class="arithmatex">\(A\)</span>, <span class="arithmatex">\(B\)</span> (two agents, or two regimes within an agent) matched on seeds <span class="arithmatex">\(s \in S\)</span>, the effect is</p>
+<div class="arithmatex">\[\Delta = \frac{1}{|S|} \sum_{s \in S} \bigl[\, m_B(s) - m_A(s) \,\bigr],\]</div>
+<p>reported with a 95% bootstrap confidence interval over the matched differences, never as a difference of unpaired means.</p>
+<p>Experiments <strong>pre-register predictions</strong>: before any data is collected, the experiment&rsquo;s registry entry states what its outcome should look like, in one of three forms software can check. A <em>directional effect</em> names a metric and two conditions (&ldquo;recovery latency is higher under adversarial drift than under scheduled drift&rdquo;). A <em>reversal</em> claims that a ranking of agents flips between two regimes (&ldquo;the short-memory arm wins under high drift and loses under none&rdquo;). A <em>sign claim</em> states that a metric&rsquo;s mean falls on one side of zero (&ldquo;confidence lead is positive after a change&rdquo;). An automated validator evaluates each prediction against the paired effects: <em>supported</em> when the interval excludes zero in the predicted direction over at least three matched pairs, <em>contradicted</em> on the other side, <em>inconclusive</em> otherwise. Verdicts are always scope-qualified, naming the agents and worlds actually tested, and they aggregate into proposed hypothesis statuses that a human confirms; the machinery never edits the research log on its own.</p>
+<p>The run ledger records seed count and episode length for every completed cell. The validator selects the longest completed protocol available for each model–substrate identity when an experiment has extensions, and never pairs cells from different episode protocols. This preserves the audit trail while allowing the results section to treat completed runs as representative of their configured protocol.</p>
+<p><strong>What the verdicts are.</strong> Automated verdicts are statistical proposals over registered predictions. They inherit the registry&rsquo;s choices about what was worth predicting, and they are always scoped: &ldquo;supported, for these agents, on these worlds&rdquo; is the strongest statement the machinery can make.</p>
+<h2 id="5-results">5 Results</h2>
+<h3 id="51-characterization">5.1 Characterization</h3>
+<p><strong>The characterization matrix.</strong> Table 1 reports the score vector rather than one value per experiment. Each row is a complete model–world cell from the available notes-profile runs. These are characterization cells, not a claim that every model has identical coverage.</p>
+<p><strong>Table 1:</strong> Adaptation, knowledge, efficiency, and available capability score per model and world. Only rows with all displayed components measured are included. Values are on <span class="arithmatex">\([0,1]\)</span>, higher is better.</p>
+<table>
+<thead>
+<tr>
+<th>World</th>
+<th>Model</th>
+<th style="text-align: right;">Adaptation</th>
+<th style="text-align: right;">Knowledge</th>
+<th style="text-align: right;">Efficiency</th>
+<th style="text-align: right;">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rule</td>
+<td>deepseek-v4.1-flash</td>
+<td style="text-align: right;">0.706</td>
+<td style="text-align: right;">0.921</td>
+<td style="text-align: right;">0.904</td>
+<td style="text-align: right;">0.832</td>
+</tr>
+<tr>
+<td>rule</td>
+<td>gpt-5.6-luna</td>
+<td style="text-align: right;">0.693</td>
+<td style="text-align: right;">0.898</td>
+<td style="text-align: right;">0.978</td>
+<td style="text-align: right;">0.820</td>
+</tr>
+<tr>
+<td>rule</td>
+<td>qwen3.8-27b</td>
+<td style="text-align: right;">0.774</td>
+<td style="text-align: right;">0.880</td>
+<td style="text-align: right;">0.911</td>
+<td style="text-align: right;">0.822</td>
+</tr>
+<tr>
+<td>claims</td>
+<td>deepseek-v4.1-flash</td>
+<td style="text-align: right;">0.805</td>
+<td style="text-align: right;">0.823</td>
+<td style="text-align: right;">0.963</td>
+<td style="text-align: right;">0.814</td>
+</tr>
+<tr>
+<td>claims</td>
+<td>gpt-5.6-luna</td>
+<td style="text-align: right;">0.920</td>
+<td style="text-align: right;">0.761</td>
+<td style="text-align: right;">0.963</td>
+<td style="text-align: right;">0.893</td>
+</tr>
+<tr>
+<td>claims</td>
+<td>qwen3.8-27b</td>
+<td style="text-align: right;">0.772</td>
+<td style="text-align: right;">0.881</td>
+<td style="text-align: right;">0.919</td>
+<td style="text-align: right;">0.826</td>
+</tr>
+<tr>
+<td>campaign</td>
+<td>deepseek-v4.1-flash</td>
+<td style="text-align: right;">0.232</td>
+<td style="text-align: right;">0.088</td>
+<td style="text-align: right;">0.764</td>
+<td style="text-align: right;">0.160</td>
+</tr>
+<tr>
+<td>campaign</td>
+<td>gpt-5.6-luna</td>
+<td style="text-align: right;">0.214</td>
+<td style="text-align: right;">0.202</td>
+<td style="text-align: right;">0.899</td>
+<td style="text-align: right;">0.208</td>
+</tr>
+<tr>
+<td>campaign</td>
+<td>qwen3.8-27b</td>
+<td style="text-align: right;">0.217</td>
+<td style="text-align: right;">0.181</td>
+<td style="text-align: right;">0.700</td>
+<td style="text-align: right;">0.199</td>
+</tr>
+</tbody>
+</table>
+<p>Cells with an unmeasured component are omitted from this compact comparison, not zero-filled; the coverage caveat is discussed below.</p>
+<p>The rule world gives the cleanest cross-model comparison. DeepSeek has the strongest knowledge value, Luna has the highest operational efficiency, and Qwen adapts fastest. Their available capability scores are close, so the practical conclusion is a trade-off rather than a universal winner.</p>
+<p>The form and inventory cells are omitted because at least one displayed component is unmeasured there; this is a property of the measurement contract, not a failed experiment. In the claims world, Luna has the highest adaptation and available score, while the open models have stronger knowledge values. Finally, campaign is difficult for all three models: adaptation and knowledge collapse together while efficiency remains moderate.</p>
+<h3 id="52-registered-studies">5.2 Registered studies</h3>
+<p>Four studies demonstrate what the instrument can establish, refute, and catch itself overreading. Each runs one protocol under its registered predictions, with seed-paired effects and scope-qualified verdicts.</p>
+<p><strong>Study 1: over-reaction to purely cosmetic change.</strong> The protocol places three events in an episode. Depending on the regime, each event changes nothing, changes only the task&rsquo;s appearance, changes its substance, or changes both. A cosmetic event leaves the correct behavior untouched, so any accuracy an agent loses after one is over-reaction by definition.</p>
+<p><strong>Result:</strong> over-reaction happens, and where it happens depends on the world. On the form world, the record&rsquo;s format is the very thing the agent works on, and restructuring it cost the transcript agent a measurable share of its accuracy even though the schema never moved. On the routing world, where the same re-rendering is incidental to the job, no arm reacted at all. Agents shrug off appearance changes where appearance is incidental and over-react to them where appearance is the working material.</p>
+<p><strong>Evidence:</strong> Figure 4 shows every paired effect, cosmetic-only minus no-change, in final accuracy. The transcript agent is at <span class="arithmatex">\(-0.133\)</span> on the form world (95% CI <span class="arithmatex">\([-0.240, -0.025]\)</span>; supported). Notes move in the same direction without separating from zero (<span class="arithmatex">\(-0.169\)</span>, <span class="arithmatex">\([-0.360, +0.040]\)</span>), and both routing-world arms sit near zero. The open-model estimates are directionally mixed and their intervals include zero.</p>
+<div class="fig fig-hide-headings">
+<style>.fig-hide-headings svg text:nth-of-type(2), .fig-hide-headings svg text:nth-of-type(11) { display: none; }</style>
+<svg viewBox="0 0 336 262" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif"><text x="269.1" y="12" font-size="7" fill="#555" text-anchor="middle">no effect</text><line x1="269.1" y1="18" x2="269.1" y2="220" stroke="#444" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/><text x="8" y="24" font-size="7.5" fill="#555">five pairs, full-length episodes, gpt-5.6-luna</text><text x="110" y="51" font-size="8.5" fill="#444" text-anchor="end">transcript &#183; form</text><line x1="222.0" y1="48" x2="264.2" y2="48" stroke="#2456c4" stroke-width="1.5"/><circle cx="243.0" cy="48" r="3.6" fill="#2456c4"/><text x="243.0" y="42" font-size="6.8" fill="#555" text-anchor="middle">-0.13</text><text x="110" y="75" font-size="8.5" fill="#444" text-anchor="end">notes &#183; form</text><line x1="198.4" y1="72" x2="276.9" y2="72" stroke="#2456c4" stroke-width="1.5"/><circle cx="235.9" cy="72" r="3.6" fill="#2456c4"/><text x="235.9" y="66" font-size="6.8" fill="#555" text-anchor="middle">-0.17</text><text x="110" y="99" font-size="8.5" fill="#444" text-anchor="end">transcript &#183; routing</text><line x1="265.7" y1="96" x2="285.3" y2="96" stroke="#2456c4" stroke-width="1.5"/><circle cx="275.5" cy="96" r="3.6" fill="#2456c4"/><text x="275.5" y="90" font-size="6.8" fill="#555" text-anchor="middle">+0.03</text><text x="110" y="123" font-size="8.5" fill="#444" text-anchor="end">notes &#183; routing</text><line x1="254.3" y1="120" x2="277.3" y2="120" stroke="#2456c4" stroke-width="1.5"/><circle cx="265.7" cy="120" r="3.6" fill="#2456c4"/><text x="265.7" y="114" font-size="6.8" fill="#555" text-anchor="middle">-0.02</text><text x="8" y="140" font-size="7.5" fill="#555">three pairs, half-length episodes, notes memory</text><text x="110" y="167" font-size="8.5" fill="#444" text-anchor="end">deepseek &#183; form</text><line x1="131.7" y1="164" x2="308.3" y2="164" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="223.3" cy="164" r="3.6" fill="#444" fill-opacity="0.6"/><text x="223.3" y="158" font-size="6.8" fill="#555" text-anchor="middle">-0.23</text><text x="110" y="191" font-size="8.5" fill="#444" text-anchor="end">qwen3.8-27b &#183; form</text><line x1="190.6" y1="188" x2="269.1" y2="188" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="243.0" cy="188" r="3.6" fill="#444" fill-opacity="0.6"/><text x="243.0" y="182" font-size="6.8" fill="#555" text-anchor="middle">-0.13</text><text x="110" y="215" font-size="8.5" fill="#444" text-anchor="end">gpt-5.6-luna &#183; form</text><line x1="269.1" y1="212" x2="288.7" y2="212" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="275.5" cy="212" r="3.6" fill="#444" fill-opacity="0.6"/><text x="275.5" y="206" font-size="6.8" fill="#555" text-anchor="middle">+0.03</text><text x="151.3" y="232" font-size="7.5" fill="#555" text-anchor="middle">-0.6</text><text x="190.6" y="232" font-size="7.5" fill="#555" text-anchor="middle">-0.4</text><text x="229.8" y="232" font-size="7.5" fill="#555" text-anchor="middle">-0.2</text><text x="269.1" y="232" font-size="7.5" fill="#555" text-anchor="middle">0</text><text x="308.3" y="232" font-size="7.5" fill="#555" text-anchor="middle">+0.2</text><text x="116" y="244" font-size="7" font-style="italic" fill="#555">&#9668; over-reacted to a cosmetic change</text><text x="324" y="244" font-size="7" font-style="italic" fill="#555" text-anchor="end">unaffected &#9658;</text><text x="220" y="256" font-size="7.5" fill="#555" text-anchor="middle">final accuracy, cosmetic-only minus no-change regime</text></svg>
+<p class="figcap"><b>Figure 4:</b> The cosmetic over-reaction effect across arms, worlds, and models. Each row is the paired difference in final accuracy between the cosmetic-only and no-change regimes; whiskers are 95% bootstrap intervals, and a point left of zero means the agent lost accuracy to a change that altered nothing but appearance. Rows identify model, memory substrate, and world; every completed row is treated as representative of that configured protocol.</p>
+</div>
+
+<p><strong>Study 2: what adversarial drift costs.</strong> In the fraud world, the same number of tactic shifts can arrive on a timer or be aimed: the ring watches which of its claims get through and re-styles them against whatever the agent is currently approving. The registered prediction was that recovering from an aimed shift takes longer than recovering from a scheduled one.</p>
+<p><strong>Result:</strong> the available data do not establish a general per-shift recovery cost for aimed drift. Luna shows no positive latency effect, the DeepSeek estimates point slightly in the opposite direction, and the Qwen estimate leans positive but remains wide. The adversary does impose a different cost on Luna: accuracy stays lower for the whole episode, and the ring shifts more often the better the agent does, so the pressure never lets up.</p>
+<p><strong>Evidence:</strong> Figure 5 shows recovery-latency deltas, adversarial minus scheduled. Luna is <span class="arithmatex">\(-0.67\)</span> encounters <span class="arithmatex">\([-1.61, +0.13]\)</span> with notes and <span class="arithmatex">\(-0.56\)</span> <span class="arithmatex">\([-2.14, +1.15]\)</span> with a transcript; DeepSeek is <span class="arithmatex">\(-0.31\)</span> <span class="arithmatex">\([-1.00, +0.62]\)</span> and <span class="arithmatex">\(-0.02\)</span> <span class="arithmatex">\([-0.40, +0.33]\)</span>, respectively. Qwen is <span class="arithmatex">\(+0.944\)</span> <span class="arithmatex">\([-1.000, +2.333]\)</span>, while an earlier DeepSeek estimate of <span class="arithmatex">\(+1.278\)</span> <span class="arithmatex">\([+0.333, +2.000]\)</span> does not persist in the completed extension. The accuracy gap on Luna is clear (scheduled minus adversarial: <span class="arithmatex">\(+0.100\)</span> <span class="arithmatex">\([0.027, 0.173]\)</span> for notes and <span class="arithmatex">\(+0.247\)</span> <span class="arithmatex">\([0.127, 0.360]\)</span> for transcript). The shift count is endogenous: against the notes agent the ring moved 34 times where the scheduled control moved 20.</p>
+<div class="fig fig-hide-headings">
+<style>.fig-hide-headings svg text:nth-of-type(2), .fig-hide-headings svg text:nth-of-type(11) { display: none; }</style>
+<svg viewBox="0 0 336 238" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif"><text x="243.8" y="12" font-size="7" fill="#555" text-anchor="middle">no effect</text><line x1="243.8" y1="18" x2="243.8" y2="196" stroke="#444" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/><text x="8" y="24" font-size="7.5" fill="#555">five pairs, full-length episodes</text><text x="110" y="51" font-size="8.5" fill="#444" text-anchor="end">luna notes</text><line x1="195.9" y1="48" x2="247.6" y2="48" stroke="#2456c4" stroke-width="1.5"/><circle cx="223.9" cy="48" r="3.6" fill="#2456c4"/><text x="223.9" y="42" font-size="6.8" fill="#555" text-anchor="middle">-0.67</text><text x="110" y="75" font-size="8.5" fill="#444" text-anchor="end">luna transcript</text><line x1="180.2" y1="72" x2="277.9" y2="72" stroke="#2456c4" stroke-width="1.5"/><circle cx="227.1" cy="72" r="3.6" fill="#2456c4"/><text x="227.1" y="66" font-size="6.8" fill="#555" text-anchor="middle">-0.56</text><text x="110" y="99" font-size="8.5" fill="#444" text-anchor="end">deepseek notes</text><line x1="214.1" y1="96" x2="262.2" y2="96" stroke="#2456c4" stroke-width="1.5"/><circle cx="234.6" cy="96" r="3.6" fill="#2456c4"/><text x="234.6" y="90" font-size="6.8" fill="#555" text-anchor="middle">-0.31</text><text x="110" y="123" font-size="8.5" fill="#444" text-anchor="end">deepseek transcript</text><line x1="231.9" y1="120" x2="253.6" y2="120" stroke="#2456c4" stroke-width="1.5"/><circle cx="243.2" cy="120" r="3.6" fill="#2456c4"/><text x="243.2" y="114" font-size="6.8" fill="#555" text-anchor="middle">-0.02</text><text x="8" y="140" font-size="7.5" fill="#555">three pairs, half-length episodes</text><text x="110" y="167" font-size="8.5" fill="#444" text-anchor="end">qwen3.8-27b notes</text><line x1="214.1" y1="164" x2="313.1" y2="164" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="271.8" cy="164" r="3.6" fill="#444" fill-opacity="0.6"/><text x="271.8" y="158" font-size="6.8" fill="#555" text-anchor="middle">+0.94</text><text x="110" y="191" font-size="8.5" fill="#444" text-anchor="end">luna notes</text><line x1="124.9" y1="188" x2="253.7" y2="188" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="206.6" cy="188" r="3.6" fill="#444" fill-opacity="0.6"/><text x="206.6" y="182" font-size="6.8" fill="#555" text-anchor="middle">-1.25</text><text x="124.9" y="208" font-size="7.5" fill="#555" text-anchor="middle">-4</text><text x="184.3" y="208" font-size="7.5" fill="#555" text-anchor="middle">-2</text><text x="243.8" y="208" font-size="7.5" fill="#555" text-anchor="middle">0</text><text x="303.2" y="208" font-size="7.5" fill="#555" text-anchor="middle">+2</text><text x="116" y="220" font-size="7" font-style="italic" fill="#555">&#9668; recovers faster from aimed shifts</text><text x="324" y="220" font-size="7" font-style="italic" fill="#555" text-anchor="end">aimed shifts slower &#9658;</text><text x="220" y="232" font-size="7.5" fill="#555" text-anchor="middle">recovery latency, adversarial minus scheduled (encounters)</text></svg>
+<p class="figcap"><b>Figure 5:</b> Recovery latency under aimed versus scheduled drift, adversarial minus scheduled, in encounters. A point right of zero means aimed shifts took longer to recover from. Rows identify model and memory substrate; the estimates are interpreted within their configured protocol and scope.
+</p>
+</div>
+
+<p><strong>Study 3: does structure in memory damp noise-driven updating?</strong> In a stable routing world where 15% of feedback is misleadingly inverted, a wrongly punished correct action carries no information about the rule; in a changing world, the same surprise would be evidence of change. People adjust their learning to this distinction (<a class="cite" href="#ref-17">Behrens et al., 2007</a>; <a class="cite" href="#ref-18">Nassar et al., 2010</a>). The registered predictions test whether structured memory helps agents make the same distinction.</p>
+<p><strong>Result:</strong> all three predictions were contradicted. The short-versus-long memory ranking does not reverse between the noisy and the changing regime. The long transcript is less overconfident than the short one, not more. And the world-model substrate, built to revise itself the moment one of its predictions fails, abandoned still-correct behavior far more often than free-form notes rather than less. The run records show why: under lying feedback, every misleading rejection falsifies an explicit prediction, and every falsification triggers an immediate rewrite. The substrate we designed to make revision principled made it constant instead.</p>
+<p><strong>Evidence:</strong> Figure 6 shows the over-update rates. No measurable agent pair reverses sign between regimes. The overconfidence delta between the 120-step and 5-step transcripts is <span class="arithmatex">\(-0.084\)</span> <span class="arithmatex">\([-0.121, -0.047]\)</span>, on the opposite side of zero from the prediction. The world model over-updates at <span class="arithmatex">\(0.81\)</span> against notes&rsquo; <span class="arithmatex">\(0.30\)</span>, a paired difference of <span class="arithmatex">\([0.35, 0.70]\)</span>. The capacity gradient survives: the 5-step transcript over-updates at <span class="arithmatex">\(0.96\)</span> and loses <span class="arithmatex">\(-0.333\)</span> accuracy against fast+slow (<span class="arithmatex">\([-0.458, -0.208]\)</span>). The notes baseline is similar across the three models (0.19 for deepseek-v4.1-flash, 0.28 for gpt-5.6-luna, 0.37 for qwen3.8-27b), all below the world model&rsquo;s 0.81. The substrate arms run on a single model, so the world-model contradiction is scoped to gpt-5.6-luna.</p>
+<div class="fig">
+<svg viewBox="0 0 336 258" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif"><g stroke="#444" stroke-width="0.8" opacity="0.12"><line x1="216" y1="24" x2="216" y2="212"/><line x1="316" y1="24" x2="316" y2="212"/></g><text x="8" y="20" font-size="7.5" fill="#555">twelve gradual changes, 15% of feedback misleading (five memory arms)</text><text x="110" y="50" font-size="8.5" fill="#444" text-anchor="end">transcript, 5 steps</text><rect x="116" y="42" width="192" height="10" fill="#444" fill-opacity="0.45"/><text x="313" y="50" font-size="7.5" fill="#444">0.96</text><text x="110" y="72" font-size="8.5" fill="#444" text-anchor="end">fast+slow</text><rect x="116" y="64" width="90" height="10" fill="#444" fill-opacity="0.45"/><text x="211" y="72" font-size="7.5" fill="#444">0.45</text><text x="110" y="94" font-size="8.5" fill="#444" text-anchor="end">beliefs</text><rect x="116" y="86" width="84" height="10" fill="#444" fill-opacity="0.45"/><text x="205" y="94" font-size="7.5" fill="#444">0.42</text><text x="110" y="116" font-size="8.5" fill="#444" text-anchor="end">notes</text><rect x="116" y="108" width="60" height="10" fill="#444" fill-opacity="0.45"/><text x="181" y="116" font-size="7.5" fill="#444">0.30</text><text x="110" y="138" font-size="8.5" fill="#444" text-anchor="end">transcript, 120 steps</text><rect x="116" y="130" width="52" height="10" fill="#444" fill-opacity="0.45"/><text x="173" y="138" font-size="7.5" fill="#444">0.26</text><text x="8" y="152" font-size="7.5" fill="#555">four abrupt changes plus misleading feedback (world-model head-to-head)</text><text x="110" y="182" font-size="8.5" fill="#444" text-anchor="end">world model</text><rect x="116" y="174" width="162" height="10" fill="#2456c4"/><text x="283" y="182" font-size="7.5" fill="#444">0.81</text><text x="110" y="204" font-size="8.5" fill="#444" text-anchor="end">beliefs</text><rect x="116" y="196" width="74" height="10" fill="#444" fill-opacity="0.45"/><text x="195" y="204" font-size="7.5" fill="#444">0.37</text><text x="110" y="226" font-size="8.5" fill="#444" text-anchor="end">notes</text><rect x="116" y="218" width="60" height="10" fill="#444" fill-opacity="0.45"/><text x="181" y="226" font-size="7.5" fill="#444">0.30</text><text x="116" y="240" font-size="7.5" fill="#555" text-anchor="middle">0</text><text x="216" y="240" font-size="7.5" fill="#555" text-anchor="middle">0.5</text><text x="316" y="240" font-size="7.5" fill="#555" text-anchor="middle">1.0</text><text x="216" y="252" font-size="7.5" fill="#555" text-anchor="middle">over-update rate (lower is better)</text></svg>
+<p class="figcap"><b>Figure 6:</b> Over-update rate by memory substrate: the fraction of misleading rejections after which the agent abandoned a still-correct behavior at its next encounter with the same task; lower is better. The world model (blue) was registered to have the lowest rate of its cohort and instead has the highest: each lie falsifies one of its explicit predictions, and each falsification triggers an immediate rewrite.</p>
+</div>
+
+<p><strong>Study 4: late feedback in a moving world.</strong> Outcomes arrive 0, 1, 3, or 6 steps late, in a stable world and in a changing one. The intuition behind the registered prediction was that delay is a nuisance when nothing changes and expensive when something does, because stale credit lands on beliefs that have already moved on.</p>
+<p><strong>Result:</strong> a six-step delay is expensive for every model, and not only under change. The changing-world effect is supported for qwen3.8-27b and directionally consistent for the other two; the stable-world control shows losses just as large, with two separating from zero. These agents therefore handle delayed credit badly everywhere, and the available paired comparisons do not isolate a change-specific cost. A related registered prediction, that changes paced to wait for recovery beat a fixed timer, leans positive on all three models without resolving.</p>
+<p><strong>Evidence:</strong> Figure 7 shows the paired effect of a six-step delay in both worlds. Changing world: qwen3.8-27b <span class="arithmatex">\(-0.417\)</span> <span class="arithmatex">\([-0.667, -0.167]\)</span> (verdict: supported, scoped to that agent), deepseek-v4.1-flash <span class="arithmatex">\(-0.389\)</span> <span class="arithmatex">\([-0.667, +0.083]\)</span>, gpt-5.6-luna <span class="arithmatex">\(-0.250\)</span> <span class="arithmatex">\([-0.667, +0.083]\)</span>. Stable world: qwen3.8-27b <span class="arithmatex">\(-0.556\)</span> <span class="arithmatex">\([-0.667, -0.500]\)</span>, deepseek-v4.1-flash <span class="arithmatex">\(-0.444\)</span> <span class="arithmatex">\([-0.583, -0.333]\)</span>, gpt-5.6-luna <span class="arithmatex">\(-0.278\)</span> <span class="arithmatex">\([-0.667, +0.167]\)</span>. Adaptive versus fixed pacing: <span class="arithmatex">\(+0.067\)</span>, <span class="arithmatex">\(+0.067\)</span>, <span class="arithmatex">\(+0.022\)</span>, every interval touching zero.</p>
+<div class="fig">
+<svg viewBox="0 0 336 238" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif"><text x="269.1" y="12" font-size="7" fill="#555" text-anchor="middle">no effect</text><line x1="269.1" y1="18" x2="269.1" y2="196" stroke="#444" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/><text x="8" y="24" font-size="7.5" fill="#555">changing world: the registered condition</text><text x="110" y="51" font-size="8.5" fill="#444" text-anchor="end">gpt-5.6-luna</text><line x1="138.2" y1="48" x2="285.3" y2="48" stroke="#2456c4" stroke-width="1.5"/><circle cx="220.0" cy="48" r="3.6" fill="#2456c4"/><text x="220.0" y="42" font-size="6.8" fill="#555" text-anchor="middle">-0.25</text><text x="110" y="75" font-size="8.5" fill="#444" text-anchor="end">deepseek-v4.1-flash</text><line x1="138.2" y1="72" x2="285.3" y2="72" stroke="#2456c4" stroke-width="1.5"/><circle cx="192.7" cy="72" r="3.6" fill="#2456c4"/><text x="192.7" y="66" font-size="6.8" fill="#555" text-anchor="middle">-0.39</text><text x="110" y="99" font-size="8.5" fill="#444" text-anchor="end">qwen3.8-27b</text><line x1="138.2" y1="96" x2="236.3" y2="96" stroke="#2456c4" stroke-width="1.5"/><circle cx="187.2" cy="96" r="3.6" fill="#2456c4"/><text x="187.2" y="90" font-size="6.8" fill="#555" text-anchor="middle">-0.42</text><text x="8" y="116" font-size="7.5" fill="#555">stable world: the control</text><text x="110" y="143" font-size="8.5" fill="#444" text-anchor="end">gpt-5.6-luna</text><line x1="138.2" y1="140" x2="301.8" y2="140" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="214.5" cy="140" r="3.6" fill="#444" fill-opacity="0.6"/><text x="214.5" y="134" font-size="6.8" fill="#555" text-anchor="middle">-0.28</text><text x="110" y="167" font-size="8.5" fill="#444" text-anchor="end">deepseek-v4.1-flash</text><line x1="154.7" y1="164" x2="203.7" y2="164" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="181.9" cy="164" r="3.6" fill="#444" fill-opacity="0.6"/><text x="181.9" y="158" font-size="6.8" fill="#555" text-anchor="middle">-0.44</text><text x="110" y="191" font-size="8.5" fill="#444" text-anchor="end">qwen3.8-27b</text><line x1="138.2" y1="188" x2="170.9" y2="188" stroke="#444" stroke-width="1.5" opacity="0.55"/><circle cx="160.0" cy="188" r="3.6" fill="#444" fill-opacity="0.6"/><text x="160.0" y="182" font-size="6.8" fill="#555" text-anchor="middle">-0.56</text><text x="151.3" y="208" font-size="7.5" fill="#555" text-anchor="middle">-0.6</text><text x="190.6" y="208" font-size="7.5" fill="#555" text-anchor="middle">-0.4</text><text x="229.8" y="208" font-size="7.5" fill="#555" text-anchor="middle">-0.2</text><text x="269.1" y="208" font-size="7.5" fill="#555" text-anchor="middle">0</text><text x="308.3" y="208" font-size="7.5" fill="#555" text-anchor="middle">+0.2</text><text x="116" y="220" font-size="7" font-style="italic" fill="#555">&#9668; delay costs accuracy</text><text x="324" y="220" font-size="7" font-style="italic" fill="#555" text-anchor="end">no cost &#9658;</text><text x="220" y="232" font-size="7.5" fill="#555" text-anchor="middle">final accuracy, six-step delay minus immediate feedback</text></svg>
+<p class="figcap"><b>Figure 7:</b> What a six-step feedback delay costs, per model and world: paired difference in final accuracy, delayed minus immediate. The registered prediction concerned the changing world (blue); the stable-world control (grey) shows the cost is at least as large when nothing changes, so the change-specific part of the claim remains open.</p>
+</div>
+
+<h2 id="6-limitations-and-future-work">6 Limitations and future work</h2>
+<p><strong>Realism and measurability.</strong> DriftLab&rsquo;s instrumentation requires owning the world&rsquo;s mechanics. Recorded per-step truth, byte-identical seed pairing, and drift as a controlled variable all depend on it, and naturally occurring artifacts do not allow it. The worlds are therefore not realistic in the ecological sense, however much realistic structure they carry (prose records, an evolving internal library, retail-shaped demand), and every result inherits that. What a synthetic world cannot supply is the unknown structure of real artifacts, the parts nobody thought to invent. We view realistic-artifact benchmarks such as <a class="named" href="https://arxiv.org/abs/2606.13681">EvoArena</a> (<a class="cite" href="#ref-19">Xu et al., 2026</a>) as complements rather than competitors: instrumented cores measure the dynamics precisely, ecological benchmarks check that the phenomena appear in the wild, and disagreement between the two is itself information.</p>
+<p><strong>Agent population.</strong> Every number in this paper comes from three models: gpt-5.6-luna and two open-weights models, deepseek-v4.1-flash and qwen3.8-27b. They were chosen for the best intelligence-to-cost profile available to us rather than for peak capability, so the results say nothing yet about frontier models. A second confound is structural: the model that plays the episodes is also the model that consolidates each memory substrate, so a substrate comparison is really a model-substrate interaction, and a substrate that fails on one model could succeed on a model that writes better notes. Verdicts are scope-qualified for exactly this reason, and the scope is narrow.</p>
+<p><strong>Data coverage and score completeness.</strong> The artifact is a completed analysis of the runs available in the repository, not a claim that every registered protocol has a full factorial result. The three-model coverage is broad for the shared notes profile, but substrate ablations are concentrated on gpt-5.6-luna: the open models were not tested across the full none/transcript/notes/skills/beliefs/world-model family. The form world has a completed Luna substrate comparison but no equivalent three-model comparison; inventory has three-model notes runs but no matched scheduled-versus-self-caused pairs; claims has complete Luna and DeepSeek paired arms but only a smaller Qwen notes arm; and campaign has three-model notes characterization but no matched notes-versus-no-memory comparison. H003 has only two matched endogenous-versus-scheduled pairs in the available extension, H005 has at most one confidence-lead run per relevant model, and H007 has zero matched wiped/unwiped pairs. H008 has matched adversarial comparisons, but none separates from zero. H001 and H004 are therefore partial families rather than broad confirmations; H002 is supported only for the observed Luna transcript/form cell; H006 has several contradictions but its real-change world-model comparison has only two matched pairs. Some reported scores are likewise partial: when a world does not expose the component required for knowledge, epistemics, or adaptation, the aggregate is incomplete or omitted from the compact characterization table. Missing cells are reported as missing, and no interpretation relies on treating an interrupted or unmeasured arm as a null result.</p>
+<p><strong>Future work.</strong> Three directions follow directly. First, widening the population: frontier models, and production agent systems evaluated as shipped rather than re-implemented. Second, running the open-weights models on owned  hardware rather than through an API, which opens the way for studying adaptation at the weight level. The same instrument that compares in-context memory substrates can compare a per-episode adapter or a continually finetuned model against them, with detection latency, retention, and over-update measured identically. Third, further pushing the realism of the test environments within the established design constraints: full multi-file repositories with cross-file tickets, multi-session horizons with context severed between sessions, and drift schedules replayed from real versioned artifacts such as library changelogs, so a synthetic finding can be checked against a naturally occurring trace of the same shape.</p>
+<h2 id="7-conclusion">7 Conclusion</h2>
+<p>Static benchmarks measure how competent an agent is on a fixed task. DriftLab measures what happens to that competence when the task changes: slowly, cosmetically, because of the agent, or in opposition to it. The design assumes that (a) hidden truth about the world is available at test time, (b) drift is a first-class variable, (c) capability is measured in the context of how an agent deals with latent change from successive encounters. Together these assumptions make adaptation a measurable, comparable, and transparently reported quantity. The testbed, all twenty protocols, and full run records are designed for release with the characterization results.</p>
+<h2 id="references">References</h2>
+<p class="ref" id="ref-1">C. E. Jimenez, J. Yang, A. Wettig, S. Yao, K. Pei, O. Press, K. Narasimhan. SWE-bench: Can Language Models Resolve Real-World GitHub Issues? <em>ICLR 2024</em>. <a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a>.</p>
+<p class="ref" id="ref-2">G. Mialon, C. Fourrier, C. Swift, T. Wolf, Y. LeCun, T. Scialom. GAIA: A Benchmark for General AI Assistants. <a href="https://arxiv.org/abs/2311.12983">arXiv:2311.12983</a>, 2023.</p>
+<p class="ref" id="ref-3">S. Zhou et al. WebArena: A Realistic Web Environment for Building Autonomous Agents. <a href="https://arxiv.org/abs/2307.13854">arXiv:2307.13854</a>, 2023.</p>
+<p class="ref" id="ref-4">X. Liu et al. AgentBench: Evaluating LLMs as Agents. <em>ICLR 2024</em>. <a href="https://arxiv.org/abs/2308.03688">arXiv:2308.03688</a>.</p>
+<p class="ref" id="ref-5">S. Yao, N. Shinn, P. Razavi, K. Narasimhan. τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains. <a href="https://arxiv.org/abs/2406.12045">arXiv:2406.12045</a>, 2024.</p>
+<p class="ref" id="ref-6">C.-K. Wu et al. StreamBench: Towards Benchmarking Continuous Improvement of Language Agents. <em>NeurIPS 2024 Datasets &amp; Benchmarks</em>. <a href="https://arxiv.org/abs/2406.08747">arXiv:2406.08747</a>.</p>
+<p class="ref" id="ref-7">J. Gama, I. Žliobaitė, A. Bifet, M. Pechenizkiy, A. Bouchachia. A Survey on Concept Drift Adaptation. <em>ACM Computing Surveys</em> 46(4), 2014. <a href="https://doi.org/10.1145/2523813">doi:10.1145/2523813</a></p>
+<p class="ref" id="ref-8">K. Khetarpal, M. Riemer, I. Rish, D. Precup. Towards Continual Reinforcement Learning: A Review and Perspectives. <em>JAIR</em> 75:1401-1476, 2022. <a href="https://arxiv.org/abs/2012.13490">arXiv:2012.13490</a></p>
+<p class="ref" id="ref-9">M. McCloskey, N. J. Cohen. Catastrophic Interference in Connectionist Networks: The Sequential Learning Problem. <em>Psychology of Learning and Motivation</em> 24, 1989. <a href="https://doi.org/10.1016/S0079-7421(08)60536-8">doi:10.1016/S0079-7421(08)60536-8</a></p>
+<p class="ref" id="ref-10">A. Garivier, E. Moulines. On Upper-Confidence Bound Policies for Switching Bandit Problems. <em>ALT 2011</em>. <a href="https://arxiv.org/abs/0805.3415">arXiv:0805.3415</a></p>
+<p class="ref" id="ref-11">N. Shinn, F. Cassano, A. Gopinath, K. Narasimhan, S. Yao. Reflexion: Language Agents with Verbal Reinforcement Learning. <em>NeurIPS 2023</em>. <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a>.</p>
+<p class="ref" id="ref-12">G. Wang et al. Voyager: An Open-Ended Embodied Agent with Large Language Models. <a href="https://arxiv.org/abs/2305.16291">arXiv:2305.16291</a>, 2023.</p>
+<p class="ref" id="ref-13">C. Packer et al. MemGPT: Towards LLMs as Operating Systems. <a href="https://arxiv.org/abs/2310.08560">arXiv:2310.08560</a>, 2023.</p>
+<p class="ref" id="ref-14">J. S. Park, J. O&rsquo;Brien, C. J. Cai, M. R. Morris, P. Liang, M. S. Bernstein. Generative Agents: Interactive Simulacra of Human Behavior. <em>UIST 2023</em>. <a href="https://arxiv.org/abs/2304.03442">arXiv:2304.03442</a>.</p>
+<p class="ref" id="ref-15">M. Xiong et al. Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs. <em>ICLR 2024</em>. <a href="https://arxiv.org/abs/2306.13063">arXiv:2306.13063</a>.</p>
+<p class="ref" id="ref-16">K. Tian et al. Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback. <em>EMNLP 2023</em>. <a href="https://arxiv.org/abs/2305.14975">arXiv:2305.14975</a>.</p>
+<p class="ref" id="ref-17">T. E. J. Behrens, M. W. Woolrich, M. E. Walton, M. F. S. Rushworth. Learning the Value of Information in an Uncertain World. <em>Nature Neuroscience</em> 10:1214-1221, 2007. <a href="https://doi.org/10.1038/nn1954">doi:10.1038/nn1954</a></p>
+<p class="ref" id="ref-18">M. R. Nassar, R. C. Wilson, B. Heasly, J. I. Gold. An Approximately Bayesian Delta-Rule Model Explains the Dynamics of Belief Updating in a Changing Environment. <em>Journal of Neuroscience</em> 30(37):12366-12378, 2010. <a href="https://doi.org/10.1523/JNEUROSCI.0822-10.2010">doi:10.1523/JNEUROSCI.0822-10.2010</a></p>
+<p class="ref" id="ref-19">J. Xu, Q. Li, J. Wu, Y. Lan, et al. EvoArena: Tracking Memory Evolution for Robust LLM Agents in Dynamic Environments. <a href="https://arxiv.org/abs/2606.13681">arXiv:2606.13681</a>, 2026.</p>
+<p class="ref" id="ref-20">D. Wu et al. LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive Memory. <em>ICLR 2025</em>. <a href="https://arxiv.org/abs/2410.10813">arXiv:2410.10813</a>.</p>
+<p class="ref" id="ref-21">M. Chu, X. B. Zhang, K. Q. Lin, et al. Agentic World Modeling: Foundations, Capabilities, Laws, and Beyond. <a href="https://arxiv.org/abs/2604.22748">arXiv:2604.22748</a>, 2026.</p>
+<p class="ref" id="ref-22">K. Iten, B. Lee, C. Li, et al. Model-Based Reinforcement Learning for Control under Time-Varying Dynamics. <a href="https://arxiv.org/abs/2604.02260">arXiv:2604.02260</a>, 2026.</p>
+<p class="ref" id="ref-23">D. Lopez-Paz, M. Ranzato. Gradient Episodic Memory for Continual Learning. <em>NeurIPS 2017</em>. <a href="https://arxiv.org/abs/1706.08840">arXiv:1706.08840</a>.</p>
+<p class="ref" id="ref-24">J. Kirkpatrick et al. Overcoming Catastrophic Forgetting in Neural Networks. <em>PNAS</em> 114(13), 2017. <a href="https://arxiv.org/abs/1612.00796">arXiv:1612.00796</a>.</p>
+<p class="ref" id="ref-25">I. Cabrera Martin, S. Mukherjee, A. Baimagambetov, J. Vanschoren. Evolving Machine Learning in Non-Stationary Environments: A Unified Survey of Drift, Forgetting, and Adaptation. <a href="https://arxiv.org/abs/2505.17902">arXiv:2505.17902</a>, 2025.</p>
+</div><div class="twocol brk"><h2 id="appendix-a-the-six-worlds">Appendix A: The six worlds</h2>
+<p>Each world is a job at a fictional company. The agent is never told it is in an experiment: episodes begin with a job description, changes arrive unannounced or as office memos, and probes are phrased as a supervisor&rsquo;s question. Observations carry realistic, signal-free surface detail (names, ticket numbers, narrative text) drawn deterministically from (seed, step).</p>
+<p><strong>Table 2:</strong> The six worlds and their representative drift mechanisms. Each row is explicitly labeled by its world and drift type. Substantive change moves the ground truth; cosmetic change moves only appearances; endogenous change is triggered by the agent&rsquo;s own behavior, and in <code>claims_desk</code> it is adversarial (aimed at the agent). Gradual and abrupt variants of substantive change exist where noted in <a class="secref" href="#32-drift-as-the-controlled-variable"><a class="secref" href="#32-drift-as-the-controlled-variable">Section 3.2</a></a>.</p>
+<table>
+<thead>
+<tr>
+<th>World</th>
+<th>Drift type</th>
+<th>Meaning in the world</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rule_world</code></td>
+<td>substantive</td>
+<td>A routing rule flips, abruptly or migrating key by key.</td>
+</tr>
+<tr>
+<td><code>rule_world</code></td>
+<td>cosmetic</td>
+<td>The request is re-rendered in a different format and field order.</td>
+</tr>
+<tr>
+<td><code>rule_world</code></td>
+<td>endogenous</td>
+<td>An overloaded desk sheds a request type.</td>
+</tr>
+<tr>
+<td><code>form_filler</code></td>
+<td>substantive</td>
+<td>A field is renamed, or a format, requirement, or cap changes.</td>
+</tr>
+<tr>
+<td><code>form_filler</code></td>
+<td>cosmetic</td>
+<td>The intake note is restructured as prose, JSON, key-value lines, or TSV.</td>
+</tr>
+<tr>
+<td><code>form_filler</code></td>
+<td>endogenous</td>
+<td>IT starts accepting a wrong field name the agent keeps typing.</td>
+</tr>
+<tr>
+<td><code>inventory</code></td>
+<td>substantive</td>
+<td>The demand rate jumps or follows a random walk.</td>
+</tr>
+<tr>
+<td><code>inventory</code></td>
+<td>cosmetic</td>
+<td>The daily report is re-worded.</td>
+</tr>
+<tr>
+<td><code>inventory</code></td>
+<td>endogenous</td>
+<td>A large order strains the supplier and slows deliveries.</td>
+</tr>
+<tr>
+<td><code>codebase</code></td>
+<td>substantive</td>
+<td>The style guide is revised or a library helper is deprecated.</td>
+</tr>
+<tr>
+<td><code>codebase</code></td>
+<td>cosmetic</td>
+<td>The ticket template is re-worded.</td>
+</tr>
+<tr>
+<td><code>codebase</code></td>
+<td>endogenous</td>
+<td>The reviewer adopts habits from the agent&rsquo;s submissions.</td>
+</tr>
+<tr>
+<td><code>claims_desk</code></td>
+<td>substantive</td>
+<td>The fraud signature moves abruptly or through a gradual handover.</td>
+</tr>
+<tr>
+<td><code>claims_desk</code></td>
+<td>cosmetic</td>
+<td>The claim narrative template is re-worded.</td>
+</tr>
+<tr>
+<td><code>claims_desk</code></td>
+<td>endogenous/adversarial</td>
+<td>The ring mimics the traffic the agent approves.</td>
+</tr>
+<tr>
+<td><code>campaign_desk</code></td>
+<td>substantive</td>
+<td>Engagement rates are redrawn in an audience shift.</td>
+</tr>
+<tr>
+<td><code>campaign_desk</code></td>
+<td>cosmetic</td>
+<td>Angle descriptions are re-worded.</td>
+</tr>
+<tr>
+<td><code>campaign_desk</code></td>
+<td>endogenous</td>
+<td>An angle used relentlessly wears out and recovers with rest.</td>
+</tr>
+</tbody>
+</table>
+<p>Worlds declare capabilities (substantive and cosmetic change, novelty, probes, task keys, confidence elicitation, endogenous mechanisms, consultation); protocols declare what they need, and a mismatch refuses at startup. The <strong>World</strong> column identifies the environment, while <strong>Row type</strong> identifies whether the row describes the job itself or a drift mechanism. “Endogenous/adversarial” marks the claims desk&rsquo;s special case: its endogenous change is actively aimed at the agent.</p>
+<p><strong>Routing (<code>rule_world</code>).</strong> Requests arrive one at a time as short intake emails (a ticket number, a named sender, a subject line, a note from the requester), each carrying a type, region, and size. A hidden rule table with nested exceptions (a base rule per type, regional exceptions, size exceptions to those) maps every combination to the one desk that will accept it; the agent picks a desk and hears accepted or rejected, nothing more. Because the same combinations keep recurring, the run record can count exactly how many encounters an agent needs to notice and adapt. Formally: non-stationary hierarchical classification over a hidden decision table.</p>
+<p><em>Hooks, flags, and knobs:</em> change_latent (a rule flips; with <code>transition_window</code> set, it migrates key by key), change_surface (<code>surface_strength</code> selects rewording or full structural re-rendering), introduce_novelty, probe, consult, and the endogenous flag (an overloaded desk sheds a request type). Knobs: <code>depth</code> and <code>n_types</code> size the rule table, <code>feedback_noise</code> inverts a share of feedback, <code>warmup</code> delays the first change.</p>
+<p><em>Job description (the system prompt, verbatim):</em></p>
+<p><code>text
+You work on the intake desk at Meridian Logistics. Requests arrive one at a time; for each one, assign it to the handling option you believe is right. The back office tells you whether the assignment was accepted. Nobody has written the routing procedures down, so you will have to work them out on the job. End every reply with a line of the form:
+CHOICE: &lt;A|B|C|D&gt;</code></p>
+<p><em>A rendered observation (seed 0, step 0):</em></p>
+<p><code>text
+Ticket REQ-2400 · from Yuki Rossi (Partner Accounts)
+Subject: transfer request — south region
+"Our client has been asking about this twice already."
+We have received a large transfer originating from the south region and need it assigned to the right desk.
+Options: A (standard queue), B (priority desk), C (regional office), D (external partner)
+Which option do you choose?</code></p>
+<p><strong>Forms (<code>form_filler</code>).</strong> Each step presents an intake note, a typed-up phone order or a voicemail transcription in which every field value appears verbatim and quoted, to be submitted as a filled form matching a hidden schema of field names, formats, requirements, and caps. Submissions are checked field by field, with a few attempts allowed per record; richer feedback levels name what was wrong. A substantive change mutates the schema itself; a cosmetic change restructures the note (prose, JSON, key-value lines, TSV) while the form stays the same. Formally: structured generation under schema drift.</p>
+<p><em>Hooks, flags, and knobs:</em> change_latent (the schema mutates: a rename, a format, a requirement, or a cap), change_surface (<code>surface_strength</code> restructures the intake note across prose, JSON, key-value, and TSV renderings; <code>record_style</code> sets the base rendering), introduce_novelty (a new field), probe, and the endogenous flag (IT aliases a wrong field name the agent keeps typing). Knobs: <code>max_attempts</code> per record, <code>feedback</code> richness.</p>
+<p><em>Job description (the system prompt, verbatim):</em></p>
+<p><code>text
+You are a data-entry specialist at Meridian Logistics. You receive order records and must enter each one into the company's order form. The system rejects invalid submissions and reports errors; the form has no manual. Reply with the completed form as a single JSON object on its own line, prefixed by FORM:
+FORM: {"field": "value", ...}</code></p>
+<p><em>A rendered observation (seed 0, step 0):</em></p>
+<p>```text
+Intake batch ORD-5100, forwarded by Yuki Rossi at the front desk. &ldquo;Original was handwritten; transcribed by reception.&rdquo;
+Order form (version 1). Fields: cust, email, order_date, priority, qty, ship_country.
+Attempt 1 of 3.</p>
+<p>Source record:
+Transcribed from the customer&rsquo;s voicemail: the customer is &ldquo;Eli Reyes&rdquo;; email given as &ldquo;user559@example.com&rdquo;; quantity given as &ldquo;33&rdquo;; shipping_country given as &ldquo;Germany&rdquo;; the order_date is &ldquo;2026-01-03&rdquo;; priority_level given as &ldquo;0&rdquo;.
+```</p>
+<p><strong>Inventory (<code>inventory</code>).</strong> Each morning the agent sees stock on hand, orders in transit, and yesterday&rsquo;s sales (capped by what was in stock), then orders a quantity that arrives after a lead time. Demand is drawn from a hidden rate; under the retail regime that rate is shaped like a real sales series, a weekday cycle over the base level with occasional promotion spikes, and a substantive change jumps the level while preserving the weekly shape. The day&rsquo;s score combines holding costs, lost sales, and an ordering fee. The right order quantity is a calculation, not a choice from a list, and the world&rsquo;s rewards are costs, so accuracy-style metrics stay unmeasured here by design. Formally: non-stationary inventory control under censored Poisson demand.</p>
+<p><em>Hooks, flags, and knobs:</em> change_latent (the demand level jumps; under the retail regime the weekly shape is preserved), change_surface (the daily report is re-worded), probe (a hypothetical from the manager), and the endogenous flag (an order above <code>big_order</code> strains the supplier for <code>strain_days</code>). Knobs: <code>regime</code> selects the demand generator (stationary, seasonal, drifting, retail), <code>lead_time</code>, and the three cost rates.</p>
+<p><em>Job description (the system prompt, verbatim):</em></p>
+<p><code>text
+You are the buyer for one product line at Meridian Retail. Each morning you see stock on hand, orders in transit and yesterday's sales, and place today's order (it arrives in 2 days unless the report says otherwise). Your job is to keep total cost down. Costs: 0.1 per unit held per day, 1.0 per unit of demand you could not serve, 0.5 fixed cost per non-zero order. End your reply with a line:
+ORDER: &lt;integer&gt;</code></p>
+<p><em>A rendered observation (seed 0, step 0):</em></p>
+<p><code>text
+Day 1, Monday. Stock on hand: 18 units. Arriving over the next 2 days: [0, 0].
+Yesterday's sales: n/a. Sales over the last 14 days: none yet.
+Ops note: Cycle count scheduled for the end of the month.
+How many units do you order today?</code></p>
+<p><strong>Code (<code>codebase</code>).</strong> Tickets ask for small Python functions, a third of which build on the team&rsquo;s internal utility library (identifier, date, text, and money helpers provided in scope). Every submission is executed in a sandbox against the ticket&rsquo;s tests and also checked against a style guide the agent can never read; full credit needs both, and reviews can run several rounds per ticket. A substantive change revises the style guide, so code that used to pass review stops passing, or deprecates a library helper: the old name keeps working but now fails review, and the onboarding description silently goes stale, so the deprecation has to be discovered from review feedback rather than announced. Formally: constrained code synthesis with a fixed test oracle and drifting conventions.</p>
+<p><em>Hooks, flags, and knobs:</em> change_latent (the style guide is revised; with <code>api_drift</code> set, it may instead deprecate a library helper), change_surface (the ticket template is re-worded), consult (the reviewer names one live rule), and the endogenous flag (the reviewer adopts habits from the agent&rsquo;s submissions). Knobs: <code>session_length</code>, <code>review_rounds</code>, <code>feedback</code> richness.</p>
+<p><em>Job description (the system prompt, verbatim):</em></p>
+<p><code>text
+You are a developer on the platform team at Meridian. Tickets ask you to implement small functions against the team's internal library; CI runs the tests and a reviewer checks the code against the team's style guide, which is not written down anywhere you can see. A helper `log(msg)` is available in scope, along with the team utilities (as of your onboarding): fmt_id(x) — display reference for a numeric id, e.g. 7 -&gt; 'MD-000007'; parse_dt(s) — split an ISO date string into an (y, m, d) tuple of ints; clean(s) — collapse whitespace and lowercase; to_cents(amount) — convert a currency amount to integer cents. Reply with the complete function source inside one code block:</code>python
+<your code>
+<code></code></p>
+<p><em>A rendered observation (seed 0, step 0):</em></p>
+<p><code>text
+(reported by Yuki Rossi · P3 · "Blocks a downstream cleanup ticket.")
+Ticket #1000: implement `order_year(s)`. Return the year of an ISO order date string, using the team date helper.</code></p>
+<p><strong>Fraud (<code>claims_desk</code>).</strong> Claims arrive as short narratives, drawn from a pool of incident stories and carrying a signal-free adjuster&rsquo;s note, with three underlying attributes (type, filing channel, amount band). A fraud ring operates with a signature, a pair of attribute values its claims always carry, and legitimate claims never fully match it, so the task reduces to tracking the signature as it moves. With the adversary active, the ring watches what gets through and re-styles its claims to mimic the traffic the agent has been approving. Formally: adversarial concept drift with a best-responding drift generator.</p>
+<p><em>Hooks, flags, and knobs:</em> change_latent (the fraud signature moves; with <code>transition_window</code> set, old and new playbooks run side by side during the handover), change_surface (narrative templates rotate), consult (the audit desk reveals one claim&rsquo;s truth), and the endogenous flag, which here is the adversary: the ring re-styles its claims against what the agent approves, reconsidering every <code>adapt_every</code> claims. Knobs: <code>fraud_share</code>, <code>n_types</code>, <code>warmup</code>.</p>
+<p><em>Job description (the system prompt, verbatim):</em></p>
+<p><code>text
+You review insurance claims at Meridian Assurance. Claims arrive one at a time; approve the legitimate ones and reject the fraudulent ones. Fraud exists and fraud tactics change over time; you are never told the current pattern. End your reply with a line:
+DECISION: APPROVE or DECISION: REJECT</code></p>
+<p><em>A rendered observation (seed 0, step 0):</em></p>
+<p><code>text
+Claim CLM-7001 — claimant Kofi Kim, policy MA-34280, auto cover.
+Windscreen cracked by road debris on Mar 3.
+Filing: submitted through the customer portal (online). Requested payout: $826 (small band).
+Adjuster note: Documents scanned and attached to the file.
+Category: auto · Channel: online · Amount: small
+Do you approve or reject this claim?</code></p>
+<p><strong>Campaigns (<code>campaign_desk</code>).</strong> Each day (a named weekday: audience activity follows a weekly cycle that scales all angles equally, so report totals gain realistic texture while the best angle is unchanged) the agent picks one of four outreach angles; every push lands or falls flat according to hidden per-angle engagement rates, but no single result is ever shown. The only feedback is a pooled total every reporting period, with no breakdown, so connecting reports back to one&rsquo;s own recorded choices is the task. With fatigue active, an angle used relentlessly wears out and recovers with rest. Formally: a non-stationary bandit under batched, delayed, aggregate feedback.</p>
+<p><em>Hooks, flags, and knobs:</em> change_latent (engagement rates are redrawn), change_surface (angle descriptions re-worded), and the endogenous flag (fatigue: a relentlessly used angle wears out and recovers with rest). Knobs: <code>report_every</code> sets the pooled-report cadence, <code>regime</code> adds a slow random walk, <code>weekly</code> the weekday activity cycle.</p>
+<p><em>Job description (the system prompt, verbatim):</em></p>
+<p><code>text
+You run the outreach campaign at Meridian Media. Each day you pick the angle for that day's push. You never see how a single push performs: results arrive only in a pooled report every week or so, with no per-day breakdown. Audience tastes change over time. End your reply with a line:
+ANGLE: &lt;letter&gt;</code></p>
+<p><em>A rendered observation (seed 0, step 0):</em></p>
+<p><code>text
+Day 1, Monday. Morning stand-up note: Legal signed off on all four running angles.
+Pick today's angle:
+A) a price cut  B) a quality story  C) limited-time urgency  D) a customer testimonial
+Which angle do you push today?</code></p>
+<p><strong>Table 3:</strong> The drift vectors and instruments each world exposes (columns abbreviate <code>rule_world</code>, <code>form_filler</code>, <code>inventory</code>, <code>codebase</code>, <code>claims_desk</code>, <code>campaign_desk</code>; an x means exposed, an empty cell means not). Abrupt and gradual are substantive change; gradual takes a world-specific form (key-by-key migration in routing, a drifting rate in inventory, a playbook handover in claims, a random walk in campaigns). Cosmetic change is structural re-rendering in the routing and form worlds and rewording elsewhere. Endogenous change is triggered by the agent&rsquo;s own behavior; adversarial change is aimed by an opponent that observes outcomes. Novelty introduces never-seen task types; probes are unscored diagnostic questions; consultation lets the agent buy a true answer at the price of a step; task keys identify recurring tasks, which is what makes encounter-based latencies measurable. Every world elicits confidence when a protocol asks for it. A protocol that needs a vector a world does not expose refuses at startup.</p>
+<table>
+<thead>
+<tr>
+<th>Vector</th>
+<th>rule</th>
+<th>form</th>
+<th>inv</th>
+<th>code</th>
+<th>claims</th>
+<th>camp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>abrupt substantive</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>gradual substantive</td>
+<td>x</td>
+<td></td>
+<td>x</td>
+<td></td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>cosmetic</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>endogenous</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>adversarial</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+<tr>
+<td>novelty</td>
+<td>x</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>probes</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>consultation</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td>x</td>
+<td>x</td>
+<td></td>
+</tr>
+<tr>
+<td>task keys</td>
+<td>x</td>
+<td></td>
+<td></td>
+<td></td>
+<td>x</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>With consultation enabled, a world prices information itself: the agent may spend a step asking (the floor manager names the right desk, the audit desk reveals whether the claim is fraud, the reviewer names one live style rule) and forfeits the step&rsquo;s reward.</p>
+<h2 id="appendix-b-the-twenty-experimental-protocols">Appendix B: The twenty experimental protocols</h2>
+<p>Each experiment is a versioned schedule of drift, notices, and probes, named for the question it asks. The registry entry for each contains the design, concrete parameters, regimes, and any registered predictions; predictions currently cover experiments 2, 4, 5, 6, 9, 13, 15, 16, 17, 18, 19, and 20.</p>
+<p>Every experiment configures its world the same way (Figure 2). A shared set of defaults first neutralizes the worlds&rsquo; internal timers, so nothing changes unless the protocol schedules it: the form world&rsquo;s version clock and the code world&rsquo;s session clock are effectively off, the routing world plays 120 steps over a depth-2 rule table, and inventory demand carries its retail texture (weekday cycle and promotion spikes) over a flat base level, so the level moves only on a scheduled jump. The code world&rsquo;s library deprecations are enabled, so scheduled substantive changes there mix style-guide revisions with helper deprecations. On top of the defaults, the experiment sets the knobs its question needs (structural rather than label-only cosmetic change, an endogenous or adversarial flag, a transition window for gradual drift) and fires every change through its per-step schedule, so the run record logs the exact step and key set of each change event. Reduced modes shrink both length and task space together, keeping the encounter density that latency measurement needs.</p>
+<p><strong>01: Which task-selection strategy trains an agent fastest?</strong> A scripted teacher controls which task the agent trains on next. Five strategies compete: picking at random, easiest first, aiming for tasks the agent currently gets right about half the time, replaying recent failures, and targeting that frontier with a bonus for task types the agent has never seen. Every 25 steps the agent is scored on the same held-out probe set, so the strategies are compared on what the agent actually learned rather than on what it practiced. Episodes run 150 steps on the routing world. <em>Configuration:</em> Routing world at rule depth 3 with a raised exception rate; no scheduled drift, the teacher&rsquo;s task selection is the only manipulated input; a notes agent learns; probes are a fixed held-out set.</p>
+<p><strong>02: Does detecting a rule change predict recovering from it?</strong> Six rule changes arrive at even intervals after a 20-step warmup, and agents that differ only in their memory substrate play the same episodes. Detection, recovery, and stability latencies are measured separately, because an agent can stop trusting its old answer well before it finds the new one, and the gap between those two moments turns out to depend on how it remembers. 120 steps. <em>Configuration:</em> Canonically the routing world (any world with the substantive-change hook qualifies); six latent changes spaced evenly after a 20-step warmup; arms are the tabular floor plus none, transcript, notes, and skills memories.</p>
+<p><strong>03: Can an agent tell a changed rule from one it never knew?</strong> Rule changes and never-seen task types are mixed through the same episode, so a rejection is genuinely ambiguous. After every rejection the agent is asked, off the record, which of the two it believes happened. The diagnosis is scored against the recorded truth, and so is the attempt that follows it, since a correct diagnosis should produce a better next move. 130 steps. <em>Configuration:</em> Routing world sized to five request types; scheduled latent changes interleaved with novelty introductions; the attribution probe fires after every rejection; transcript and notes arms.</p>
+<p><strong>04: Do agents over-react to purely cosmetic change?</strong> At three points in the episode something happens: nothing, a cosmetic change, a substantive change, or both, depending on the regime. The accuracy dip after each kind of event gives an over-reaction index. In v2 the cosmetic change is structural, re-rendering the task in a different format with a different field order, because v1&rsquo;s synonym-level rewording produced no dip in any frontier model we tried. 120 steps. <em>Configuration:</em> Canonically the form world (any world with both change hooks qualifies); <code>surface_strength</code> set to structural; events at steps 30, 60, and 90 fire the latent hook, the surface hook, both, or neither according to the regime; transcript and notes arms.</p>
+<p><strong>05: Which memory window maximizes accuracy under drift?</strong> Six retention settings, transcript windows from 5 to 120 steps plus note budgets, are crossed with three drift rates: no changes, four, or twelve. In v2 the tasks come from a recurring caseload, so even a 5-step window genuinely meets the same task again; in v1 the full task space starved the short windows, an audit finding that forced the version bump. 120 steps. <em>Configuration:</em> Routing world drawing tasks from a recurring caseload; zero, four, or twelve latent changes spaced after warmup; arms are transcript windows of 5, 15, 40, and 120 steps plus budgeted notes.</p>
+<p><strong>06: Does stated confidence drop before behavior recovers?</strong> The agent states a confidence from 0 to 100 with every action while six changes land. The run is scored on calibration, on overconfidence, and on the timing between two events: the moment stated confidence sags on affected tasks and the moment behavior recovers. The registered sign claim is that confidence sags first, which would make it usable as a change detector. 120 steps. <em>Configuration:</em> Routing world with <code>ask_confidence</code> on, so every action carries a stated confidence; six spaced latent changes; transcript and notes arms.</p>
+<p><strong>07: Can agents exploit a predictable change schedule?</strong> The same number of changes arrives on three different clocks: irregular, exactly periodic, or triggered by the agent&rsquo;s own performance. If timing is learnable at all, the dips after later changes should shrink on the periodic clock and stay flat on the irregular one. 160 steps. <em>Configuration:</em> Routing world; the same change count delivered by three clocks: evenly spaced, spaced with a random jitter of a few steps, or triggered by the agent&rsquo;s own performance; notes agent.</p>
+<p><strong>08: Does explanatory feedback beat outcome-only feedback?</strong> Three worlds (forms, inventory, code) each run at three levels of feedback richness, from a bare outcome to a full explanation of what was wrong. This is the one protocol that keeps the worlds&rsquo; internal clocks running: the form schema mutates every 15 steps, inventory demand changes season every 30 days, and the code world revises its style guide between 8-ticket sessions. The steps right after each change are scored separately, because an explanation should be worth the most exactly when the rules have just moved. <em>Configuration:</em> The exception that keeps world clocks on: form world with a schema version every 15 steps, inventory in the seasonal regime with a change every 30 days, code world with 8-ticket sessions; the regime sets each world&rsquo;s <code>feedback</code> level; notes agent consolidating every 8 steps.</p>
+<p><strong>09: How much accuracy does delayed feedback cost under drift?</strong> Outcomes arrive 0, 1, 3, or 6 steps late, in a stable world and in a changing one. Delay should be a minor nuisance when nothing changes and expensive when something does, because stale credit lands on beliefs that have already moved on; the registered prediction is that delay costs accuracy under change. 120 steps. <em>Configuration:</em> Routing world behind a delay wrapper that withholds each outcome for 0, 1, 3, or 6 steps; crossed with a stable world and a changing one (six spaced changes); transcript and notes arms.</p>
+<p><strong>10: Do minimal contrast pairs speed up rule learning?</strong> The teacher presents minimal pairs: two tasks that differ in exactly one attribute and have different correct answers, shown back to back. The contrast ordering competes against random and frontier ordering, with learning scored on held-out probes rather than the training stream. 150 steps. <em>Configuration:</em> Routing world at depth 3 with a raised exception rate; the teacher orders the stream as contrast pairs, at random, or by frontier targeting; notes agent; held-out probes.</p>
+<p><strong>11: Do advance warnings help, and what do false alarms cost?</strong> Office memos announce upcoming changes 0, 1, or 3 steps in advance. One regime makes half the memos false alarms, and the measurement of interest is the damage a false alarm does: the dip it causes on tasks that never changed at all. 120 steps. <em>Configuration:</em> Routing world; six spaced latent changes announced through the notice channel 0, 1, or 3 steps ahead; one regime replaces half the memos with false alarms about keys that never change; notes agent.</p>
+<p><strong>12: Which note-consolidation trigger wins per dollar?</strong> Consolidation schedules are compared at equal cost: rewrite the notes on a fixed interval, rewrite them after failures, do both, or never rewrite at all. The score is accuracy per dollar, because consolidation is itself an LLM call and rewriting after every failure is not free. 120 steps. <em>Configuration:</em> Routing world; six spaced latent changes; the arms are one notes agent per consolidation trigger (fixed interval, after failures, both, never), compared at matched spend.</p>
+<p><strong>13: Does recovery-paced change beat a fixed schedule?</strong> Six changes arrive on a fixed timer, adaptively (each one waits until the agent has recovered from the last), or adversarially (each one lands the moment recovery is detected). The registered prediction favors adaptive pacing over the timer. 150 steps. <em>Configuration:</em> Routing world; six latent changes paced by a fixed timer, adaptively (each waits for recovery), or adversarially (each lands at detected recovery), driven by a per-step monitor; notes agent.</p>
+<p><strong>14: Does learned knowledge transfer to fresh rules and novel tasks?</strong> After 100 steps of training, three evaluation phases open with feedback-free probes: familiar tasks, fresh rules on familiar types, and entirely novel types. A fresh-agent control plays the same evaluation, so whatever the trained agent carries over from training is separated from what any agent could do cold. 160 steps. <em>Configuration:</em> Routing world at depth 3; 100 training steps, then probe-only evaluation phases with fresh rules and novel types; a freshly initialized control agent plays the same phases; notes agent.</p>
+<p><strong>15: Are self-caused changes harder to recover from than scheduled ones?</strong> In the endogenous regime nothing is scheduled: the world changes only in reaction to the agent&rsquo;s own behavior. A stable control and a scheduled control matched in expected change count complete the comparison. The registered prediction is that self-caused changes are slower to recover from, because no external moment marks them. 150 steps. <em>Configuration:</em> Canonically the inventory world (any world with an endogenous mechanism qualifies); the endogenous regime arms the world&rsquo;s self-caused mechanism with nothing scheduled, against a stable control and a scheduled control of four spaced changes; transcript and notes arms.</p>
+<p><strong>16: Do agents over-update on misleading feedback?</strong> Three regimes make the same surprising outcome mean different things: four abrupt changes, twelve gradual ones, or a stable world in which 15% of feedback is misleadingly inverted. Five memory substrates play all three regimes and state confidence throughout. The registered predictions cover a memory-ranking reversal between regimes and an overconfidence effect; <a class="secref" href="#5-results">Section 5</a> reports both contradicted. 120 steps. <em>Configuration:</em> Routing world with task keys and confidence elicitation on; regimes are four abrupt changes, twelve gradual ones, or a stable world with 15% of feedback inverted; five memory arms (5- and 120-step transcripts, notes, beliefs, fast+slow).</p>
+<p><strong>17: What does consolidation preserve across a context wipe?</strong> Halfway through the episode, some agents lose their raw history: a transcript agent loses everything it had, a notes agent only what it had not yet consolidated. Wiped and unwiped versions of the same memory play identical seeds, so the cost of the wipe is a clean paired difference, and the registered predictions price it. 120 steps. <em>Configuration:</em> Routing world; six spaced latent changes; wiped arms erase their raw history at midpoint through the substrate&rsquo;s wipe hook while consolidated artifacts survive; transcript and notes, wiped and unwiped.</p>
+<p><strong>18: Is recovery slower when an adversary aims the drift?</strong> The fraud world runs under no shifts, timed shifts, and adversarial shifts, with the ring reconsidering its tactics every 20 claims and moving whenever at least half of its recent claims were caught. The registered prediction, that recovery from aimed shifts is slower, is the subject of Study 2 in <a class="secref" href="#5-results">Section 5</a>. 150 steps. <em>Configuration:</em> Claims world; regimes are no shifts, four scheduled shifts, and the armed adversary (the ring reconsiders every 20 claims and moves when at least half its recent claims were caught); transcript and notes arms.</p>
+<p><strong>19: Can agents assign credit through pooled, delayed reports?</strong> The campaign world never scores a single push; results arrive only as periodic totals, and the cadence varies from every 5 to every 20 pushes while two audience shifts land mid-run. The registered prediction is that under pooled feedback memory is a precondition rather than an optimization: an agent with no record of its own choices has nothing to connect a report to. 120 steps. <em>Configuration:</em> Campaign world at report cadences of 5, 10, and 20 pushes; two scheduled audience shifts mid-run; arms are none, transcript, and notes memories.</p>
+<p><strong>20: Does prediction-gated revision reduce over-updating?</strong> Notes, structured beliefs, and the self-revising world model play four abrupt changes and a lying-feedback regime. The registered predictions state that the world model over-updates less than notes under noise and recovers no slower under real change; <a class="secref" href="#5-results">Section 5</a> reports the first contradicted and the second inconclusive. 120 steps. <em>Configuration:</em> Routing world with lying feedback available; regimes are four abrupt changes and the noisy-stable condition; arms are notes, beliefs, and the world model.</p>
+<h2 id="appendix-c-agents-and-memory-substrates">Appendix C: Agents and memory substrates</h2>
+<p><strong>Reference substrates.</strong> All reference agents share one model and one loop and differ only in what persists between steps. The loop is deliberately simple: the world&rsquo;s job description is the system prompt, and on every step the substrate&rsquo;s recall text is prepended to the observation, so memory reaches the model as plain text in the user prompt and nothing else about the request changes between substrates. After each outcome the substrate records one experience line of the form <code>[step t] observation | did: action | outcome (+0.00): feedback</code>, and consolidating substrates buffer these lines and rewrite their artifact with one LLM call when their trigger fires: every 10 steps by default, immediately after a failure, both, or never, optionally under a character budget. Every rewrite is versioned into the run record, so the evolution of an agent&rsquo;s memory is replayable after the fact.</p>
+<p>The seven substrates, with the exact consolidation instructions where one exists:</p>
+<p><strong>none</strong> persists nothing; every step is played from the observation alone.</p>
+<p><strong>transcript</strong> keeps a sliding window of raw experience lines (40 steps by default; exp05 varies the window from 5 to 120), injected verbatim under &ldquo;Recent history:&rdquo;. Nothing is ever summarized.</p>
+<p><strong>notes</strong> maintains a free-form working file, injected as &ldquo;Your notes:&rdquo;. Its consolidation instruction: <em>&ldquo;You maintain a concise working-notes file for an agent operating in an environment. Rewrite the notes to incorporate the new experiences. Keep what is useful for future decisions; drop or correct anything the evidence now contradicts. Plain text, under 300 words.&rdquo;</em></p>
+<p><strong>skills</strong> maintains a procedure library, injected as &ldquo;Your procedures:&rdquo;. Its instruction: <em>&ldquo;You maintain a library of reusable procedures for an agent operating in an environment. Each procedure is one line: <code>WHEN &lt;conditions&gt; DO &lt;action&gt;</code>. Update the library from the new experiences: add procedures the evidence supports, and fix or delete procedures the evidence contradicts. Output only the procedure lines.&rdquo;</em></p>
+<p><strong>beliefs</strong> maintains declarative statements with revision conditions, injected as &ldquo;Your current beliefs:&rdquo;. Its instruction: <em>&ldquo;You maintain a belief file for an agent operating in an environment. Each line is one belief: <code>BELIEF: &lt;what you currently believe&gt; | CONFIDENCE: &lt;low|medium|high&gt; | WOULD CHANGE IF: &lt;evidence&gt;</code>. Update the file from the new experiences: raise or lower confidence with the evidence, rewrite beliefs the evidence contradicts, and delete beliefs that no longer apply. Output only belief lines.&rdquo;</em></p>
+<p><strong>worldmodel</strong> maintains explicit rule hypotheses and is the only substrate that changes the agent&rsquo;s reply format: its recall appends a request to end every reply with <code>EXPECT: &lt;success|failure&gt;</code> and a short reason. A prediction that the next outcome contradicts is marked in the experience buffer as <code>PREDICTION WRONG</code> and triggers consolidation immediately rather than at the next interval; the made and wrong prediction counts feed the wrong-prediction metric of <a class="secref" href="#33-measurement"><a class="secref" href="#33-measurement">Section 3.3</a></a>. Its instruction: <em>&ldquo;You maintain an explicit world model for an agent operating in an environment. Each line is one rule hypothesis: <code>RULE: &lt;scope / when it applies&gt; -&gt; &lt;what holds or what to do&gt; | CONFIDENCE: &lt;low|medium|high&gt; | SINCE: step &lt;n&gt; | INVALID IF: &lt;evidence that would retire it&gt;</code>. Update the model from the new experiences: raise or lower confidence with the evidence, revise rules the evidence contradicts (reset their SINCE to the step of the contradiction), and delete rules that no longer apply. When outcomes contradict a high-confidence rule, prefer &lsquo;the environment changed&rsquo; over &lsquo;the rule was always wrong&rsquo;. Output only RULE lines.&rdquo;</em></p>
+<p><strong>fast+slow</strong> composes a 10-step raw transcript with a notes file consolidated every 10 steps; the prompt carries both, notes first. Only the notes are exported across sessions.</p>
+<p>The format instructions are prompts, not grammars: nothing validates the artifact, and whatever text the consolidation call produces is what future steps see. Transcript and notes support a mid-run context wipe in which the raw window and any unconsolidated buffer are erased and only the written artifact survives, isolating what consolidation is for (exp17).</p>
+<p><strong>Robustness.</strong> Timeouts and unparseable replies become the world&rsquo;s seeded default action and count as parse failures; transient provider errors (rate limits, dropped connections, upstream 5xx) are retried with bounded backoff before an episode is failed.</p>
+<p><strong>Fault isolation and resumption.</strong> Every episode has a deterministic identity (agent, regime, seed) and is written atomically on completion, so any grid resumes at episode granularity and later runs extend earlier ones instead of repeating them. One episode&rsquo;s hard failure never discards its siblings&rsquo; finished work.</p></div></body></html>
